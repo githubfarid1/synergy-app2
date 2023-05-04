@@ -227,9 +227,9 @@ class MainFrame(ttk.Frame):
 		# configure
 		# self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
 		s = ttk.Style()
-		s.configure('newframe', background='green')
+		s.configure('My.TFrame', background='red')
 
-		self.config(padding="20 20 20 20", borderwidth=1, relief='groove', style='newframe')
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove', style='My.TFrame')
 		# self.place(anchor=CENTER)
 		self.columnconfigure(0, weight=1)
 		self.columnconfigure(1, weight=1)
