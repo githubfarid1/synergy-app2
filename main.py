@@ -52,9 +52,6 @@ class Window(Tk):
 		self.title('Synergy Script ' + VERSION)
 		self.resizable(0, 0)
 		self.grid_propagate(False)
-		s = ttk.Style()
-		s.configure('My.TFrame', background='green')
-		self.config(style='My.TFrame')
 		width = 700
 		height = 650
 		swidth = self.winfo_screenwidth()
@@ -64,7 +61,7 @@ class Window(Tk):
 		self.geometry(f"{width}x{height}+{newx}+{newy}")
 		self.columnconfigure(0, weight=1)
 		# self.columnconfigure(1, weight=1)
-		
+
 		self.rowconfigure(0, weight=1)
 		self.rowconfigure(1, weight=1)
 		self.rowconfigure(2, weight=1)
@@ -168,9 +165,7 @@ class SettingFrame(ttk.Frame):
 		self.columnconfigure(0, weight=1)
 		self.rowconfigure(0, weight=1)
 		config = getConfig()
-		s = ttk.Style()
-		s.configure('My.TFrame', background='green')
-		self.config(padding="20 20 20 20", borderwidth=1, relief='groove', style='My.TFrame')
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 		titleLabel = TitleLabel(self, text="Settings")
 		chromeFolder = FileChooserFrame(self, btype="folder", label="Chrome User Data Folder:", filetypes=())
 		profile = Entry(self, width=45)
@@ -231,7 +226,9 @@ class MainFrame(ttk.Frame):
 		super().__init__(window)
 		# configure
 		# self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
-		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
+		s = ttk.Style()
+		s.configure('My.TFrame', background='green')
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove', style='My.TFrame')
 		# self.place(anchor=CENTER)
 		self.columnconfigure(0, weight=1)
 		self.columnconfigure(1, weight=1)
