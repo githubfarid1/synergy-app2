@@ -226,7 +226,10 @@ class MainFrame(ttk.Frame):
 		super().__init__(window)
 		# configure
 		# self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
-		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
+		s = ttk.Style()
+		s.configure('My.TFrame', background='red')
+
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove', style='My.TFrame')
 		# self.place(anchor=CENTER)
 		self.columnconfigure(0, weight=1)
 		self.columnconfigure(1, weight=1)
@@ -238,7 +241,7 @@ class MainFrame(ttk.Frame):
 		self.rowconfigure(3, weight=1)
 		self.rowconfigure(4, weight=1)
 		self.rowconfigure(5, weight=1)
-
+		
 		titleLabel = TitleLabel(self, 'Main Menu')
 		# pdfconvertButton = PdfConvertButton(self, window)
 		pdfconvertButton = FrameButton(self, window, text="PDF Converter", class_frame=PdfConvertFrame)
