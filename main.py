@@ -52,6 +52,9 @@ class Window(Tk):
 		self.title('Synergy Script ' + VERSION)
 		self.resizable(0, 0)
 		self.grid_propagate(False)
+		s = ttk.Style()
+		s.configure('My.TFrame', background='green')
+		self.config(style='My.TFrame')
 		width = 700
 		height = 650
 		swidth = self.winfo_screenwidth()
@@ -61,7 +64,7 @@ class Window(Tk):
 		self.geometry(f"{width}x{height}+{newx}+{newy}")
 		self.columnconfigure(0, weight=1)
 		# self.columnconfigure(1, weight=1)
-
+		
 		self.rowconfigure(0, weight=1)
 		self.rowconfigure(1, weight=1)
 		self.rowconfigure(2, weight=1)
