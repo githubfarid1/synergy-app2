@@ -29,7 +29,7 @@ def parse(fileinput, chrome_data):
     warnings.filterwarnings("ignore", category=UserWarning) 
     options = webdriver.ChromeOptions()
     # options.add_argument("--headless")
-    # options.add_experimental_option('debuggerAddress', 'localhost:9251')
+    options.add_experimental_option('debuggerAddress', 'localhost:9251')
     # options.add_argument("user-data-dir={}".format(chrome_data)) #Path to your chrome profile
 
     options.add_argument("user-data-dir={}".format(config['chrome_user_data'])) 
