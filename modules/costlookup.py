@@ -31,7 +31,7 @@ def parse(fileinput, chrome_data):
     # options.add_argument("--headless")
     # options.add_experimental_option('debuggerAddress', 'localhost:9251')
     # options.add_argument("user-data-dir={}".format(chrome_data)) #Path to your chrome profile
-    udata = r"C:/Users/User/AppData/Local/Google/Chrome/User Data2"
+    udata = r"C:/Users/User/AppData/Local/Google/Chrome/User Data"
     options.add_argument("user-data-dir=" + udata)
     options.add_argument("profile-directory=Default")
 
