@@ -47,6 +47,7 @@ def parse(fileinput, chrome_data, country):
     driver = webdriver.Chrome(service=Service(CM().install()), options=options)
 
     driver.get('https://sellercentral.amazon.com/revcal?ref=RC1&')
+    input("pause")
     cookies = {}
     for cookie in driver.get_cookies():
         cookies[cookie['name']] = cookie['value']
