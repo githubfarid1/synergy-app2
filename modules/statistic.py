@@ -34,7 +34,7 @@ def parse(fileinput, chrome_data, country):
 
     # options.add_argument("user-data-dir={}".format(config['chrome_user_data'])) 
     # options.add_argument("profile-directory={}".format(config['chrome_profile']))
-    udata = r"C:/Users/User/AppData/Local/Google/Chrome/User Data2"
+    udata = r"C:/Users/User/AppData/Local/Google/Chrome/User Data"
     options.add_argument("user-data-dir=" + udata)
     options.add_argument("profile-directory=Default")
 
