@@ -69,7 +69,8 @@ class Window(Tk):
 		pullButton = ttk.Button(self, text='Update Script', command=lambda:self.gitPull())
 		
 		exitButton.grid(row=2, column=0, sticky=(E, N, S), padx=20, pady=5)
-		pullButton.grid(row=2, column=0, sticky=(E, N, S), padx=20, pady=5)
+		# pullButton.grid(row=2, column=0, sticky=(E, N, S), padx=20, pady=5)
+		pullButton.grid(row = 2, column = 0, sticky = (W), padx=20, pady=10)
 
 		config = getConfig()
 		mainFrame = MainFrame(self)
