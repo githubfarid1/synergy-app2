@@ -27,6 +27,11 @@ def getConfig():
 	config = json.load(file)
 	return config
 
+def getProfiles():
+	file = open("chrome_profiles.json", "r")
+	config = json.load(file)
+	return config
+
 def run_module(comlist):
 	if platform == "linux" or platform == "linux2":
 		comlist[:0] = ["--"]
@@ -67,10 +72,13 @@ class Window(Tk):
 		
 		exitButton = ttk.Button(self, text="Exit", command=lambda:self.destroy())
 		pullButton = ttk.Button(self, text='Update Script', command=lambda:self.gitPull())
+		settingButton = ttk.Button(self, text='Chrome Profiles', command=lambda:self.chromeProfile())
 		
-		exitButton.grid(row=2, column=0, sticky=(E, N, S), padx=20, pady=5)
+		exitButton.grid(row=2, column=0, sticky=(E), padx=20, pady=5)
 		# pullButton.grid(row=2, column=0, sticky=(E, N, S), padx=20, pady=5)
 		pullButton.grid(row = 2, column = 0, sticky = (W), padx=20, pady=10)
+		settingButton.grid(row = 2, column = 0, sticky = (N, S), padx=20, pady=10)
+
 
 		config = getConfig()
 		mainFrame = MainFrame(self)
@@ -82,6 +90,56 @@ class Window(Tk):
 		g = git.cmd.Git(git_dir)
 		g.pull()		
 		messagebox.showinfo(title='Info', message='the scripts has updated..')
+
+	def chromeProfile(self):
+		settingFrame = ChromeProfilesFrame(self)
+		settingFrame.grid(column=0, row=0, sticky=(N, E, W, S))
+
+class ChromeProfilesFrame(ttk.Frame):
+	def __init__(self, window) -> None:
+		super().__init__(window)
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
+
+		self.columnconfigure(0, weight=1)
+		self.columnconfigure(1, weight=1)
+		self.columnconfigure(2, weight=1)
+		# self.columnconfigure(3, weight=1)
+		self.rowconfigure(0, weight=1)
+		self.rowconfigure(1, weight=1)
+		self.rowconfigure(2, weight=1)
+		self.rowconfigure(3, weight=1)
+		self.rowconfigure(4, weight=1)
+		self.rowconfigure(5, weight=1)
+		self.rowconfigure(6, weight=1)
+				
+		titleLabel = TitleLabel(self, 'Chrome Profiles')
+		closeButton = CloseButton(self)
+		profiles = getProfiles()
+		profileList = []
+		for profile in profiles:
+			profileList.append(ttk.Button(self, text=profile, command=lambda pro=profiles[profile]:self.chromeTester(pro)))
+		# layout
+		titleLabel.grid(column = 0, row = 0, sticky=(W, E, N, S), padx=15, pady=5, columnspan=4)
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+		colnum = 0
+		rownum = 1
+		for profile in profileList:
+			if colnum == 3:
+				colnum = 0
+				rownum += 1
+			profile.grid(column = colnum, row = rownum, sticky=(W, E, N, S), padx=15, pady=5)
+			colnum += 1
+
+	def chromeTester(self, profile):
+		chromeUserData = profile['chrome_user_data']
+		chromeProfile = profile['chrome_profile']
+		if platform == "linux" or platform == "linux2":
+			CHROME = "google-chrome"
+		elif platform == "win32":
+			CHROME = "chrome.exe"
+		if chromeUserData != '':
+			Popen([CHROME, "https://google.com","--user-data-dir={}".format(chromeUserData), "--profile-directory={}".format(chromeProfile)])
 
 class FileChooserFrame(ttk.Frame):
 	def __init__(self, window, **kwargs):
@@ -1122,8 +1180,6 @@ class FrameButton(ttk.Button):
 		# object attributes
 		self.text = kwargs['text']
 		# configure
-		# self.config(text = self.text, command = partial(self.say_hello, self.message))
-		# self.config(text = self.text, command = lambda : self.say_hello(self.message))
 		self.config(text = self.text, command = lambda : kwargs['class_frame'](window))
 
 class TitleLabel(ttk.Label):
@@ -1133,11 +1189,6 @@ class TitleLabel(ttk.Label):
 		self.config(text=text, font=font_tuple, anchor="center")
 
 if __name__ == "__main__":
-	# try:
-	# 	PYLOC = "{}\\Scripts\\python.exe".format(os.environ['VIRTUAL_ENV'])
-	# except:
-	# 	print("Please run under Python virtual environment")
-	# 	sys.exit()
 	if platform == "linux" or platform == "linux2":
 		PYLOC = "python"
 	elif platform == "win32":
