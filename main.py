@@ -15,7 +15,6 @@ import git
 import warnings
 
 warnings.filterwarnings("ignore", category=UserWarning)
-
 if platform == "linux" or platform == "linux2":
     pass
 elif platform == "win32":
@@ -63,17 +62,25 @@ class Window(Tk):
 		# self.columnconfigure(1, weight=1)
 
 		self.rowconfigure(0, weight=1)
-		self.rowconfigure(1, weight=1)
-		self.rowconfigure(2, weight=1)
+		# self.rowconfigure(1, weight=1)
+		# self.rowconfigure(2, weight=1)
 		
 		exitButton = ttk.Button(self, text="Exit", command=lambda:self.destroy())
+		pullButton = ttk.Button(self, text='Update Script', command=lambda:self.gitPull())
 		
-		exitButton.grid(row=2, column=0, sticky=(E, S), padx=40, pady=5)
+		exitButton.grid(row=2, column=0, sticky=(E, N, S), padx=20, pady=5)
+		pullButton.grid(row=2, column=0, sticky=(E, N, S), padx=20, pady=5)
+
 		config = getConfig()
 		mainFrame = MainFrame(self)
 		mainFrame.grid(column=0, row=0, sticky=(N, E, W, S))
-		settingFrame = SettingFrame(self)
-		settingFrame.grid(column=0, row=1, sticky=(N, E, W, S))
+		# settingFrame = SettingFrame(self)
+		# settingFrame.grid(column=0, row=1, sticky=(N, E, W, S))
+	def gitPull(self):
+		git_dir = os.getcwd() 
+		g = git.cmd.Git(git_dir)
+		g.pull()		
+		messagebox.showinfo(title='Info', message='the scripts has updated..')
 
 class FileChooserFrame(ttk.Frame):
 	def __init__(self, window, **kwargs):
@@ -226,9 +233,10 @@ class MainFrame(ttk.Frame):
 		super().__init__(window)
 		# configure
 		# self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
-		s = ttk.Style()
-		s.configure('My.TFrame', background='green')
-		self.config(padding="20 20 20 20", borderwidth=1, relief='groove', style='My.TFrame')
+		framestyle = ttk.Style()
+		framestyle.configure('TFrame', background='#C1C1CD')
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove', style='TFrame')
+		
 		# self.place(anchor=CENTER)
 		self.columnconfigure(0, weight=1)
 		self.columnconfigure(1, weight=1)
@@ -240,6 +248,10 @@ class MainFrame(ttk.Frame):
 		self.rowconfigure(3, weight=1)
 		self.rowconfigure(4, weight=1)
 		self.rowconfigure(5, weight=1)
+		self.rowconfigure(6, weight=1)
+		self.rowconfigure(7, weight=1)
+		self.rowconfigure(8, weight=1)
+		self.rowconfigure(9, weight=1)
 		
 		titleLabel = TitleLabel(self, 'Main Menu')
 		# pdfconvertButton = PdfConvertButton(self, window)
@@ -316,7 +328,7 @@ class PdfConvertFrame(ttk.Frame):
 		pdfInputFile.grid(column = 0, row = 1, sticky = (W,E))
 		xlsOutputFile.grid(column = 0, row = 2, sticky = (W,E))
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = "n")
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		# self.runButton.state(['disabled'])
 
 	def run_process(self, **kwargs):
@@ -351,7 +363,7 @@ class ScrapeBySellerAmazonFrame(ttk.Frame):
 		# layout
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
 		runButton.grid(column = 0, row = 3, sticky = (E))
-		closeButton.grid(column = 0, row = 5, sticky = (N))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		xlsInputFile.grid(column = 0, row = 1, sticky = (W,E))
 
 	def run_process(self, **kwargs):
@@ -387,7 +399,7 @@ class TrackingUpdateFrame(ttk.Frame):
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
 		xlsInputFile.grid(column = 0, row = 1, sticky = (W, E))
 		runButton.grid(column = 0, row = 3, sticky = (E))
-		closeButton.grid(column = 0, row = 5, sticky = (N))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 
 	def run_process(self, **kwargs):
 		if kwargs['input'] == "": 
@@ -429,7 +441,7 @@ class StatisticsFrame(ttk.Frame):
 		labelclist.grid(column = 0, row = 2, sticky=(W))
 		clist.grid(column = 0, row = 2, pady=10)
 		runButton.grid(column = 0, row = 3, sticky = (E))
-		closeButton.grid(column = 0, row = 5, sticky = (N))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 
 	def run_process(self, **kwargs):
 		print(kwargs)
@@ -462,7 +474,7 @@ class CanadaPostFrame(ttk.Frame):
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
 		xlsInputFile.grid(column = 0, row = 1, sticky = (W, E))
 		runButton.grid(column = 0, row = 3, sticky = (E))
-		closeButton.grid(column = 0, row = 5, sticky = (N))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 
 	def run_process(self, **kwargs):
 		if kwargs['input'] == "": 
@@ -494,7 +506,7 @@ class DykShippedFrame(ttk.Frame):
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
 		xlsOutputFile.grid(column = 0, row = 1, sticky = (W, E))
 		runButton.grid(column = 0, row = 3, sticky = (E))
-		closeButton.grid(column = 0, row = 5, sticky = (N))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 
 	def run_process(self, **kwargs):
 		if kwargs['output'] == "": 
@@ -528,7 +540,7 @@ class CostLookupFrame(ttk.Frame):
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
 		xlsInputFile.grid(column = 0, row = 1, sticky = (W, E))
 		runButton.grid(column = 0, row = 3, sticky = (E))
-		closeButton.grid(column = 0, row = 5, sticky = (N))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 
 	def run_process(self, **kwargs):
 		if kwargs['input'] == "": 
@@ -562,7 +574,7 @@ class ScrapeWalmartFrame(ttk.Frame):
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
 		xlsInputFile.grid(column = 0, row = 1, sticky = (W,E))
 		runButton.grid(column = 0, row = 3, sticky = (E))
-		closeButton.grid(column = 0, row = 5, sticky = (N))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 
 
 	def run_process(self, **kwargs):
@@ -610,7 +622,7 @@ class FdaEntryFrame(ttk.Frame):
 		dateArrival.grid(column=0, row = 4)
 		labeldate.grid(column = 0, row = 4, sticky=(W))
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = (N))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 
 	def run_process(self, **kwargs):
 		if kwargs['input'] == "": 
@@ -669,7 +681,7 @@ class FdaPdfFrame(ttk.Frame):
 		sheetlist.grid(column=0, row = 3, pady=10)
 
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = "n")
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		# self.runButton.state(['disabled'])
 
 	def run_process(self, **kwargs):
@@ -717,7 +729,7 @@ class AmazonShippingFrame(ttk.Frame):
 		# sheetName.grid(column = 0, row = 3, pady=10)
 		outputfolder.grid(column = 0, row = 4, sticky = (W,E))
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = "n")
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		sheetlist.grid(column=0, row = 3, pady=10)
 
 		# self.runButton.state(['disabled'])
@@ -771,7 +783,7 @@ class FdaEntryPdfFrame(ttk.Frame):
 		dateArrival.grid(column=0, row = 4)
 		labeldate.grid(column = 0, row = 4, sticky=(W))
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = (N))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		sheetlist.grid(column=0, row = 2, pady=10)
 		
 	def run_process(self, **kwargs):
@@ -817,7 +829,7 @@ class AmazonShippingCheckFrame(ttk.Frame):
 		xlsInputFile.grid(column = 0, row = 2, sticky = (W,E))
 		labelsname.grid(column = 0, row = 3, sticky=(W))
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = "n")
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		sheetlist.grid(column=0, row = 3, pady=10)
 	def run_process(self, **kwargs):
 		if kwargs['xlsinput'] == "": 
@@ -854,7 +866,7 @@ class AmazonJoinPdfFrame(ttk.Frame):
 		sourcefolder.grid(column = 0, row = 2, sticky = (W,E))
 		outputfolder.grid(column = 0, row = 3, sticky = (W,E))
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = "n")
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 
 
 	def run_process(self, **kwargs):
@@ -905,7 +917,7 @@ class AmazonReviewFrame(ttk.Frame):
 		xlsInputFile.grid(column = 0, row = 2, sticky = (W,E))
 		labelsname.grid(column = 0, row = 3, sticky=(W))
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = "n")
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		sheetlist.grid(column=0, row = 3, pady=10)
 
 		# self.runButton.state(['disabled'])
@@ -946,7 +958,7 @@ class CanadaPostPdfFrame(ttk.Frame):
 		outputfolder.grid(column = 0, row = 4, sticky = (W,E))
 
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = "n")
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		# self.runButton.state(['disabled'])
 
 	def run_process(self, **kwargs):
@@ -1006,7 +1018,7 @@ class AmazonAllFrame(ttk.Frame):
 
 		outputfolder.grid(column = 0, row = 6, sticky = (W,E))
 		runButton.grid(column = 0, row = 8, sticky = (E))
-		closeButton.grid(column = 0, row = 9, sticky = "n")
+		closeButton.grid(column = 0, row = 9, sticky = (E, N, S))
 
 
 		# self.runButton.state(['disabled'])
@@ -1051,7 +1063,7 @@ class WalmartstFrame(ttk.Frame):
 		xlsInputFile.grid(column = 0, row = 2, sticky = (W,E))
 		labelsname.grid(column = 0, row = 3, sticky=(W))
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = "n")
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		sheetlist.grid(column=0, row = 3, pady=10)
 	def run_process(self, **kwargs):
 		if kwargs['xlsinput'] == "": 
@@ -1089,7 +1101,7 @@ class SuperstoreFrame(ttk.Frame):
 		xlsInputFile.grid(column = 0, row = 2, sticky = (W,E))
 		labelsname.grid(column = 0, row = 3, sticky=(W))
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = "n")
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		sheetlist.grid(column=0, row = 3, pady=10)
 	def run_process(self, **kwargs):
 		if kwargs['xlsinput'] == "": 
