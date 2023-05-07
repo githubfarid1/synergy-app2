@@ -120,7 +120,7 @@ class ChromeProfilesFrame(ttk.Frame):
 			profileList.append(ttk.Button(self, text=profile, command=lambda pro=profiles[profile]:self.chromeTester(pro)))
 		# layout
 		titleLabel.grid(column = 0, row = 0, sticky=(W, E, N, S), padx=15, pady=5, columnspan=4)
-		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+		closeButton.grid(column = 2, row = 6, sticky = (E, N, S))
 
 		colnum = 0
 		rownum = 1
