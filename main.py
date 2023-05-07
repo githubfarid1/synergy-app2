@@ -111,7 +111,6 @@ class ChromeProfilesFrame(ttk.Frame):
 		self.rowconfigure(3, weight=1)
 		self.rowconfigure(4, weight=1)
 		self.rowconfigure(5, weight=1)
-		self.rowconfigure(6, weight=1)
 				
 		titleLabel = TitleLabel(self, 'Chrome Profiles')
 		closeButton = CloseButton(self)
@@ -122,6 +121,7 @@ class ChromeProfilesFrame(ttk.Frame):
 		# layout
 		titleLabel.grid(column = 0, row = 0, sticky=(W, E, N, S), padx=15, pady=5, columnspan=4)
 		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+
 		colnum = 0
 		rownum = 1
 		for profile in profileList:
