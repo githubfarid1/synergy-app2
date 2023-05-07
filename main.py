@@ -434,7 +434,7 @@ class ScrapeBySellerAmazonFrame(ttk.Frame):
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			run_module(comlist=[PYLOC, "modules/scrapebyseller.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data']])
+			run_module(comlist=[PYLOC, "modules/scrapebyseller.py", "-i", kwargs['input'], "-d", profileSelected.get()])
 
 class TrackingUpdateFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -467,9 +467,7 @@ class TrackingUpdateFrame(ttk.Frame):
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			# print(PYLOC, "trackupdate.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data'])	
-			# Popen([PYLOC, "trackupdate.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data']], creationflags=CREATE_NEW_CONSOLE)
-			run_module(comlist=[PYLOC, "modules/trackupdate.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data']])
+			run_module(comlist=[PYLOC, "modules/trackupdate.py", "-i", kwargs['input'], "-d", profileSelected.get()])
 
 class StatisticsFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -574,9 +572,7 @@ class DykShippedFrame(ttk.Frame):
 		if kwargs['output'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			# print(PYLOC, "dykshipped.py", "-o", kwargs['output'], "-d", getConfig()['chrome_user_data'])	
-			# Popen([PYLOC, "dykshipped.py", "-o", kwargs['output'], "-d", getConfig()['chrome_user_data']], creationflags=CREATE_NEW_CONSOLE)
-			run_module(comlist=[PYLOC, "modules/dykshipped.py", "-o", kwargs['output'], "-d", getConfig()['chrome_user_data']])
+			run_module(comlist=[PYLOC, "modules/dykshipped.py", "-o", kwargs['output'], "-d", profileSelected.get()])
 
 class CostLookupFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -608,9 +604,7 @@ class CostLookupFrame(ttk.Frame):
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			# print(PYLOC, "costlookup.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data'])	
-			# Popen([PYLOC, "costlookup.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data']], creationflags=CREATE_NEW_CONSOLE)
-			run_module(comlist=[PYLOC, "modules/costlookup.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data']])
+			run_module(comlist=[PYLOC, "modules/costlookup.py", "-i", kwargs['input'], "-d", profileSelected.get()])
 
 class ScrapeWalmartFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -643,9 +637,8 @@ class ScrapeWalmartFrame(ttk.Frame):
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			# print(PYLOC, "walmart.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data'])	
-			# Popen([PYLOC, "walmart.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data']], creationflags=CREATE_NEW_CONSOLE)
-			run_module(comlist=[PYLOC, "modules/walmart.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data']])
+			run_module(comlist=[PYLOC, "modules/walmart.py", "-i", kwargs['input'], "-d", profileSelected.get()
+])
 
 class FdaEntryFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -698,7 +691,7 @@ class FdaEntryFrame(ttk.Frame):
 			if platform == "win32":
 				pdffolder = pdffolder.replace("/", "\\")
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed it.')
-			run_module(comlist=[PYLOC, "modules/fda.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data'], "-s", kwargs['sheetname'].get(), "-dt", str(kwargs['datearrival'].get_date()), "-o", pdffolder])
+			run_module(comlist=[PYLOC, "modules/fda.py", "-i", kwargs['input'], "-d", profileSelected.get(), "-s", kwargs['sheetname'].get(), "-dt", str(kwargs['datearrival'].get_date()), "-o", pdffolder])
 
 class FdaPdfFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -722,15 +715,12 @@ class FdaPdfFrame(ttk.Frame):
 
 		pdfInputFiles = FileChooserMultipleFrame(self, label="Select Input PDF File:", filetypes=(("pdf files", "*.pdf"),("all files", "*.*")))
 
-		# xlsInputFile = FileChooserFrame(self, btype="file", label="Select Input XLSX File:", filetypes=(("xlsx files", "*.xlsx"),("all files", "*.*")))
 		xlsInputFile = FileChooserFrame(self, btype="file", label="Select Input Excel File:", filetypes=(("Excel files", "*.xlsx *.xlsm"),("all files", "*.*")), sheetlist=sheetlist)
 
 		outputfolder = FileChooserFrame(self, btype="folder", label="Output PDF Folder:", filetypes=())
 
 		labelsname = Label(self, text="Sheet Name:")
 		
-		# sheetName = Entry(self, width=45)
-		# runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(pdfinput=pdfInputFiles.filenames, xlsinput=xlsInputFile.filename, sname=sheetName, pdfoutput=outputfolder.filename))
 		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(pdfinput=pdfInputFiles.filenames, xlsinput=xlsInputFile.filename, sname=sheetlist, pdfoutput=outputfolder.filename))
 		
 		# layout
@@ -750,8 +740,6 @@ class FdaPdfFrame(ttk.Frame):
 		if kwargs['pdfinput'] == "" or kwargs['xlsinput'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			# print(PYLOC, "fdapdf.py", "-i", kwargs['input'])
-			# Popen([PYLOC, "fdapdf.py", "-i", kwargs['input']], creationflags=CREATE_NEW_CONSOLE)
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
 			run_module(comlist=[PYLOC, "modules/fdapdf.py", "-pdf", kwargs['pdfinput'], "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-output", kwargs['pdfoutput'] ])
 
@@ -805,7 +793,7 @@ class AmazonShippingFrame(ttk.Frame):
 				pdffolder = pdffolder.replace("/", "\\")
 
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
-			run_module(comlist=[PYLOC, "modules/amazonship.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-output", pdffolder, "-cdata",  getConfig()['chrome_user_data']])
+			run_module(comlist=[PYLOC, "modules/amazonship.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-output", pdffolder, "-cdata",  profileSelected.get()])
 
 class FdaEntryPdfFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -860,7 +848,7 @@ class FdaEntryPdfFrame(ttk.Frame):
 			if platform == "win32":
 				pdffolder = pdffolder.replace("/", "\\")
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed it.')
-			run_module(comlist=[PYLOC, "modules/autofdapdf.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data'], "-s", kwargs['sheetname'].get(), "-dt", str(kwargs['datearrival'].get_date()), "-o", pdffolder])
+			run_module(comlist=[PYLOC, "modules/autofdapdf.py", "-i", kwargs['input'], "-d", profileSelected.get(), "-s", kwargs['sheetname'].get(), "-dt", str(kwargs['datearrival'].get_date()), "-o", pdffolder])
 
 class AmazonShippingCheckFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -988,7 +976,7 @@ class AmazonReviewFrame(ttk.Frame):
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
-			run_module(comlist=[PYLOC, "modules/amazonreview.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get()])
+			run_module(comlist=[PYLOC, "modules/amazonreview.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-profile", profileSelected.get()])
 
 class CanadaPostPdfFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -1026,7 +1014,6 @@ class CanadaPostPdfFrame(ttk.Frame):
 		if kwargs['pdfinput'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			# messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
 			run_module(comlist=[PYLOC, "modules/cpostconvert.py", "-pdf", kwargs['pdfinput'], "-output", kwargs['pdfoutput'] ])
 
 class AmazonAllFrame(ttk.Frame):
@@ -1131,7 +1118,7 @@ class WalmartstFrame(ttk.Frame):
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
-			run_module(comlist=[PYLOC, "modules/walmart_superstore.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-module", "walmart"])
+			run_module(comlist=[PYLOC, "modules/walmart_superstore.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-module", "walmart", "-profile", profileSelected.get()])
 
 class SuperstoreFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -1169,7 +1156,7 @@ class SuperstoreFrame(ttk.Frame):
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
-			run_module(comlist=[PYLOC, "modules/walmart_superstore.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-module", "superstore"])
+			run_module(comlist=[PYLOC, "modules/walmart_superstore.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-module", "superstore", "-profile", profileSelected.get()])
 
 class CloseButton(ttk.Button):
 	def __init__(self, parent):

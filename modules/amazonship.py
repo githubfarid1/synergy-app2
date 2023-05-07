@@ -30,6 +30,10 @@ logger.setLevel(logging.NOTSET)
 logger2 = logging.getLogger()
 logger2.setLevel(logging.NOTSET)
 
+def getProfiles():
+	file = open("chrome_profiles.json", "r")
+	config = json.load(file)
+	return config
 
 def clearlist(*args):
     for varlist in args:
@@ -69,11 +73,6 @@ def killAllChrome():
 class AmazonShipment:
     def __init__(self, xlsfile, sname, chrome_data, download_folder, xlworksheet) -> None:
         try:
-            # xltmp = 'xlstmp' + xlsfile[-5:]
-            # self.__workbook = load_workbook(filename=xltmp, read_only=False, keep_vba=True, data_only=True)
-            # self.__worksheet = self.__workbook[sname]
-            # self.__xlworkbook = xlworkbook
-            # self.__xlworksheet = xlworkbook.sheets[sname]
             self.__xlworksheet = xlworksheet
 
         except Exception as e:
@@ -93,9 +92,6 @@ class AmazonShipment:
         if platform == "win32":
             self.__delimeter = "\\"
         clear_screan()
-        print("Kill All Chrome in the Background... ", end="")
-        killAllChrome()
-        print("passed")
  
         self.__driver = self.__browser_init()
         # input("pause")
@@ -104,13 +100,10 @@ class AmazonShipment:
         # self.__data_sanitizer()
 
     def __browser_init(self):
-        config = getConfig()
         warnings.filterwarnings("ignore", category=UserWarning)
         options = webdriver.ChromeOptions()
-        # options = Options()
-        # options.add_argument("--headless")
-        options.add_argument("user-data-dir={}".format(config['chrome_user_data'])) 
-        options.add_argument("profile-directory={}".format(config['chrome_profile']))
+        options.add_argument("user-data-dir={}".format(getProfiles()[self.chrome_data]['chrome_user_data']))
+        options.add_argument("profile-directory={}".format(getProfiles()[self.chrome_data]['chrome_profile']))
         options.add_argument('--no-sandbox')
         options.add_argument("--log-level=3")
         # options.add_argument("--window-size=1200, 900")
@@ -204,8 +197,6 @@ class AmazonShipment:
      
         print("")
         print("Starting Create Shipment...")
-        # url = "https://sellercentral.amazon.com/fba/sendtoamazon?ref=fbacentral_nav_fba"
-        # self.driver.get(url)
         try:
             WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-link[data-testid='start-new-link']")))
         except:

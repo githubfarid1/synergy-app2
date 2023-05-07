@@ -19,23 +19,24 @@ import warnings
 import argparse
 import json
 
+def getProfiles():
+	file = open("chrome_profiles.json", "r")
+	config = json.load(file)
+	return config
+
 def getConfig():
 	file = open("setting.json", "r")
 	config = json.load(file)
 	return config
 
-def parse(fileinput, chrome_data):
+def parse(fileinput, profile):
     config = getConfig()
     warnings.filterwarnings("ignore", category=UserWarning) 
     options = webdriver.ChromeOptions()
     # options.add_argument("--headless")
     # options.add_experimental_option('debuggerAddress', 'localhost:9251')
-    # options.add_argument("user-data-dir={}".format(chrome_data)) #Path to your chrome profile
-    udata = r"C:/Users/User/AppData/Local/Google/Chrome/User Data2"
-    options.add_argument("user-data-dir=" + udata)
-    options.add_argument("profile-directory=Default")
-
-
+    options.add_argument("user-data-dir={}".format(getProfiles()[profile]['chrome_user_data']))
+    options.add_argument("profile-directory={}".format(getProfiles()[profile]['chrome_profile']))
     options.add_argument('--no-sandbox')
     options.add_argument("--log-level=3")
     options.add_argument("--window-size=800,600")
@@ -55,16 +56,6 @@ def parse(fileinput, chrome_data):
             break
         if first:
             driver.get('https://www.amazon.com/')
-        #     time.sleep(1)
-        #     location = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div[id='glow-ingress-block']")))
-        #     location.click()
-        #     postal = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input[data-action='GLUXPostalInputAction']")))
-        #     postal.send_keys('90210')
-        #     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span[id='GLUXZipUpdate']"))).click()
-        #     try:
-        #         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[6]/div/div/div[2]/span/span/input"))).click()
-        #     except:
-        #         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[5]/div/div/div[2]/span/span/input"))).click()
             first = False
             time.sleep(2)
         asin = ws['A{}'.format(i)].value

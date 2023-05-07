@@ -185,20 +185,6 @@ def main():
                     }
                     reclist.append(pdict)
 
-                    # pdict = {
-                    #     "Invoice Date": invoice_date,	
-                    #     "Date": res['order_date'],	
-                    #     "Order No":res['order_id'],
-                    #     "Tracking": item[0],	
-                    #     "Dimensions":item[1],	
-                    #     "Weight":item[3],	
-                    #     "Billed dimensions": item[2],
-                    #     "Billed Weight": item[4],
-                    #     "Total":item[5]
-                    # }
-                    # reclist.append(pdict)
-            # df = pd.DataFrame(reclist)
-            # df.to_csv(args.pdfoutput + file_delimeter() + basefilename.replace(".pdf", "") + ".csv" , index=False)
             print("Successfully")
         except Exception as e:
             print(e, "Failed")

@@ -23,8 +23,13 @@ report.setLevel(logging.NOTSET)
 logger = logging.getLogger()
 logger.setLevel(logging.NOTSET)
 
+def getProfiles():
+	file = open("chrome_profiles.json", "r")
+	config = json.load(file)
+	return config
+
 class AmazonReview:
-    def __init__(self, xlsfile, sname) -> None:
+    def __init__(self, xlsfile, sname, profilename) -> None:
         try:
             self.__workbook = load_workbook(filename=xlsfile, read_only=False, data_only=True)
             self.__worksheet = self.__workbook[sname]
@@ -34,25 +39,21 @@ class AmazonReview:
             sys.exit()
         self.__datajson = json.loads("{}")
         self.__datalist = []
-
+        self.__profilename = profilename
         self.__xlsfile = xlsfile
         self.__delimeter = "/" 
         if platform == "win32":
             self.__delimeter = "\\"
         lib.clear_screan()
-        print("Kill All Chrome in the Background... ", end="", flush=True)
-        lib.killAllChrome()
-        print("passed")
         self.__driver = self.__browser_init()
         self.__data_generator()
 
     def __browser_init(self):
-        config = lib.getConfig()
         warnings.filterwarnings("ignore", category=UserWarning)
         options = webdriver.ChromeOptions()
         # options.add_argument("--headless")
-        options.add_argument("user-data-dir={}".format(config['chrome_user_data'])) 
-        options.add_argument("profile-directory={}".format(config['chrome_profile']))
+        options.add_argument("user-data-dir={}".format(getProfiles()[self.profilename]['chrome_user_data']))
+        options.add_argument("profile-directory={}".format(getProfiles()[self.profilename]['chrome_profile']))
         options.add_argument('--no-sandbox')
         options.add_argument("--log-level=3")
         # options.add_argument("--window-size=1200, 900")
@@ -168,10 +169,20 @@ class AmazonReview:
     def driver(self):
         return self.__driver
 
+    @property
+    def profilename(self):
+        return self.__profilename
+
+    @profilename.setter
+    def profilename(self, value):
+        self.__profilename = value
+
 def main():
     parser = argparse.ArgumentParser(description="Amazon Shipment")
     parser.add_argument('-xls', '--xlsinput', type=str,help="XLSX File Input")
     parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
+    parser.add_argument('-profile', '--profile', type=str,help="Chrome Profile name")
+
     args = parser.parse_args()
     if args.xlsinput[-5:] != '.xlsx':
         input('2nd File input have to XLSX file')
@@ -202,7 +213,7 @@ def main():
     report.critical("###### START ######")
     report.critical("Filename: {}\nSheet Name:{}".format(args.xlsinput, args.sheetname))
     report.critical("\n")
-    review = AmazonReview(xlsfile=args.xlsinput, sname=args.sheetname)
+    review = AmazonReview(xlsfile=args.xlsinput, sname=args.sheetname, profilename=args.profile)
     review.parse()
     report.critical("\n")
     report.critical("###### END ######")

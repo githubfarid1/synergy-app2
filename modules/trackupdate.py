@@ -14,8 +14,13 @@ from openpyxl.utils import get_column_letter
 import warnings
 import argparse
 import os
+import json
+def getProfiles():
+	file = open("chrome_profiles.json", "r")
+	config = json.load(file)
+	return config
 
-def parse(fileinput, chrome_data):
+def parse(fileinput, profile):
     warnings.filterwarnings("ignore", category=UserWarning) 
 
     trackupdate_source = fileinput
@@ -24,7 +29,8 @@ def parse(fileinput, chrome_data):
     options = webdriver.ChromeOptions()
     # options.add_argument("--headless")
     # options.add_experimental_option('debuggerAddress', 'localhost:9251')
-    options.add_argument("user-data-dir={}".format(chrome_data)) #Path to your chrome profile
+    options.add_argument("user-data-dir={}".format(getProfiles()[profile]['chrome_user_data']))
+    options.add_argument("profile-directory={}".format(getProfiles()[profile]['chrome_profile']))
     options.add_argument('--no-sandbox')
     options.add_argument("--log-level=3")
     options.add_argument("--window-size=800,600")

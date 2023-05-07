@@ -26,6 +26,11 @@ from datetime import date
 from sys import platform
 import json
 
+def getProfiles():
+	file = open("chrome_profiles.json", "r")
+	config = json.load(file)
+	return config
+
 def getConfig():
 	file = open("setting.json", "r")
 	config = json.load(file)
@@ -98,15 +103,12 @@ def data_generator(ws):
     # 'count' : len(wcode)} 
     return allData
 
-def parse(chrome_data, datatable, datearrival, pdffolder):
+def parse(profilename, datatable, datearrival, pdffolder):
     warnings.filterwarnings("ignore", category=UserWarning)
     config = getConfig()
     options = webdriver.ChromeOptions()
-    # options.add_argument("--headless")
-    # options.add_experimental_option('debuggerAddress', 'localhost:9251')
-    # options.add_argument("user-data-dir={}".format(chrome_data)) #Path to your chrome profile
-    options.add_argument("user-data-dir={}".format(config['chrome_user_data'])) 
-    options.add_argument("profile-directory={}".format(config['chrome_profile']))
+    options.add_argument("user-data-dir={}".format(getProfiles()[profilename]['chrome_user_data']))
+    options.add_argument("profile-directory={}".format(getProfiles()[profilename]['chrome_profile']))
     options.add_argument('--no-sandbox')
     options.add_argument("--log-level=3")
     options.add_argument("--window-size=800,600")

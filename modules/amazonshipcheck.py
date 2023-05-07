@@ -93,10 +93,7 @@ class AmazonShipmentCheck:
         if platform == "win32":
             self.__delimeter = "\\"
         clear_screan()
-        # print("Kill All Chrome in the Background... ", end="")
-        # killAllChrome()
-        # print("passed")
- 
+
         self.__driver = self.__browser_init()
         self.__data_generator()
 

@@ -24,9 +24,6 @@ headers = {
     'sec-ch-ua-platform': '"Linux"',
 }
 
-
-
-
 def get_information(trackid):
     response = requests.get(
         'https://www.canadapost-postescanada.ca/track-reperage/rs/track/json/package/{}/detail'.format(trackid),

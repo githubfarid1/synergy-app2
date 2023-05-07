@@ -34,14 +34,17 @@ def getConfig():
 	config = json.load(file)
 	return config
 
+def getProfiles():
+	file = open("chrome_profiles.json", "r")
+	config = json.load(file)
+	return config
+
 
 def browser_init(userdata):
     warnings.filterwarnings("ignore", category=UserWarning)
     options = webdriver.ChromeOptions()
-    options.add_argument("user-data-dir={}".format(userdata))
-    options.add_argument("profile-directory=Default")
-    # options.add_argument("user-data-dir={}".format("C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\User Data2")) 
-    # options.add_argument("profile-directory={}".format("Default"))
+    options.add_argument("user-data-dir={}".format(getProfiles()[userdata]['chrome_user_data']))
+    options.add_argument("profile-directory={}".format(getProfiles()[userdata]['chrome_profile']))
     options.add_argument('--no-sandbox')
     options.add_argument("--log-level=3")
     # options.add_argument("--window-size=1200, 900")
@@ -57,13 +60,6 @@ def browser_init(userdata):
     return driver
 
 
-# filename = r"C:/synergy-data-tester/Lookup Listing.xlsx"
-# sheetname = "Sheet1"
-# xlbook = xw.Book(filename)
-# xlsheet = xlbook.sheets[sheetname]
-
-# user_data = r"C:/Users/User/AppData/Local/Google/Chrome/User Data2"
-
 def get_urls(xlsheet, domainwl=[]):
     urlList = []
     maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
@@ -76,9 +72,8 @@ def get_urls(xlsheet, domainwl=[]):
             urlList.append(tpl)
     return urlList
 
-def walmart_scraper(xlsheet):
-    config = getConfig()
-    user_data = config['chrome_user_data']+"2"
+def walmart_scraper(xlsheet, profilename):
+    user_data = profilename
     urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca'])
     i = 0
     maxrec = len(urlList)
@@ -129,9 +124,8 @@ def walmart_scraper(xlsheet):
         xlsheet[f'C{rownum}'].value = sale
         i += 1     
 
-def superstore_scraper(xlsheet):
-    config = getConfig()
-    user_data = config['chrome_user_data']+"2"
+def superstore_scraper(xlsheet, profilename):
+    user_data = profilename
     urlList = get_urls(xlsheet, domainwl=['www.realcanadiansuperstore.ca'])
     i = 0
     maxrec = len(urlList)
@@ -186,6 +180,8 @@ def main():
     parser.add_argument('-xls', '--xlsinput', type=str,help="XLSX File Input")
     parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
     parser.add_argument('-module', '--module', type=str,help="Module Run")
+    parser.add_argument('-profile', '--profile', type=str,help="Chrome Profile Name")
+
     args = parser.parse_args()
     if not (args.xlsinput[-5:] == '.xlsx' or args.xlsinput[-5:] == '.xlsm'):
         input('input the right XLSX or XLSM file')
@@ -198,20 +194,13 @@ def main():
     if args.module == '':
         input("Module parameter was empty")
         sys.exit()
-    config = getConfig()
-    user_data = config['chrome_user_data']+"2"
 
-    # isExist = os.path.exists(user_data)
-    # print(isExist)
-    # if isExist:
-    #     shutil.rmtree(user_data)
-    # input("wait")
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
     if args.module == 'superstore':
-        superstore_scraper(xlsheet=xlsheet)
+        superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
     else:
-        walmart_scraper(xlsheet=xlsheet)
+        walmart_scraper(xlsheet=xlsheet, profilename=args.profile)
 
     print("Saving to", args.xlsinput, end=".. ", flush=True)
     xlbook.save(args.xlsinput)
