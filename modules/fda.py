@@ -394,10 +394,6 @@ def main():
     if args.input[-5:] != '.xlsx':
         input('File input have to XLSX file')
         sys.exit()
-    isExist = os.path.exists(args.data)
-    if isExist == False :
-        input('Please check Chrome User Data Directory')
-        sys.exit()
     isExist = os.path.exists(args.input)
     if isExist == False :
         input('Please check XLSX file')

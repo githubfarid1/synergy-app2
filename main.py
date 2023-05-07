@@ -493,8 +493,6 @@ class StatisticsFrame(ttk.Frame):
 		clist.current(0)
 		xlsInputFile = FileChooserFrame(self, btype="file", label="Select XLSX Input File:", filetypes=(("xlsx files", "*.xlsx"),("all files", "*.*")))
 		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename, country=clist.get() ))
-		
-
 		# layout
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
 		xlsInputFile.grid(column = 0, row = 1, sticky = (W,E))
@@ -504,7 +502,7 @@ class StatisticsFrame(ttk.Frame):
 		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 
 	def run_process(self, **kwargs):
-		print(kwargs)
+		# print(kwargs)
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
