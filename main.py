@@ -79,12 +79,12 @@ class Window(Tk):
 		pullButton.grid(row = 2, column = 0, sticky = (W), padx=20, pady=10)
 		settingButton.grid(row = 2, column = 0, sticky = (N, S), padx=20, pady=10)
 
-
 		config = getConfig()
 		mainFrame = MainFrame(self)
 		mainFrame.grid(column=0, row=0, sticky=(N, E, W, S))
 		# settingFrame = SettingFrame(self)
 		# settingFrame.grid(column=0, row=1, sticky=(N, E, W, S))
+
 	def gitPull(self):
 		git_dir = os.getcwd() 
 		g = git.cmd.Git(git_dir)
@@ -164,8 +164,6 @@ class ChromeProfilesFrame(ttk.Frame):
 		closeButton = CloseButton(self)
 		profiles = getProfiles()
 		profileList = []
-		# for profile in profiles:
-		# 	profileList.append(ttk.Button(self, text=profile, command=lambda pro=profiles[profile]:self.chromeTester(pro)))
 		for text, value in profiles.items():
 			profileList.append(ttk.Button(self, text=text, command=lambda pro=value:self.chromeTester(pro)))
 
@@ -916,7 +914,6 @@ class AmazonShippingCheckFrame(ttk.Frame):
 		# configure
 		self.grid(column=0, row=0, sticky=(N, E, W, S))
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
-		profiles = getProfiles()
 		self.columnconfigure(0, weight=1)
 		self.rowconfigure(0, weight=1)
 		self.rowconfigure(1, weight=1)
@@ -941,6 +938,7 @@ class AmazonShippingCheckFrame(ttk.Frame):
 		runButton.grid(column = 0, row = 5, sticky = (E))
 		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		sheetlist.grid(column=0, row = 3, pady=10)
+
 	def run_process(self, **kwargs):
 		if kwargs['xlsinput'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
