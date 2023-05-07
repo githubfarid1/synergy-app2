@@ -401,8 +401,6 @@ class PdfConvertFrame(ttk.Frame):
 		if kwargs['input'] == "" or kwargs['output'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			# print(PYLOC, "pdfconvert.py", "-i", kwargs['input'], "-o", kwargs['output'])	
-			# Popen([PYLOC, "pdfconvert.py", "-i", kwargs['input'], "-o", kwargs['output']], creationflags=CREATE_NEW_CONSOLE)
 			run_module(comlist=[PYLOC, "modules/pdfconvert.py", "-i", kwargs['input'], "-o", kwargs['output']])
 
 class ScrapeBySellerAmazonFrame(ttk.Frame):
@@ -436,8 +434,6 @@ class ScrapeBySellerAmazonFrame(ttk.Frame):
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			# print(PYLOC, "scrapebyseller.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data'])	
-			# Popen([PYLOC, "scrapebyseller.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data']], creationflags=CREATE_NEW_CONSOLE)
 			run_module(comlist=[PYLOC, "modules/scrapebyseller.py", "-i", kwargs['input'], "-d", getConfig()['chrome_user_data']])
 
 class TrackingUpdateFrame(ttk.Frame):
@@ -514,7 +510,7 @@ class StatisticsFrame(ttk.Frame):
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			run_module(comlist=[PYLOC, "modules/statistic.py", "-i", kwargs['input'], "-c", kwargs['country'], "-profile", profileSelected.get()])
+			run_module(comlist=[PYLOC, "modules/statistic.py", "-i", kwargs['input'], "-c", kwargs['country'], "-d", profileSelected.get()])
 
 class CanadaPostFrame(ttk.Frame):
 	def __init__(self, window) -> None:

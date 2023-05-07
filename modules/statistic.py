@@ -258,7 +258,7 @@ def parse(fileinput, profile, country):
 def main():
     parser = argparse.ArgumentParser(description="Statistics")
     parser.add_argument('-i', '--input', type=str,help="File Input")
-    parser.add_argument('-profile', '--profile', type=str,help="Chrome Profile Selected")
+    parser.add_argument('-d', '--profile', type=str,help="Chrome Profile Selected")
     parser.add_argument('-c', '--country', type=str,help="Country")
 
     args = parser.parse_args()
