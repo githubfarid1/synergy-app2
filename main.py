@@ -71,13 +71,13 @@ class Window(Tk):
 		# self.rowconfigure(2, weight=1)
 		
 		exitButton = ttk.Button(self, text="Exit", command=lambda:self.destroy())
-		pullButton = ttk.Button(self, text='Update Script', command=lambda:self.gitPull())
+		# pullButton = ttk.Button(self, text='Update Script', command=lambda:self.gitPull())
 		settingButton = ttk.Button(self, text='Chrome Profiles', command=lambda:self.chromeProfile())
 		
 		exitButton.grid(row=2, column=0, sticky=(E), padx=20, pady=5)
 		# pullButton.grid(row=2, column=0, sticky=(E, N, S), padx=20, pady=5)
-		pullButton.grid(row = 2, column = 0, sticky = (W), padx=20, pady=10)
-		settingButton.grid(row = 2, column = 0, sticky = (N, S), padx=20, pady=10)
+		# pullButton.grid(row = 2, column = 0, sticky = (W), padx=20, pady=10)
+		settingButton.grid(row = 2, column = 0, sticky = (W), padx=20, pady=10)
 
 		config = getConfig()
 		mainFrame = MainFrame(self)
