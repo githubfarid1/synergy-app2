@@ -50,6 +50,11 @@ def getConfig():
 	config = json.load(file)
 	return config
 
+def getProfiles():
+	file = open("chrome_profiles.json", "r")
+	config = json.load(file)
+	return config
+
 def killAllChrome():
     if platform == "win32":
         os.system("taskkill /f /im chrome.exe")
@@ -72,7 +77,7 @@ def file_delimeter():
     return dm
 
 class AmazonShipmentCheck:
-    def __init__(self, xlsfile, sname) -> None:
+    def __init__(self, xlsfile, sname, profile) -> None:
         try:
             self.__workbook = load_workbook(filename=xlsfile, read_only=False, keep_vba=True, data_only=True)
             self.__worksheet = self.__workbook[sname]
@@ -80,7 +85,8 @@ class AmazonShipmentCheck:
             logger.error(e)
             input("XLSX file or Sheet name not found")
             sys.exit()
-        
+        self.__profile = profile
+
         self.__datalist = []
         self.__xlsfile = xlsfile
         self.__delimeter = "/" 
@@ -100,8 +106,9 @@ class AmazonShipmentCheck:
         options = webdriver.ChromeOptions()
         # options = Options()
         # options.add_argument("--headless")
-        options.add_argument("user-data-dir={}".format(config['chrome_user_data'])) 
-        options.add_argument("profile-directory={}".format(config['chrome_profile']))
+        options.add_argument("user-data-dir={}".format(getProfiles()[self.profile]['chrome_user_data'])) 
+        options.add_argument("profile-directory={}".format(getProfiles()[self.profile]['chrome_profile']))
+
         options.add_argument('--no-sandbox')
         options.add_argument("--log-level=3")
         # options.add_argument("--window-size=1200, 900")
@@ -554,6 +561,10 @@ class AmazonShipmentCheck:
     def driver(self):
         return self.__driver
     
+    @property
+    def profile(self):
+        return self.__profile
+
 def main():
     parser = argparse.ArgumentParser(description="Amazon Shipment Check")
     parser.add_argument('-xls', '--xlsinput', type=str,help="XLSX File Input")
@@ -602,7 +613,7 @@ def main():
         if i > 1:
             print("Process will be reapeated")
         try:    
-            shipment = AmazonShipmentCheck(xlsfile=args.xlsinput, sname=args.sheetname)
+            shipment = AmazonShipmentCheck(xlsfile=args.xlsinput, sname=args.sheetname, profile=args.profile)
             # print(shipment.datajson)
             # raise
             if len(shipment.datalist) == 0:
