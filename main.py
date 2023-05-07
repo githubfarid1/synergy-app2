@@ -78,8 +78,14 @@ class Window(Tk):
 		# pullButton.grid(row=2, column=0, sticky=(E, N, S), padx=20, pady=5)
 		# pullButton.grid(row = 2, column = 0, sticky = (W), padx=20, pady=10)
 		settingButton.grid(row = 2, column = 0, sticky = (W), padx=20, pady=10)
+		global profileSelected
+		profileSelected = StringVar()
+		profiles = getProfiles()
+		profilecombo = ttk.Combobox(self, textvariable=profileSelected, state="readonly")
+		profilecombo['values'] = [text for text, value in profiles.items()]
+		profilecombo.current(0)
+		profilecombo.grid(row = 2, column = 0, sticky = (N,S), padx=20, pady=10)
 
-		config = getConfig()
 		mainFrame = MainFrame(self)
 		mainFrame.grid(column=0, row=0, sticky=(N, E, W, S))
 		# settingFrame = SettingFrame(self)
@@ -94,54 +100,6 @@ class Window(Tk):
 	def chromeProfile(self):
 		settingFrame = ChromeProfilesFrame(self)
 		settingFrame.grid(column=0, row=0, sticky=(N, E, W, S))
-
-class ProfileChooserFrame(ttk.Frame):
-	def __init__(self, window, **kwargs):
-		super().__init__(window)
-		self.__filename = StringVar()
-		# FOR EXCEL SHEET DISPLAY
-		try: 
-			sheetlist = kwargs['sheetlist']
-		except:
-			sheetlist = None
-
-		fileLabel = ttk.Label(self, textvariable=self.__filename, foreground="red")
-		label1 = ttk.Label(self, text=kwargs['label'])
-		chooseButton = ttk.Button(self, text="...", command=lambda:self.chooseButtonClick(kwargs['btype'], filetypes=kwargs['filetypes'], sheetlist=sheetlist))
-		self.rowconfigure(0, weight=1)
-		self.columnconfigure(0, weight=1)
-		self.columnconfigure(1, weight=1)
-		self.columnconfigure(2, weight=1)
-		# self.config(width=70, height=10)
-		label1.grid(row=0, column=0, sticky=(W))
-		fileLabel.grid(row=0, column=1, sticky=(W,E, N,S))
-		chooseButton.grid(row=0, column=2, sticky=(E))
-		
-	@property
-	def filename(self):
-		return self.__filename.get()
-
-	@filename.setter
-	def filename(self, value):
-		self.__filename.set(value)
-
-	def chooseButtonClick(self, btype, **kwargs):
-		if btype == 'folder':
-			filenametmp = filedialog.askdirectory(title='Select Folder')
-		else:
-			filenametmp = filedialog.askopenfilename(title='Select File', filetypes=kwargs['filetypes'])
-
-		if filenametmp != ():
-			self.filename = filenametmp
-			if kwargs['sheetlist'] != None:
-				wb = openpyxl.load_workbook(filenametmp)
-				if type(kwargs['sheetlist']) == tuple:
-					for idx, sl in enumerate(kwargs['sheetlist']):
-						kwargs['sheetlist'][idx]['values'] = wb.sheetnames
-						kwargs['sheetlist'][idx].current(0)
-				else:
-					kwargs['sheetlist']['values'] = wb.sheetnames
-					kwargs['sheetlist'].current(0)
 
 class ChromeProfilesFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -922,7 +880,6 @@ class AmazonShippingCheckFrame(ttk.Frame):
 		self.rowconfigure(4, weight=1)
 		self.rowconfigure(5, weight=1)
 		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
-		
 		# populate
 		titleLabel = TitleLabel(self, text="Amazon Shipment Check")
 		closeButton = CloseButton(self)
@@ -944,7 +901,7 @@ class AmazonShippingCheckFrame(ttk.Frame):
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
-			run_module(comlist=[PYLOC, "modules/amazonshipcheck.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get()])
+			run_module(comlist=[PYLOC, "modules/amazonshipcheck.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-profile", profileSelected.get()])
 
 class AmazonJoinPdfFrame(ttk.Frame):
 	def __init__(self, window) -> None:
