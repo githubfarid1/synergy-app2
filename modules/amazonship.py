@@ -661,7 +661,7 @@ class AmazonShipment:
             for ke, box in enumerate(boxes):
                 if ke == boxcount:
                     break
-                shipmentlist[index]['weightboxes'].append(self.xlworksheet['{}{}'.format(box, rowsearch)].value)
+                shipmentlist[index]['weightboxes'].append(int(self.xlworksheet['{}{}'.format(box, rowsearch)].value)) #UP
 
             # get dimensionboxes
             rowsearch = 0
@@ -691,7 +691,7 @@ class AmazonShipment:
                 dict = {
                     'id': self.xlworksheet['A{}'.format(i)].value,
                     'name': self.xlworksheet['B{}'.format(i)].value,
-                    'total': self.xlworksheet['C{}'.format(i)].value,
+                    'total': int(self.xlworksheet['C{}'.format(i)].value), #UP
                     'expiry': str(self.xlworksheet['D{}'.format(i)].value),
                     'boxes':[],
 
@@ -704,7 +704,7 @@ class AmazonShipment:
                     if self.xlworksheet['{}{}'.format(box, i)].value == None or str(self.xlworksheet['{}{}'.format(box, i)].value).strip() == '':
                         shipmentlist[index]['items'][ti]['boxes'].append(0)
                     else:                           
-                        shipmentlist[index]['items'][ti]['boxes'].append(self.xlworksheet['{}{}'.format(box, i)].value)
+                        shipmentlist[index]['items'][ti]['boxes'].append(int(self.xlworksheet['{}{}'.format(box, i)].value)) #UP
         # input(shipreadylist)
         shipids = []
         for shipmentdata in shipreadylist:
@@ -880,10 +880,6 @@ def main():
     isExist = os.path.exists(args.xlsinput)
     if not isExist:
         input(args.xlsinput + " does not exist")
-        sys.exit()
-    isExist = os.path.exists(args.chromedata)
-    if isExist == False :
-        input('Please check Chrome User Data Directory')
         sys.exit()
     isExist = os.path.exists(args.pdfoutput)
     if not isExist:

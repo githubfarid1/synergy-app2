@@ -327,10 +327,10 @@ def main():
     if not (args.input[-5:] == '.xlsx' or args.input[-5:] == '.xlsm'):
         input('input the right XLSX or XLSM file')
         sys.exit()
-    isExist = os.path.exists(args.chromedata)
-    if isExist == False :
-        input('Please check Chrome User Data Directory')
-        sys.exit()
+    # isExist = os.path.exists(args.chromedata)
+    # if isExist == False :
+    #     input('Please check Chrome User Data Directory')
+    #     sys.exit()
     isExist = os.path.exists(args.input)
     if isExist == False :
         input('Please check XLSX or XLSM file')
@@ -343,10 +343,10 @@ def main():
     if isExist == False :
         input('Please make sure PDF folder is exist')
         sys.exit()
-    isExist = os.path.exists(args.chromedata)
-    if isExist == False :
-        input('Please check Chrome User Data Directory')
-        sys.exit()
+    # isExist = os.path.exists(args.chromedata)
+    # if isExist == False :
+    #     input('Please check Chrome User Data Directory')
+    #     sys.exit()
 
     clear_screan()
     file_handler = logging.FileHandler('logs/autofda-err.log')

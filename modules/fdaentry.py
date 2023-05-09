@@ -492,10 +492,10 @@ def main():
     if args.input[-5:] != '.xlsx':
         input('File input have to XLSX file')
         sys.exit()
-    isExist = os.path.exists(args.chromedata)
-    if isExist == False :
-        input('Please check Chrome User Data Directory')
-        sys.exit()
+    # isExist = os.path.exists(args.chromedata)
+    # if isExist == False :
+    #     input('Please check Chrome User Data Directory')
+    #     sys.exit()
     isExist = os.path.exists(args.input)
     if isExist == False :
         input('Please check XLSX file')
@@ -508,10 +508,10 @@ def main():
     if isExist == False :
         input('Please make sure PDF folder is exist')
         sys.exit()
-    isExist = os.path.exists(args.chromedata)
-    if isExist == False :
-        input('Please check Chrome User Data Directory')
-        sys.exit()
+    # isExist = os.path.exists(args.chromedata)
+    # if isExist == False :
+    #     input('Please check Chrome User Data Directory')
+    #     sys.exit()
 
     clear_screan()
     autofda = FdaEntry(args.input, args.sheet, args.date, args.output, args.chromedata)
