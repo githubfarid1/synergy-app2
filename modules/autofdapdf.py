@@ -403,7 +403,7 @@ def main():
                     driver.quit()
                 except:
                     pass
-                driver = browser_init(chrome_data=args.chromedata, pdfoutput_folder=complete_output_folder)
+                driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
                 driver = browser_login(driver)
 
                 fda_entry = FdaEntry(driver=driver, datalist=xlsdata, datearrival=args.date, pdfoutput=complete_output_folder)
