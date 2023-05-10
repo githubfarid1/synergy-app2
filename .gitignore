@@ -162,3 +162,4 @@ cython_debug/
 /address.csv
 /gitme.sh
 modules/__pycache__/
+/chrome_profiles.json

@@ -64,19 +64,20 @@ class Window(Tk):
 		newy = int((sheight/2) - (height/2))
 		self.geometry(f"{width}x{height}+{newx}+{newy}")
 		self.columnconfigure(0, weight=1)
-		# self.columnconfigure(1, weight=1)
+		self.columnconfigure(1, weight=1)
+		self.columnconfigure(2, weight=1)
+		self.columnconfigure(3, weight=1)
 
 		self.rowconfigure(0, weight=1)
 		# self.rowconfigure(1, weight=1)
 		# self.rowconfigure(2, weight=1)
 		
 		exitButton = ttk.Button(self, text="Exit", command=lambda:self.destroy())
-		# pullButton = ttk.Button(self, text='Update Script', command=lambda:self.gitPull())
+		pullButton = ttk.Button(self, text='Update Script', command=lambda:self.gitPull())
 		settingButton = ttk.Button(self, text='Chrome Profiles Setup', command=lambda:self.chromeProfile())
 		
-		exitButton.grid(row=2, column=0, sticky=(E), padx=20, pady=5)
-		# pullButton.grid(row=2, column=0, sticky=(E, N, S), padx=20, pady=5)
-		# pullButton.grid(row = 2, column = 0, sticky = (W), padx=20, pady=10)
+		exitButton.grid(row=2, column=3, sticky=(E), padx=20, pady=5)
+		pullButton.grid(row = 2, column = 2, sticky = (W), padx=20, pady=10)
 		settingButton.grid(row = 2, column = 0, sticky = (W), padx=20, pady=10)
 		global profileSelected
 		profileSelected = StringVar()
@@ -84,10 +85,10 @@ class Window(Tk):
 		profilecombo = ttk.Combobox(self, textvariable=profileSelected, state="readonly")
 		profilecombo['values'] = [text for text, value in profiles.items()]
 		profilecombo.current(0)
-		profilecombo.grid(row = 2, column = 0, sticky = (N,S), padx=20, pady=10)
+		profilecombo.grid(row = 2, column = 1, sticky = (N,S), padx=20, pady=10)
 
 		mainFrame = MainFrame(self)
-		mainFrame.grid(column=0, row=0, sticky=(N, E, W, S))
+		mainFrame.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		# settingFrame = SettingFrame(self)
 		# settingFrame.grid(column=0, row=1, sticky=(N, E, W, S))
 
@@ -104,7 +105,7 @@ class Window(Tk):
 class ChromeProfilesFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
-		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -370,7 +371,7 @@ class PdfConvertFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S))
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -407,7 +408,7 @@ class ScrapeBySellerAmazonFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -440,7 +441,7 @@ class TrackingUpdateFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 		self.columnconfigure(0, weight=1)
 		self.rowconfigure(0, weight=1)
@@ -473,7 +474,7 @@ class StatisticsFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 		self.columnconfigure(0, weight=1)
 		self.rowconfigure(0, weight=1)
@@ -512,7 +513,7 @@ class CanadaPostFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -544,7 +545,7 @@ class DykShippedFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 		self.columnconfigure(0, weight=1)
 		self.rowconfigure(0, weight=1)
@@ -576,7 +577,7 @@ class CostLookupFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 		self.columnconfigure(0, weight=1)
 		self.rowconfigure(0, weight=1)
@@ -608,7 +609,7 @@ class ScrapeWalmartFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 		self.columnconfigure(0, weight=1)
 		self.rowconfigure(0, weight=1)
@@ -642,7 +643,7 @@ class FdaEntryFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -695,7 +696,7 @@ class FdaPdfFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S))
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -745,7 +746,7 @@ class AmazonShippingFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S))
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -797,7 +798,7 @@ class FdaEntryPdfFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=2)
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -852,7 +853,7 @@ class AmazonShippingCheckFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S))
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 		self.columnconfigure(0, weight=1)
 		self.rowconfigure(0, weight=1)
@@ -889,7 +890,7 @@ class AmazonJoinPdfFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S))
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -936,7 +937,7 @@ class AmazonReviewFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S))
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -980,7 +981,7 @@ class CanadaPostPdfFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S))
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -1018,7 +1019,7 @@ class AmazonAllFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S))
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -1084,7 +1085,7 @@ class WalmartstFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S))
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
@@ -1122,7 +1123,7 @@ class SuperstoreFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
 		# configure
-		self.grid(column=0, row=0, sticky=(N, E, W, S))
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
 		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
 
 		self.columnconfigure(0, weight=1)
