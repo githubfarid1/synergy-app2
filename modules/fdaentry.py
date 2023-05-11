@@ -217,7 +217,7 @@ class FdaEntry:
             wconsignee.append(str(ws['N{}'.format(i)].value).strip())
             wconsignee_addr.append(str(ws['O{}'.format(i)].value).strip())
             wconsignee_city.append(str(ws['P{}'.format(i)].value).strip())
-            wconsignee_postal.append(str(ws['Q{}'.format(i)].value).strip())
+            wconsignee_postal.append(str(ws['Q{}'.format(i)].raw_value).strip())
             wconsignee_state.append(str(ws['R{}'.format(i)].value).strip())
             wconsignee_stact.append(str(ws['S{}'.format(i)].value).strip())
             wsubmitter.append(str(ws['T{}'.format(i)].value).strip())
@@ -234,6 +234,7 @@ class FdaEntry:
         datatable = self.xlsdata
         datearrival = self.datearrival
         for item in datatable:
+            input(item)
             if first:
                 # FIRST LOGIN
                 first = False
