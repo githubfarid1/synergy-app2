@@ -371,7 +371,7 @@ class AmazonShipmentCheck:
                     individual = WebDriverWait(cols[0], 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-dropdown[data-testid='packing-template-dropdown']")))
                 except Exception as e:
                     logger.error(e)
-                    print(xlssku, " Not Found or internet error. Please check the SKU and run the script again!")
+                    input(xlssku + " Not Found or internet error. Please check the SKU and run the script again!")
                     sys.exit()
 
                 if individual.text.find('Individual units') == -1:
