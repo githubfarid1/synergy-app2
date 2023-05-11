@@ -391,7 +391,6 @@ def main():
             xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
             xlsdictwcode = {}
             for idx, xls in xlsdictall.items():
-                input(xls)
                 for data in xls['data']:
                     if data[20] == 'None':
                         xlsdictwcode[idx] = xls
