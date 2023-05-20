@@ -943,7 +943,7 @@ def main():
                 logger.error("Execution Limit reached, Please check the script")
             continue
         break
-
+    print('readylist:', shipment.datareadylist)
     for rlist in shipment.datareadylist:
         extract_pdf(download_folder=folderamazonship, box=rlist['boxname'], shipment_id=rlist['shipid'][0:12], label=rlist['shipid'] )
     addressfile = Path("address.csv")
