@@ -103,7 +103,7 @@ def join_pdfs(source_folder, output_folder, tag='Labels'):
         print("Finished")
         return resultfile
     else:
-        print("No pdf files was found")
+        print("No pdf files was found:", source_folder + file_delimeter)
         return ""
 
 def add_page_numbers(pdffile):
