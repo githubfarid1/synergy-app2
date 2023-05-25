@@ -142,14 +142,13 @@ def walmart_scraper2(xlsheet, profilename):
             driver.find_element(By.CSS_SELECTOR, "div#topmessage").text
             print("Failed")
             del driver
-            waiting = 300
+            waiting = 180
             print(f'The script was detected as bot, please wait for {waiting} seconds', end=" ", flush=True)
             time.sleep(waiting)
             # input("bot detected, press any key...")
-            isExist = os.path.exists(getProfiles()[user_data]['chrome_user_data'])
-            # print(isExist)
-            if isExist:
-                shutil.rmtree(getProfiles()[user_data]['chrome_user_data'])
+            # isExist = os.path.exists(getProfiles()[user_data]['chrome_user_data'])
+            # if isExist:
+            #     shutil.rmtree(getProfiles()[user_data]['chrome_user_data'])
             print('OK')
             driver = browser_init(userdata=user_data)
             time.sleep(1)
