@@ -129,7 +129,6 @@ def walmart_scraper2(xlsheet, profilename):
     user_data = profilename
     urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca'])
     i = 0
-    input(urlList)
     maxrec = len(urlList)
     driver = browser_init(userdata=user_data)
     clear_screen()
