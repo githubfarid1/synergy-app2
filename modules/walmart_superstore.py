@@ -147,7 +147,7 @@ def walmart_scraper2(xlsheet, profilename):
             time.sleep(waiting)
             # input("bot detected, press any key...")
             isExist = os.path.exists(getProfiles()[user_data]['chrome_user_data'])
-            print(isExist)
+            # print(isExist)
             if isExist:
                 shutil.rmtree(getProfiles()[user_data]['chrome_user_data'])
             print('OK')
