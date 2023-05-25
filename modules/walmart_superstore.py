@@ -131,7 +131,6 @@ def walmart_scraper2(xlsheet, profilename):
     i = 0
     maxrec = len(urlList)
     driver = browser_init(userdata=user_data)
-    clear_screen()
     while True:
         if i == maxrec:
             break
@@ -142,7 +141,7 @@ def walmart_scraper2(xlsheet, profilename):
         try:
             driver.find_element(By.CSS_SELECTOR, "div#topmessage").text
             print("Failed")
-            del driver
+            # del driver
             waiting = 5
             print(f'The script was detected as bot, please wait for {waiting} seconds', end=" ", flush=True)
             time.sleep(waiting)
