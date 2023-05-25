@@ -124,6 +124,61 @@ def walmart_scraper(xlsheet, profilename):
         xlsheet[f'C{rownum}'].value = sale
         i += 1     
 
+
+def walmart_scraper2(xlsheet, profilename):
+    user_data = profilename
+    urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca'])
+    i = 0
+    input(urlList)
+    maxrec = len(urlList)
+    driver = browser_init(userdata=user_data)
+    clear_screen()
+    while True:
+        if i == maxrec:
+            break
+        url = urlList[i][0]
+        rownum = urlList[i][1]
+        print(url, end=" ", flush=True)
+        driver.get(url)
+        try:
+            driver.find_element(By.CSS_SELECTOR, "div#topmessage").text
+            print("Failed")
+            del driver
+            waiting = 120
+            print(f'The script was detected as bot, please wait for {waiting} seconds', end=" ", flush=True)
+            time.sleep(waiting)
+            isExist = os.path.exists(user_data)
+            print(isExist)
+            if isExist:
+                shutil.rmtree(user_data)
+            print('OK')
+            driver = browser_init(userdata=user_data)
+            continue
+        except:
+            
+            print('OK')
+            pass
+
+        try:
+            title = driver.find_element(By.CSS_SELECTOR, "h1[data-automation='product-title']").text
+        except:
+                title = ''
+        try:
+            price = driver.find_element(By.CSS_SELECTOR, "span[data-automation='buybox-price']").text
+        except:
+            price = ''
+        try:
+            sale = driver.find_element(By.CSS_SELECTOR, "div[data-automation='mix-match-badge'] span").text
+        except:
+            sale = ''
+        
+        print(title, price, sale)
+        
+        xlsheet[f'B{rownum}'].value = price
+        xlsheet[f'C{rownum}'].value = sale
+        i += 1     
+
+
 def superstore_scraper(xlsheet, profilename):
     user_data = profilename
     urlList = get_urls(xlsheet, domainwl=['www.realcanadiansuperstore.ca'])
@@ -200,7 +255,7 @@ def main():
     if args.module == 'superstore':
         superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
     else:
-        walmart_scraper(xlsheet=xlsheet, profilename=args.profile)
+        walmart_scraper2(xlsheet=xlsheet, profilename=args.profile)
 
     print("Saving to", args.xlsinput, end=".. ", flush=True)
     xlbook.save(args.xlsinput)
