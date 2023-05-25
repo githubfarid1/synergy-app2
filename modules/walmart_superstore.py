@@ -63,7 +63,7 @@ def browser_init(userdata):
 def get_urls(xlsheet, domainwl=[]):
     urlList = []
     maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
-    for i in range(2, maxrow + 2):
+    for i in range(1, maxrow + 2):
         url = xlsheet[f'A{i}'].value
         domain = urlparse(url).netloc
         # if domain in 'www.walmart.com' or domain == 'www.walmart.ca':
@@ -141,7 +141,7 @@ def walmart_scraper2(xlsheet, profilename):
         try:
             driver.find_element(By.CSS_SELECTOR, "div#topmessage").text
             print("Failed")
-            # del driver
+            del driver
             waiting = 5
             print(f'The script was detected as bot, please wait for {waiting} seconds', end=" ", flush=True)
             time.sleep(waiting)
@@ -152,6 +152,7 @@ def walmart_scraper2(xlsheet, profilename):
                 shutil.rmtree(getProfiles()[user_data]['chrome_user_data'])
             print('OK')
             driver = browser_init(userdata=user_data)
+            time.sleep(1)
             continue
         except:
             print('OK')
