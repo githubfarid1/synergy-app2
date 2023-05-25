@@ -142,7 +142,7 @@ def walmart_scraper2(xlsheet, profilename):
             driver.find_element(By.CSS_SELECTOR, "div#topmessage").text
             print("Failed")
             del driver
-            waiting = 240
+            waiting = 300
             print(f'The script was detected as bot, please wait for {waiting} seconds', end=" ", flush=True)
             time.sleep(waiting)
             # input("bot detected, press any key...")
