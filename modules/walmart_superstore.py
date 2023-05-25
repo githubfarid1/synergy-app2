@@ -167,7 +167,12 @@ def walmart_scraper2(xlsheet, profilename):
         try:
             price = driver.find_element(By.CSS_SELECTOR, "span[data-automation='buybox-price']").text
         except:
-            price = ''
+            try:
+                price = driver.find_element(By.CSS_SELECTOR, "span[itemprop='price']").text
+            except:                 
+                price = ''
+
+                
         try:
             sale = driver.find_element(By.CSS_SELECTOR, "div[data-automation='mix-match-badge'] span").text
         except:
