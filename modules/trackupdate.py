@@ -58,7 +58,7 @@ def parse(fileinput, profile):
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "a[data-test-id='tracking-id-value']")))
             print("OK")
         except:
-            print("Not Found")
+            print("Not Found", end="\n\n")
             continue
 
         tracking_id = driver.find_element(By.CSS_SELECTOR, "a[data-test-id='tracking-id-value']").text    
