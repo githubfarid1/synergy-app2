@@ -15,17 +15,63 @@ import warnings
 import argparse
 import os
 import json
+import requests
+import datetime
+import calendar
+
+
 def getProfiles():
 	file = open("chrome_profiles.json", "r")
 	config = json.load(file)
 	return config
 
+def getcanapost(trackid):
+    headers = {
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.9,ja-JP;q=0.8,ja;q=0.7,id;q=0.6',
+        'Authorization': 'Basic Og==',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+        'Pragma': 'no-cache',
+        'Referer': 'https://www.canadapost-postescanada.ca/track-reperage/en',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-origin',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
+        'sec-ch-ua': '"Google Chrome";v="111", "Not(A:Brand";v="8", "Chromium";v="111"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Linux"',
+    }
+
+    response = requests.get(
+        'https://www.canadapost-postescanada.ca/track-reperage/rs/track/json/package/{}/detail'.format(trackid),
+        headers=headers,
+    )
+    
+    data = json.loads(response.text)
+    newest = data['events'][0]
+    regcd = newest['locationAddr']['regionCd']
+    if regcd == "":
+        try:
+            regcd = newest['locationAddr']['countryNmEn']
+        except:
+            regcd = ""
+
+    datetime_str = newest['datetime']['date'] + " " + newest['datetime']['time']
+    dt = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
+    if regcd != "":
+        # text = f"{calendar.month_abbr[dt.month]} {dt.day} {dt.strftime('%I:%M %p')} {newest['descEn']} {newest['locationAddr']['city'].capitalize() }, {regcd}"
+        text = {
+            "time":f"{calendar.month_abbr[dt.month]} {dt.day}, {dt.year} {dt.strftime('%I:%M %p')}"
+        }
+    else:
+        text = f"{calendar.month_abbr[dt.month]} {dt.day} {dt.strftime('%I:%M %p')} {newest['descEn']}"
+
+    return text
+
 def parse(fileinput, profile):
     warnings.filterwarnings("ignore", category=UserWarning) 
-
     trackupdate_source = fileinput
-    # url = "https://sellercentral.amazon.com/orders-v3/mfn/unshipped/ref=xx_orders_cont_kpiToolbar?_encoding=UTF8?communicationDeliveryId=732ae59b-0a70-42ac-8c7f-fc3b877b81aa&mons_sel_dir_mcid=amzn1.merchant.d.ABVP3LFM3UIGGSE7SBSDGWYKX47Q&mons_sel_mkid=ATVPDKIKX0DER&shipByDate=all&page=1"
-
     options = webdriver.ChromeOptions()
     # options.add_argument("--headless")
     # options.add_experimental_option('debuggerAddress', 'localhost:9251')
@@ -108,37 +154,31 @@ def parse(fileinput, profile):
         ws['N{}'.format(i)].value = weight
         ws['O{}'.format(i)].value = cost
         ws['P{}'.format(i)].value = service
-        # print(timetr, loctr, eventtr)
 
-        # except:
-        #     print('failed')
-        #     ws['M{}'.format(i)].value = ''
-        #     ws['N{}'.format(i)].value = ''
-        #     ws['O{}'.format(i)].value = ''
-        #     ws['P{}'.format(i)].value = ''
-
-        
-        try:
+        if carrier == 'Canada Post':
+            pass
+        else:
             try:
-                trackbutton = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/div/div[1]/div[2]/div/div[2]/div[2]/div[2]/div/span/a/i'))).click()
+                try:
+                    trackbutton = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/div/div[1]/div[2]/div/div[2]/div[2]/div[2]/div/span/a/i'))).click()
+                except:
+                    trackbutton = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[2]/div/div[2]/div[2]/div[2]/div/span/a/i'))).click()
+                # input('wait')
+                
+                WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="a-popover-content-1"]/div/table/tr[1]')))
+                time.sleep(1.5)
+                tracktable = driver.find_element(By.XPATH, '//*[@id="a-popover-content-1"]/div/table/tr[2]').find_elements(By.CSS_SELECTOR, 'td')
+                timetr = tracktable[0].text
+                loctr = tracktable[1].text
+                eventtr = tracktable[2].text
+                print(timetr)
+                ws['Z{}'.format(i)].value = timetr
+                ws['AA{}'.format(i)].value = loctr
+                ws['AB{}'.format(i)].value = eventtr
             except:
-                trackbutton = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[2]/div/div[2]/div[2]/div[2]/div/span/a/i'))).click()
-            # input('wait')
-            
-            WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="a-popover-content-1"]/div/table/tr[1]')))
-            time.sleep(1.5)
-            tracktable = driver.find_element(By.XPATH, '//*[@id="a-popover-content-1"]/div/table/tr[2]').find_elements(By.CSS_SELECTOR, 'td')
-            timetr = tracktable[0].text
-            loctr = tracktable[1].text
-            eventtr = tracktable[2].text
-            print(timetr)
-            ws['Z{}'.format(i)].value = timetr
-            ws['AA{}'.format(i)].value = loctr
-            ws['AB{}'.format(i)].value = eventtr
-        except:
-            ws['Z{}'.format(i)].value = ''
-            ws['AA{}'.format(i)].value = ''
-            ws['AB{}'.format(i)].value = ''
+                ws['Z{}'.format(i)].value = ''
+                ws['AA{}'.format(i)].value = ''
+                ws['AB{}'.format(i)].value = ''
 
         print("")
     wb.save(trackupdate_source)
