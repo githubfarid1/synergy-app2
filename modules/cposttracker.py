@@ -41,7 +41,6 @@ def get_information(trackid):
 
     datetime_str = newest['datetime']['date'] + " " + newest['datetime']['time']
     dt = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
-    print(dt.strftime("%a"))
     if regcd != "":
         text = f"{calendar.month_abbr[dt.month]} {dt.day} {dt.strftime('%I:%M %p')} {newest['descEn']} {newest['locationAddr']['city'].capitalize() }, {regcd}"
     else:

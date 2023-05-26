@@ -61,11 +61,18 @@ def getcanapost(trackid):
     dt = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
     if regcd != "":
         # text = f"{calendar.month_abbr[dt.month]} {dt.day} {dt.strftime('%I:%M %p')} {newest['descEn']} {newest['locationAddr']['city'].capitalize() }, {regcd}"
+        dayname = dt.strftime("%a")
         text = {
-            "time":f"{calendar.month_abbr[dt.month]} {dt.day}, {dt.year} {dt.strftime('%I:%M %p')}"
+            "time":f"{dayname}, {calendar.month_abbr[dt.month]} {dt.day}, {dt.year} {dt.strftime('%I:%M %p')}",
+            "location":f"{newest['descEn']} {newest['locationAddr']['city'].capitalize() }, {regcd}",
+            "evdetail": f"{newest['descEn']}"
         }
     else:
-        text = f"{calendar.month_abbr[dt.month]} {dt.day} {dt.strftime('%I:%M %p')} {newest['descEn']}"
+        text = {
+            "time":f"{dayname}, {calendar.month_abbr[dt.month]} {dt.day}, {dt.year} {dt.strftime('%I:%M %p')}",
+            "location":"",
+            "evdetail": f"{newest['descEn']}"
+        }
 
     return text
 
@@ -156,7 +163,11 @@ def parse(fileinput, profile):
         ws['P{}'.format(i)].value = service
 
         if carrier == 'Canada Post':
-            pass
+            carrierinfo = getcanapost(tracking_id)
+            ws['Z{}'.format(i)].value = carrierinfo['time']
+            ws['AA{}'.format(i)].value = carrierinfo['location']
+            ws['AB{}'.format(i)].value = carrierinfo['evdetail']
+
         else:
             try:
                 try:
