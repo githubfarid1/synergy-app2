@@ -34,7 +34,11 @@ def get_information(trackid):
     newest = data['events'][0]
     regcd = newest['locationAddr']['regionCd']
     if regcd == "":
-        regcd = newest['locationAddr']['countryNmEn']
+        try:
+            regcd = newest['locationAddr']['countryNmEn']
+        except:
+            regcd = ""
+
     datetime_str = newest['datetime']['date'] + " " + newest['datetime']['time']
     dt = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
     
