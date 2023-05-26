@@ -55,13 +55,15 @@ def parse(fileinput, profile):
         time.sleep(2)
         print('order ID: ', order_id, end=".. ", flush=True)
         try:
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "a[data-test-id='tracking-id-value']")))
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "a[data-test-id='tracking-id-value'], span[data-test-id='tracking-id-value']")))
             print("OK")
         except:
             print("Not Found", end="\n\n")
             continue
-
-        tracking_id = driver.find_element(By.CSS_SELECTOR, "a[data-test-id='tracking-id-value']").text    
+        try:
+            tracking_id = driver.find_element(By.CSS_SELECTOR, "a[data-test-id='tracking-id-value']").text
+        except:
+            tracking_id = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='tracking-id-value']").text
 
         # try:
         try:
