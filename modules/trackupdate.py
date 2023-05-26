@@ -63,7 +63,7 @@ def getcanapost(trackid):
     if regcd != "":
         text = {
             "time":f"{dayname}, {calendar.month_abbr[dt.month]} {dt.day}, {dt.year} {dt.strftime('%I:%M %p')}",
-            "location":f"{newest['descEn']} {newest['locationAddr']['city'].capitalize() }, {regcd}",
+            "location":f"{newest['locationAddr']['city'].capitalize() }, {regcd}",
             "evdetail": f"{newest['descEn']}"
         }
     else:
