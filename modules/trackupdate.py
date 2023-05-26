@@ -53,7 +53,7 @@ def parse(fileinput, profile):
         url = 'https://sellercentral.amazon.com/orders-v3/order/{}'.format(order_id) # 111-9589748-6199459
         driver.get(url)
         time.sleep(2)
-        print('order ID', order_id, end=".. ", flush=True)
+        print('order ID: ', order_id, end=".. ", flush=True)
         try:
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "a[data-test-id='tracking-id-value']")))
             print("OK")
@@ -132,6 +132,7 @@ def parse(fileinput, profile):
             ws['AA{}'.format(i)].value = ''
             ws['AB{}'.format(i)].value = ''
 
+        print("")
     wb.save(trackupdate_source)
 
     input('Process Finished...')
