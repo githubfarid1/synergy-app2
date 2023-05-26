@@ -16,7 +16,7 @@ import argparse
 import os
 import json
 import requests
-import datetime
+from datetime import datetime
 import calendar
 
 
