@@ -59,9 +59,8 @@ def getcanapost(trackid):
 
     datetime_str = newest['datetime']['date'] + " " + newest['datetime']['time']
     dt = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
+    dayname = dt.strftime("%a")
     if regcd != "":
-        # text = f"{calendar.month_abbr[dt.month]} {dt.day} {dt.strftime('%I:%M %p')} {newest['descEn']} {newest['locationAddr']['city'].capitalize() }, {regcd}"
-        dayname = dt.strftime("%a")
         text = {
             "time":f"{dayname}, {calendar.month_abbr[dt.month]} {dt.day}, {dt.year} {dt.strftime('%I:%M %p')}",
             "location":f"{newest['descEn']} {newest['locationAddr']['city'].capitalize() }, {regcd}",
