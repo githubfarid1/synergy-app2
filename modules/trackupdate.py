@@ -155,7 +155,7 @@ def parse(fileinput, profile):
         except:
             pass
 
-        print(carrier)
+        # print(carrier)
         print(tracking_id,weight, cost, service)
         ws['M{}'.format(i)].value = tracking_id
         ws['N{}'.format(i)].value = weight
@@ -167,7 +167,7 @@ def parse(fileinput, profile):
             ws['Z{}'.format(i)].value = carrierinfo['time']
             ws['AA{}'.format(i)].value = carrierinfo['location']
             ws['AB{}'.format(i)].value = carrierinfo['evdetail']
-
+            print(carrierinfo['time'])
         else:
             try:
                 try:
