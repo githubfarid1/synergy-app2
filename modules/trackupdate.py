@@ -97,6 +97,12 @@ def parse(fileinput, profile):
             except:
                 service = ''
         
+        try:
+            carrier = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[2]/div/div[2]/div[1]/div[2]').text
+        except:
+            pass
+
+        print(carrier)
         print(tracking_id,weight, cost, service)
         ws['M{}'.format(i)].value = tracking_id
         ws['N{}'.format(i)].value = weight
