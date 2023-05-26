@@ -138,7 +138,11 @@ def parse(fileinput, profile):
                 try:
                     cost = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/div/div[1]/div[3]/div/div/div[2]/div[3]/div/div[2]/div[2]/span').text.replace('$','')
                 except:
-                    cost = ''
+                    try:
+                        cost = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/table/tbody/tr/td[7]/div/table[1]/tbody/div[2]/div[2]/span').text.replace('$','')
+                    except:
+
+                        cost = ''
         
         # SHIPPING SERVICE
         try:
