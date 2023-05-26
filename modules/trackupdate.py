@@ -50,67 +50,65 @@ def parse(fileinput, profile):
         if ws['R{}'.format(i)].value == None:
             break
         order_id = ws['R{}'.format(i)].value
-        # ws['I{}'.format(i)].value = ws['B{}'.format(i)].value + ' ' + ws['C{}'.format(i)].value + ' ' + ws['D{}'.format(i)].value
         url = 'https://sellercentral.amazon.com/orders-v3/order/{}'.format(order_id) # 111-9589748-6199459
         driver.get(url)
         time.sleep(2)
-        print('order ID',order_id)
+        print('order ID', order_id, end=" ", flush=True)
         try:
-            
-            # WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH , '//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[2]/div/div[2]/div[2]/div[2]/div/span/a')))
             WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "a[data-test-id='tracking-id-value']")))
-        
-            
-            # tracking_id = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[2]/div/div[2]/div[2]/div[2]/div/span/a').text
-            tracking_id = driver.find_element(By.CSS_SELECTOR, "a[data-test-id='tracking-id-value']").text
-
-                                                
-            try:
-                weight = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[3]/div/div/div[2]/div[2]/div[3]/div/div[2]').text
-            except:
-                weight = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/div[1]/div[1]/div[3]/div/div/div[2]/div[2]/div[3]/div/div[2]').text
-
-            # SHIPPING COST
-            try:
-                cost = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[3]/div/div/div[2]/div[3]/div/div[2]/div[2]/span').text.replace('$','')
-                
-            except:
-                # 114-5921481-0720211
-                try:
-                    cost = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/table/tbody/tr/td[7]/div/table[1]/tbody/div[3]/div[2]/span').text.replace('$','')
-                except:
-                    try:
-                        cost = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/div/div[1]/div[3]/div/div/div[2]/div[3]/div/div[2]/div[2]/span').text.replace('$','')
-                    except:
-                        cost = ''
-            
-            # SHIPPING SERVICE
-            try:
-                service = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[2]/div/div[3]/div/div[2]').text
-            except:
-                try:
-                    service = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/div/div[1]/div[2]/div/div[3]/div/div[2]').text
-                except:
-                    service = ''
-            
-            print(tracking_id,weight, cost, service)
-            ws['M{}'.format(i)].value = tracking_id
-            ws['N{}'.format(i)].value = weight
-            ws['O{}'.format(i)].value = cost
-            ws['P{}'.format(i)].value = service
-
-
-
-
-            # print(timetr, loctr, eventtr)
-
         except:
-            print('failed')
-            ws['M{}'.format(i)].value = ''
-            ws['N{}'.format(i)].value = ''
-            ws['O{}'.format(i)].value = ''
-            ws['P{}'.format(i)].value = ''
+            print("Not Found")
+            continue
 
+        tracking_id = driver.find_element(By.CSS_SELECTOR, "a[data-test-id='tracking-id-value']").text    
+
+        # try:
+        try:
+            weight = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[3]/div/div/div[2]/div[2]/div[3]/div/div[2]').text
+        except:
+            try:
+                weight = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/div[1]/div[1]/div[3]/div/div/div[2]/div[2]/div[3]/div/div[2]').text
+            except:
+                weight = ""
+
+        # SHIPPING COST
+        try:
+            cost = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[3]/div/div/div[2]/div[3]/div/div[2]/div[2]/span').text.replace('$','')
+            
+        except:
+            # 114-5921481-0720211
+            try:
+                cost = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/table/tbody/tr/td[7]/div/table[1]/tbody/div[3]/div[2]/span').text.replace('$','')
+            except:
+                try:
+                    cost = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/div/div[1]/div[3]/div/div/div[2]/div[3]/div/div[2]/div[2]/span').text.replace('$','')
+                except:
+                    cost = ''
+        
+        # SHIPPING SERVICE
+        try:
+            service = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[2]/div/div[3]/div/div[2]').text
+        except:
+            try:
+                service = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/div/div[1]/div[2]/div/div[3]/div/div[2]').text
+            except:
+                service = ''
+        
+        print(tracking_id,weight, cost, service)
+        ws['M{}'.format(i)].value = tracking_id
+        ws['N{}'.format(i)].value = weight
+        ws['O{}'.format(i)].value = cost
+        ws['P{}'.format(i)].value = service
+        # print(timetr, loctr, eventtr)
+
+        # except:
+        #     print('failed')
+        #     ws['M{}'.format(i)].value = ''
+        #     ws['N{}'.format(i)].value = ''
+        #     ws['O{}'.format(i)].value = ''
+        #     ws['P{}'.format(i)].value = ''
+
+        
         try:
             try:
                 trackbutton = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/div/div[1]/div[2]/div/div[2]/div[2]/div[2]/div/span/a/i'))).click()
@@ -133,14 +131,6 @@ def parse(fileinput, profile):
             ws['AA{}'.format(i)].value = ''
             ws['AB{}'.format(i)].value = ''
 
-        # input('wait')
-        
-        # html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
-        # soup = BeautifulSoup(html,"html.parser")
-        # tracktable = soup.find('div', class_='a-popover-content')
-        # if tracktable != None:
-        #     print(tracktable.find('table', class_='a-normal').text)
-        # input('d')
     wb.save(trackupdate_source)
 
     input('Process Finished...')
