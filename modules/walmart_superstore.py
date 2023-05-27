@@ -165,39 +165,42 @@ def walmart_playwright_scraper(xlsheet):
             url = urlList[i][0]
             rownum = urlList[i][1]
             print(url, end=" ", flush=True)
+            try:
+                page.goto(url)
+                if page.title()=='Verify Your Identity':
+                    print('Failed')
+                    browser.close()
+                    browser = p.firefox.launch(headless=False, timeout=5000)
+                    context = browser.new_context(user_agent=random.choice(userAgentStrings))
+                    page = context.new_page()
+                    continue
+                else:
+                    print('OK')
 
-            page.goto(url)
-            if page.title()=='Verify Your Identity':
-                print('Failed')
-                browser.close()
-                browser = p.firefox.launch(headless=False, timeout=5000)
-                context = browser.new_context(user_agent=random.choice(userAgentStrings))
-                page = context.new_page()
-                continue
-            else:
-                print('OK')
-
-            price_element = page.locator("span[data-automation='buybox-price']").first
-            if price_element.count() > 0:
-                # print(price)
-                pricetxt = price_element.text_content().replace("$", "")
-            else:
-                price_element = page.locator("span[itemprop='price']").first
+                price_element = page.locator("span[data-automation='buybox-price']").first
                 if price_element.count() > 0:
+                    # print(price)
                     pricetxt = price_element.text_content().replace("$", "")
                 else:
-                    pricetxt = "::None"
+                    price_element = page.locator("span[itemprop='price']").first
+                    if price_element.count() > 0:
+                        pricetxt = price_element.text_content().replace("$", "")
+                    else:
+                        pricetxt = "::None"
 
-            sale_element = page.locator("div[data-automation='mix-match-badge']").first
-            if sale_element.count() > 0:
-                saletxt = sale_element.text_content()
-            else:
-                saletxt = "::None"
+                sale_element = page.locator("div[data-automation='mix-match-badge']").first
+                if sale_element.count() > 0:
+                    saletxt = sale_element.text_content()
+                else:
+                    saletxt = "::None"
+                
+                print(page.title(), pricetxt, saletxt, end="\n\n")
+                
+                xlsheet[f'B{rownum}'].value = pricetxt
+                xlsheet[f'C{rownum}'].value = saletxt
+            except:
+                continue
             
-            print(page.title(), pricetxt, saletxt, end="\n\n")
-            
-            xlsheet[f'B{rownum}'].value = pricetxt
-            xlsheet[f'C{rownum}'].value = saletxt
             i += 1
             
 
