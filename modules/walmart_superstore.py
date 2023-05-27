@@ -300,10 +300,10 @@ def main():
     else:
         walmart_playwright_scraper(xlsheet=xlsheet)
 
-    print("Saving to", args.xlsinput, end=".. ", flush=True)
-    xlbook.save(args.xlsinput)
-    time.sleep(1)    
-    print("OK")
+    # print("Saving to", args.xlsinput, end=".. ", flush=True)
+    # xlbook.save(args.xlsinput)
+    # time.sleep(1)    
+    # print("OK")
     input("End Process..")    
 
 
