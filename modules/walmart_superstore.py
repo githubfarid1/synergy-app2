@@ -193,13 +193,16 @@ def walmart_playwright_scraper(xlsheet):
                     saletxt = sale_element.text_content()
                 else:
                     saletxt = "::None"
-                
                 print(page.title(), pricetxt, saletxt, end="\n\n")
-                
                 xlsheet[f'B{rownum}'].value = pricetxt
                 xlsheet[f'C{rownum}'].value = saletxt
             except Exception as e:
+                print('Failed')
                 print(e)
+                browser.close()
+                browser = p.firefox.launch(headless=False, timeout=5000)
+                context = browser.new_context(user_agent=random.choice(userAgentStrings))
+                page = context.new_page()
                 continue
 
             i += 1
