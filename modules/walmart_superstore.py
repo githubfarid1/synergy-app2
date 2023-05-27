@@ -167,7 +167,7 @@ def walmart_playwright_scraper(xlsheet):
             print(url, end=" ", flush=True)
             try:
                 page.goto(url)
-                if page.title()=='Verify Your Identity':
+                if page.title()=='Verify Your Identity' or page.title() == 'Robot or human?':
                     print('Failed')
                     browser.close()
                     browser = p.firefox.launch(headless=False, timeout=5000)
