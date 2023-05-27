@@ -156,7 +156,7 @@ def walmart_playwright_scraper(xlsheet):
     i = 0
     maxrec = len(urlList)
     with sync_playwright() as p:
-        browser = p.firefox.launch(headless=False, timeout=5000)
+        browser = p.firefox.launch(headless=False, timeout=10000)
         context = browser.new_context(user_agent=random.choice(userAgentStrings))
         page = context.new_page()
         while True:
@@ -169,8 +169,8 @@ def walmart_playwright_scraper(xlsheet):
                 page.goto(url)
                 if page.title()=='Verify Your Identity' or page.title() == 'Robot or human?':
                     print('Failed')
-                    browser.close()
-                    browser = p.firefox.launch(headless=False, timeout=5000)
+                    del browser
+                    browser = p.firefox.launch(headless=False, timeout=10000)
                     context = browser.new_context(user_agent=random.choice(userAgentStrings))
                     page = context.new_page()
                     continue
@@ -199,8 +199,8 @@ def walmart_playwright_scraper(xlsheet):
             except Exception as e:
                 print('Failed')
                 print(e)
-                browser.close()
-                browser = p.firefox.launch(headless=False, timeout=5000)
+                del browser
+                browser = p.firefox.launch(headless=False, timeout=10000)
                 context = browser.new_context(user_agent=random.choice(userAgentStrings))
                 page = context.new_page()
                 continue
