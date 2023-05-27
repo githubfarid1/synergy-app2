@@ -168,7 +168,7 @@ def walmart_playwright_scraper(xlsheet):
 
             page.goto(url)
             if page.title()=='Verify Your Identity':
-                print(page.title())
+                print('Failed')
                 browser.close()
                 browser = p.firefox.launch(headless=False, timeout=5000)
                 context = browser.new_context(user_agent=random.choice(userAgentStrings))
@@ -194,11 +194,12 @@ def walmart_playwright_scraper(xlsheet):
             else:
                 saletxt = "::None"
             
-            print(page.title(), pricetxt, saletxt)
+            print(page.title(), pricetxt, saletxt, end="\n\n")
             
             xlsheet[f'B{rownum}'].value = pricetxt
             xlsheet[f'C{rownum}'].value = saletxt
             i += 1
+            
 
 
 def superstore_scraper(xlsheet, profilename):
