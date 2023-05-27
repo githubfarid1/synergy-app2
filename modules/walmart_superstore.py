@@ -169,6 +169,7 @@ def walmart_playwright_scraper(xlsheet):
                 page.goto(url)
                 if page.title()=='Verify Your Identity' or page.title() == 'Robot or human?':
                     print('Failed')
+                    browser.close()
                     del browser
                     browser = p.firefox.launch(headless=False, timeout=10000)
                     context = browser.new_context(user_agent=random.choice(userAgentStrings))
@@ -199,6 +200,7 @@ def walmart_playwright_scraper(xlsheet):
             except Exception as e:
                 print('Failed')
                 print(e)
+                browser.close()
                 del browser
                 browser = p.firefox.launch(headless=False, timeout=10000)
                 context = browser.new_context(user_agent=random.choice(userAgentStrings))
