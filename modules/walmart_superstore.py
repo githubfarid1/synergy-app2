@@ -152,11 +152,11 @@ def walmart_playwright_scraper(xlsheet):
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57"
     ]
 
-    urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca'])
+    urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca', "walmart.com", "walmart.ca"])
     i = 0
     maxrec = len(urlList)
     with sync_playwright() as p:
-        browser = p.firefox.launch(headless=False, timeout=10000)
+        browser = p.firefox.launch(headless=True, timeout=10000)
         context = browser.new_context(user_agent=random.choice(userAgentStrings))
         page = context.new_page()
         while True:
@@ -171,7 +171,7 @@ def walmart_playwright_scraper(xlsheet):
                     print('Failed')
                     browser.close()
                     del browser
-                    browser = p.firefox.launch(headless=False, timeout=10000)
+                    browser = p.firefox.launch(headless=True, timeout=10000)
                     context = browser.new_context(user_agent=random.choice(userAgentStrings))
                     page = context.new_page()
                     continue
@@ -181,19 +181,24 @@ def walmart_playwright_scraper(xlsheet):
                 price_element = page.locator("span[data-automation='buybox-price']").first
                 if price_element.count() > 0:
                     # print(price)
-                    pricetxt = price_element.text_content().replace("$", "")
+                    pricetxt = price_element.text_content().replace("$", "").replace("Now","")
                 else:
                     price_element = page.locator("span[itemprop='price']").first
                     if price_element.count() > 0:
-                        pricetxt = price_element.text_content().replace("$", "")
+                        pricetxt = price_element.text_content().replace("$", "").replace("Now","")
                     else:
-                        pricetxt = "::None"
+                        price_element = page.locator("span[data-automation='buybox-price']").first
+                        if price_element.count() > 0:
+                            pricetxt = price_element.text_content().replace("$", "").replace("Now","")
+                        else:
+                            pricetxt = "None"
 
+                
                 sale_element = page.locator("div[data-automation='mix-match-badge']").first
                 if sale_element.count() > 0:
-                    saletxt = sale_element.text_content()
+                    saletxt = sale_element.text_content().replace("View All", "")
                 else:
-                    saletxt = "::None"
+                    saletxt = "None"
                 print(page.title(), pricetxt, saletxt, end="\n\n")
                 xlsheet[f'B{rownum}'].value = pricetxt
                 xlsheet[f'C{rownum}'].value = saletxt
@@ -202,7 +207,7 @@ def walmart_playwright_scraper(xlsheet):
                 print(e)
                 browser.close()
                 del browser
-                browser = p.firefox.launch(headless=False, timeout=10000)
+                browser = p.firefox.launch(headless=True, timeout=10000)
                 context = browser.new_context(user_agent=random.choice(userAgentStrings))
                 page = context.new_page()
                 continue
