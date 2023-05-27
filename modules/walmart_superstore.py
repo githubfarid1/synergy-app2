@@ -19,7 +19,8 @@ import xlwings as xw
 import argparse
 import sys
 from sys import platform
-
+from playwright.sync_api import sync_playwright
+import random
 def clear_screen():
     try:
         if platform == "win32":
@@ -125,61 +126,79 @@ def walmart_scraper(xlsheet, profilename):
         i += 1     
 
 
-def walmart_scraper2(xlsheet, profilename):
-    user_data = profilename
+def walmart_playwright_scraper(xlsheet):
+    userAgentStrings = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 13.4; rv:109.0) Gecko/20100101 Firefox/113.0",
+        "Mozilla/5.0 (X11; Linux i686; rv:109.0) Gecko/20100101 Firefox/113.0",
+        "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0",
+        "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:109.0) Gecko/20100101 Firefox/113.0",
+        "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0",
+        "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 13.4; rv:102.0) Gecko/20100101 Firefox/102.0",
+        "Mozilla/5.0 (X11; Linux i686; rv:102.0) Gecko/20100101 Firefox/102.0",
+        "Mozilla/5.0 (Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0",
+        "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:102.0) Gecko/20100101 Firefox/102.0",
+        "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0",
+        "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Safari/605.1.15",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57"
+    ]
+
     urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca'])
     i = 0
     maxrec = len(urlList)
-    driver = browser_init(userdata=user_data)
-    while True:
-        if i == maxrec:
-            break
-        url = urlList[i][0]
-        rownum = urlList[i][1]
-        print(url, end=" ", flush=True)
-        driver.get(url)
-        try:
-            driver.find_element(By.CSS_SELECTOR, "div#topmessage").text
-            print("Failed")
-            del driver
-            waiting = 300
-            print(f'The script was detected as bot, please wait for {waiting} seconds', end=" ", flush=True)
-            time.sleep(waiting)
-            # input("bot detected, press any key...")
-            # isExist = os.path.exists(getProfiles()[user_data]['chrome_user_data'])
-            # if isExist:
-            #     shutil.rmtree(getProfiles()[user_data]['chrome_user_data'])
-            print('OK')
-            driver = browser_init(userdata=user_data)
-            time.sleep(1)
-            continue
-        except:
-            print('OK')
-            pass
+    with sync_playwright() as p:
+        browser = p.firefox.launch(headless=False, timeout=5000)
+        context = browser.new_context(user_agent=random.choice(userAgentStrings))
+        page = context.new_page()
+        while True:
+            if i == maxrec:
+                break
+            url = urlList[i][0]
+            rownum = urlList[i][1]
+            print(url, end=" ", flush=True)
 
-        try:
-            title = driver.find_element(By.CSS_SELECTOR, "h1[data-automation='product-title']").text
-        except:
-                title = ''
-        try:
-            price = driver.find_element(By.CSS_SELECTOR, "span[data-automation='buybox-price']").text
-        except:
-            try:
-                price = driver.find_element(By.CSS_SELECTOR, "span[itemprop='price']").text
-            except:                 
-                price = ''
+            page.goto(url)
+            if page.title()=='Verify Your Identity':
+                print(page.title())
+                browser.close()
+                browser = p.firefox.launch(headless=False, timeout=5000)
+                context = browser.new_context(user_agent=random.choice(userAgentStrings))
+                page = context.new_page()
+                continue
+            else:
+                print('OK')
 
+            price_element = page.locator("span[data-automation='buybox-price']").first
+            if price_element.count() > 0:
+                # print(price)
+                pricetxt = price_element.text_content().replace("$", "")
+            else:
+                price_element = page.locator("span[itemprop='price']").first
+                if price_element.count() > 0:
+                    pricetxt = price_element.text_content().replace("$", "")
+                else:
+                    pricetxt = "::None"
 
-        try:
-            sale = driver.find_element(By.CSS_SELECTOR, "div[data-automation='mix-match-badge'] span").text
-        except:
-            sale = ''
-        
-        print(title, price, sale)
-        
-        xlsheet[f'B{rownum}'].value = price
-        xlsheet[f'C{rownum}'].value = sale
-        i += 1     
+            sale_element = page.locator("div[data-automation='mix-match-badge']").first
+            if sale_element.count() > 0:
+                saletxt = sale_element.text_content()
+            else:
+                saletxt = "::None"
+            
+            print(page.title(), pricetxt, saletxt)
+            
+            xlsheet[f'B{rownum}'].value = pricetxt
+            xlsheet[f'C{rownum}'].value = saletxt
+            i += 1
 
 
 def superstore_scraper(xlsheet, profilename):
@@ -258,7 +277,7 @@ def main():
     if args.module == 'superstore':
         superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
     else:
-        walmart_scraper2(xlsheet=xlsheet, profilename=args.profile)
+        walmart_playwright_scraper(xlsheet=xlsheet)
 
     print("Saving to", args.xlsinput, end=".. ", flush=True)
     xlbook.save(args.xlsinput)
