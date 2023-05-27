@@ -169,6 +169,7 @@ def walmart_playwright_scraper(xlsheet):
                 page.goto(url)
                 if page.title()=='Verify Your Identity' or page.title() == 'Robot or human?':
                     print('Failed')
+                    # page.wait_for_timeout(1000)
                     browser.close()
                     del browser
                     browser = p.firefox.launch(headless=True, timeout=10000)
@@ -199,12 +200,17 @@ def walmart_playwright_scraper(xlsheet):
                     saletxt = sale_element.text_content().replace("View All", "")
                 else:
                     saletxt = "None"
-                print(page.title(), pricetxt, saletxt, end="\n\n")
+                title = page.title()
+                print(title, pricetxt, saletxt, end="\n\n")
                 xlsheet[f'B{rownum}'].value = pricetxt
                 xlsheet[f'C{rownum}'].value = saletxt
+                if title == "":
+                    xlsheet[f'D{rownum}'].value = "Not Found"
+
             except Exception as e:
                 print('Failed')
                 print(e)
+                page.wait_for_timeout(2000)
                 browser.close()
                 del browser
                 browser = p.firefox.launch(headless=True, timeout=10000)
