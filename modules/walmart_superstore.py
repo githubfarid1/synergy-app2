@@ -198,9 +198,10 @@ def walmart_playwright_scraper(xlsheet):
                 
                 xlsheet[f'B{rownum}'].value = pricetxt
                 xlsheet[f'C{rownum}'].value = saletxt
-            except:
+            except Exception as e:
+                print(e)
                 continue
-            
+
             i += 1
             
 
