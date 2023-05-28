@@ -67,20 +67,14 @@ def get_urls(xlsheet, domainwl=[], cost_empty_only=False):
     maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
     for i in range(1, maxrow + 2):
         url = xlsheet[f'A{i}'].value
-        
-        # domain = urlparse(url).netloc
-        try:
-            domain = tldextract.extract(url).domain
-            suffix = tldextract.extract(url).suffix
-            if (domain, suffix) in domainwl:
-                tpl = (url, i)
-                if cost_empty_only == True:
-                    if xlsheet[f'B{i}'].value == None:
-                        urlList.append(tpl)
-                else:
+        domain = urlparse(url).netloc
+        if domain in domainwl:
+            tpl = (url, i)
+            if cost_empty_only == True:
+                if xlsheet[f'B{i}'].value == None:
                     urlList.append(tpl)
-        except:
-            pass
+            else:
+                urlList.append(tpl)
     return urlList
 
 
@@ -110,8 +104,7 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57"
     ]
 
-    # urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca', "walmart.com", "walmart.ca"],cost_empty_only=cost_empty_only)
-    urlList = get_urls(xlsheet, domainwl=[('walmart','com'), ('walmart','ca')], cost_empty_only=cost_empty_only)
+    urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca', "walmart.com", "walmart.ca"],cost_empty_only=cost_empty_only)
 
     i = 0
     maxrec = len(urlList)
