@@ -107,7 +107,7 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
     i = 0
     maxrec = len(urlList)
     with sync_playwright() as p:
-        browser = p.firefox.launch(headless=True, timeout=10000)
+        browser = p.firefox.launch(headless=False, timeout=10000)
         context = browser.new_context(user_agent=random.choice(userAgentStrings))
         page = context.new_page()
         while True:
@@ -123,7 +123,7 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
                     # page.wait_for_timeout(1000)
                     browser.close()
                     del browser
-                    browser = p.firefox.launch(headless=True, timeout=10000)
+                    browser = p.firefox.launch(headless=False, timeout=10000)
                     context = browser.new_context(user_agent=random.choice(userAgentStrings))
                     page = context.new_page()
                     continue
@@ -164,7 +164,7 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
                 page.wait_for_timeout(2000)
                 browser.close()
                 del browser
-                browser = p.firefox.launch(headless=True, timeout=10000)
+                browser = p.firefox.launch(headless=False, timeout=10000)
                 context = browser.new_context(user_agent=random.choice(userAgentStrings))
                 page = context.new_page()
                 continue
@@ -249,11 +249,6 @@ def main():
         superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
     else:
         walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
-
-    # print("Saving to", args.xlsinput, end=".. ", flush=True)
-    # xlbook.save(args.xlsinput)
-    # time.sleep(1)    
-    # print("OK")
     input("End Process..")    
 
 
