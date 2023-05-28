@@ -239,7 +239,7 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
             print(url, end=" ", flush=True)
             try:
                 page.goto(url)
-                page.wait_for_selector("button[data-track='productAddToCartLocalize'], h1[class='error-page__title']")
+                page.locator("button[data-track='productAddToCartLocalize'], h1[class='error-page__title']")
                 title = page.title()
                 mess = page.locator("h1[class='error-page__title']")
                 if mess.count > 1:
