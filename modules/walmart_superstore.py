@@ -224,11 +224,14 @@ def superstore_scraper(xlsheet, profilename):
         time.sleep(1)
     
 def main():
+    exit()
     parser = argparse.ArgumentParser(description="Amazon Shipment Check")
     parser.add_argument('-xls', '--xlsinput', type=str,help="XLSX File Input")
     parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
     parser.add_argument('-module', '--module', type=str,help="Module Run")
     parser.add_argument('-profile', '--profile', type=str,help="Chrome Profile Name")
+    parser.add_argument('-isreplace', '--isreplace', type=str,help="Chrome Profile Name")
+
 
     args = parser.parse_args()
     if not (args.xlsinput[-5:] == '.xlsx' or args.xlsinput[-5:] == '.xlsm'):
