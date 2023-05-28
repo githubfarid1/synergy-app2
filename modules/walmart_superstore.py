@@ -264,7 +264,7 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                 if saletxt != '':
                     strsale = "{} (was {})".format(pricetxt, saletxt)
                     xlsheet[f'C{rownum}'].value = strsale
-                print(title, strprice, strsale)
+                print(title, strprice, strsale, end="\n\n")
                 i += 1
                 page.wait_for_timeout(1000)
             except Exception as e:
