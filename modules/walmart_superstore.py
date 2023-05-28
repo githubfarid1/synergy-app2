@@ -81,6 +81,7 @@ def get_urls(xlsheet, domainwl=[], cost_empty_only=False):
                     urlList.append(tpl)
         except:
             pass
+    input(urlList)
     return urlList
 
 
