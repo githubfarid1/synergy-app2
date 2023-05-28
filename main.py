@@ -1104,7 +1104,7 @@ class WalmartstFrame(ttk.Frame):
 		isreplacevar = StringVar()
 		labelsname = Label(self, text="Sheet Name:")
 		isreplace = ttk.Checkbutton(self, text="Replace Data", variable=isreplacevar)
-		isreplace.state(["selected"])
+		isreplace.state(["deselected"])
 		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(xlsinput=xlsInputFile.filename, sname=sheetlist))
 		
 		# layout
