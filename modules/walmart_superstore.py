@@ -21,6 +21,8 @@ import sys
 from sys import platform
 from playwright.sync_api import sync_playwright
 import random
+import tldextract
+
 def clear_screen():
     try:
         if platform == "win32":
@@ -60,15 +62,16 @@ def browser_init(userdata):
     driver.execute_cdp_cmd("Network.setCacheDisabled", {"cacheDisabled":True})
     return driver
 
-
 def get_urls(xlsheet, domainwl=[], cost_empty_only=False):
     urlList = []
     maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
     for i in range(1, maxrow + 2):
         url = xlsheet[f'A{i}'].value
-        domain = urlparse(url).netloc
-        # if domain in 'www.walmart.com' or domain == 'www.walmart.ca':
-        if domain in domainwl:
+        
+        # domain = urlparse(url).netloc
+        domain = tldextract.extract(url).domain
+        suffix = tldextract.extract(url).suffix
+        if (domain, suffix) in domainwl:
             tpl = (url, i)
             if cost_empty_only == True:
                 if xlsheet[f'B{i}'].value == None:
@@ -104,7 +107,9 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57"
     ]
 
-    urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca', "walmart.com", "walmart.ca"], cost_empty_only=cost_empty_only)
+    # urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca', "walmart.com", "walmart.ca"],cost_empty_only=cost_empty_only)
+    urlList = get_urls(xlsheet, domainwl=[('walmart','com')('walmart','ca')], cost_empty_only=cost_empty_only)
+
     i = 0
     maxrec = len(urlList)
     with sync_playwright() as p:
