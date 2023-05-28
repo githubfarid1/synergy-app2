@@ -304,7 +304,7 @@ def main():
         input("Profile parameter was empty")
         sys.exit()
 
-    if args.isreplace not in ("yes", "no"):
+    if args.isreplace not in ["yes", "no"]:
         input("isreplace parameter was empty")
         sys.exit()
 
