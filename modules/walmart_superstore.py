@@ -228,7 +228,7 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
     i = 0
     maxrec = len(urlList)
     with sync_playwright() as p:
-        browser = p.firefox.launch(headless=False, timeout=10000)
+        browser = p.chromium.launch(headless=False, timeout=10000)
         context = browser.new_context(user_agent=random.choice(userAgentStrings))
         page = context.new_page()
         while True:
@@ -322,23 +322,23 @@ def main():
     for i in range(1, maxrun+1):
         if i > 1:
             print("Process will be reapeated")
-        try:    
-            if args.module == 'superstore':
-                superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=False)
-                # superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
+        # try:    
+        if args.module == 'superstore':
+            superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=False)
+            # superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
 
+        else:
+            if i == 1:
+                walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
             else:
-                if i == 1:
-                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
-                else:
-                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
-            input("End Process..")
-            break    
-        except Exception as e:
-            print(e)
-            if i == maxrun:
-                input("Execution Limit reached, Please check the script")
-            continue
+                walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
+        input("End Process..")
+        break    
+        # except Exception as e:
+        #     print(e)
+        #     if i == maxrun:
+        #         input("Execution Limit reached, Please check the script")
+        #     continue
             
 
 if __name__ == '__main__':
