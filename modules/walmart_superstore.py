@@ -323,7 +323,7 @@ def main():
         try:    
             if args.module == 'superstore':
                 superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=False)
-                superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
+                # superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
 
             else:
                 if i == 1:
