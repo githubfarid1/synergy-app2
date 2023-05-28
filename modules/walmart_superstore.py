@@ -103,7 +103,6 @@ def get_urls(xlsheet, domainwl=[], cost_empty_only=False):
     return urlList
 
 def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
-
     urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca', "walmart.com", "walmart.ca"],cost_empty_only=cost_empty_only)
     i = 0
     maxrec = len(urlList)
@@ -172,6 +171,7 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
 
             i += 1
             
+
 def superstore_scraper(xlsheet, profilename):
     user_data = profilename
     urlList = get_urls(xlsheet, domainwl=['www.realcanadiansuperstore.ca'])
@@ -179,7 +179,6 @@ def superstore_scraper(xlsheet, profilename):
     maxrec = len(urlList)
     driver = browser_init(userdata=user_data)
     clear_screen()
-
     while True:
         if i == maxrec:
             break
@@ -224,6 +223,61 @@ def superstore_scraper(xlsheet, profilename):
         i += 1
         time.sleep(1)
     
+def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
+    urlList = get_urls(xlsheet, domainwl=['www.realcanadiansuperstore.ca'])
+    i = 0
+    maxrec = len(urlList)
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=False, timeout=10000)
+        context = browser.new_context(user_agent=random.choice(userAgentStrings))
+        page = context.new_page()
+        while True:
+            if i == maxrec:
+                break
+            url = urlList[i][0]
+            rownum = urlList[i][1]
+            print(url, end=" ", flush=True)
+            try:
+                page.goto(url)
+                page.wait_for_selector("button[data-track='productAddToCartLocalize'], h1[class='error-page__title']")
+                title = page.title()
+                mess = page.locator("h1[class='error-page__title']")
+                if mess.count > 1:
+                    print(mess.text_content())
+                else:
+                    print('OK')
+
+                price_element = page.locator("span[class='price__value selling-price-list__item__price selling-price-list__item__price--now-price__value']").first
+                if price_element.count() > 0:
+                    pricetxt = price_element.text_content()
+                else:
+                    pricetxt = ""
+                sale_element = page.locator("del[class='price__value selling-price-list__item__price selling-price-list__item__price--was-price__value']").first
+                if sale_element.count() > 0:
+                    saletxt = sale_element.text_content()
+                else:
+                    saletxt = ""
+
+                strprice = pricetxt.replace("$", '')
+                xlsheet[f'B{rownum}'].value = strprice
+                strsale = ''
+                if saletxt != '':
+                    strsale = "{} (was {})".format(pricetxt, saletxt)
+                    xlsheet[f'C{rownum}'].value = strsale
+                print(title, strprice, strsale)
+                i += 1
+                page.wait_for_timeout(1000)
+            except Exception as e:
+                print('Failed')
+                print(e)
+                page.wait_for_timeout(2000)
+                browser.close()
+                del browser
+                browser = p.chromium.launch(headless=False, timeout=10000)
+                context = browser.new_context(user_agent=random.choice(userAgentStrings))
+                page = context.new_page()
+                continue
+
 def main():
     parser = argparse.ArgumentParser(description="Amazon Shipment Check")
     parser.add_argument('-xls', '--xlsinput', type=str,help="XLSX File Input")
@@ -264,7 +318,7 @@ def main():
             print("Process will be reapeated")
         try:    
             if args.module == 'superstore':
-                superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
+                superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=False)
             else:
                 if i == 1:
                     walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
