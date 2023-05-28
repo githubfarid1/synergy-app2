@@ -303,7 +303,7 @@ def main():
     if args.profile == '':
         input("Profile parameter was empty")
         sys.exit()
-
+    print(args.isreplace)
     if args.isreplace in ["yes", "no"]:
         if args.isreplace == "yes":
             costempty = False
