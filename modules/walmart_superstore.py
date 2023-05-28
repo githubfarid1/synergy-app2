@@ -108,7 +108,7 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
     ]
 
     # urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca', "walmart.com", "walmart.ca"],cost_empty_only=cost_empty_only)
-    urlList = get_urls(xlsheet, domainwl=[('walmart','com')('walmart','ca')], cost_empty_only=cost_empty_only)
+    urlList = get_urls(xlsheet, domainwl=[('walmart','com'), ('walmart','ca')], cost_empty_only=cost_empty_only)
 
     i = 0
     maxrec = len(urlList)
