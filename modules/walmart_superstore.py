@@ -237,46 +237,46 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
             url = urlList[i][0]
             rownum = urlList[i][1]
             print(url, end=" ", flush=True)
-            # try:
-            page.goto(url)
-            page.wait_for_selector("button[data-track='productAddToCartLocalize'], h1[class='error-page__title']")
-            title = page.title()
-            mess = page.locator("h1[class='error-page__title']")
-            if mess.count() > 1:
-                print(mess.text_content())
-            else:
-                print('OK')
+            try:
+                page.goto(url)
+                page.wait_for_selector("button[data-track='productAddToCartLocalize'], h1[class='error-page__title']")
+                title = page.title()
+                mess = page.locator("h1[class='error-page__title']")
+                if mess.count() > 1:
+                    print(mess.text_content())
+                else:
+                    print('OK')
 
-            price_element = page.locator("span[class='price__value selling-price-list__item__price selling-price-list__item__price--now-price__value']").first
-            if price_element.count() > 0:
-                pricetxt = price_element.text_content()
-            else:
-                pricetxt = ""
-            sale_element = page.locator("del[class='price__value selling-price-list__item__price selling-price-list__item__price--was-price__value']").first
-            if sale_element.count() > 0:
-                saletxt = sale_element.text_content()
-            else:
-                saletxt = ""
+                price_element = page.locator("span[class='price__value selling-price-list__item__price selling-price-list__item__price--now-price__value']").first
+                if price_element.count() > 0:
+                    pricetxt = price_element.text_content()
+                else:
+                    pricetxt = ""
+                sale_element = page.locator("del[class='price__value selling-price-list__item__price selling-price-list__item__price--was-price__value']").first
+                if sale_element.count() > 0:
+                    saletxt = sale_element.text_content()
+                else:
+                    saletxt = ""
 
-            strprice = pricetxt.replace("$", '')
-            xlsheet[f'B{rownum}'].value = strprice
-            strsale = ''
-            if saletxt != '':
-                strsale = "{} (was {})".format(pricetxt, saletxt)
-                xlsheet[f'C{rownum}'].value = strsale
-            print(title, strprice, strsale)
-            i += 1
-            page.wait_for_timeout(1000)
-            # except Exception as e:
-            #     print('Failed')
-            #     print(e)
-            #     page.wait_for_timeout(2000)
-            #     browser.close()
-            #     del browser
-            #     browser = p.chromium.launch(headless=False, timeout=10000)
-            #     context = browser.new_context(user_agent=random.choice(userAgentStrings))
-            #     page = context.new_page()
-            #     continue
+                strprice = pricetxt.replace("$", '')
+                xlsheet[f'B{rownum}'].value = strprice
+                strsale = ''
+                if saletxt != '':
+                    strsale = "{} (was {})".format(pricetxt, saletxt)
+                    xlsheet[f'C{rownum}'].value = strsale
+                print(title, strprice, strsale)
+                i += 1
+                page.wait_for_timeout(1000)
+            except Exception as e:
+                print('Failed')
+                print(e)
+                page.wait_for_timeout(2000)
+                browser.close()
+                del browser
+                browser = p.chromium.launch(headless=False, timeout=10000)
+                context = browser.new_context(user_agent=random.choice(userAgentStrings))
+                page = context.new_page()
+                continue
 
 def main():
     parser = argparse.ArgumentParser(description="SUperstore, walmart sscraper")
@@ -288,7 +288,6 @@ def main():
 
 
     args = parser.parse_args()
-    print(args)
     if not (args.xlsinput[-5:] == '.xlsx' or args.xlsinput[-5:] == '.xlsm'):
         input('input the right XLSX or XLSM file')
         sys.exit()
@@ -304,7 +303,6 @@ def main():
     if args.profile == '':
         input("Profile parameter was empty")
         sys.exit()
-    print(args.isreplace)
     if args.isreplace in ["yes", "no"]:
         if args.isreplace == "yes":
             costempty = False
@@ -322,23 +320,23 @@ def main():
     for i in range(1, maxrun+1):
         if i > 1:
             print("Process will be reapeated")
-        # try:    
-        if args.module == 'superstore':
-            superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=False)
-            # superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
+        try:    
+            if args.module == 'superstore':
+                superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=False)
+                # superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
 
-        else:
-            if i == 1:
-                walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
             else:
-                walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
-        input("End Process..")
-        break    
-        # except Exception as e:
-        #     print(e)
-        #     if i == maxrun:
-        #         input("Execution Limit reached, Please check the script")
-        #     continue
+                if i == 1:
+                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
+                else:
+                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
+            input("End Process..")
+            break    
+        except Exception as e:
+            print(e)
+            if i == maxrun:
+                input("Execution Limit reached, Please check the script")
+            continue
             
 
 if __name__ == '__main__':
