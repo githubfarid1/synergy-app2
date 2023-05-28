@@ -284,10 +284,11 @@ def main():
     parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
     parser.add_argument('-module', '--module', type=str,help="Module Run")
     parser.add_argument('-profile', '--profile', type=str,help="Chrome Profile Name")
-    parser.add_argument('-isreplace', '--isreplace', type=str,help="Chrome Profile Name")
+    parser.add_argument('-isreplace', '--isreplace', type=str,help="is replace the data")
 
 
     args = parser.parse_args()
+    print(args)
     if not (args.xlsinput[-5:] == '.xlsx' or args.xlsinput[-5:] == '.xlsm'):
         input('input the right XLSX or XLSM file')
         sys.exit()
