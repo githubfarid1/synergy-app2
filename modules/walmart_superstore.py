@@ -245,12 +245,27 @@ def main():
 
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
-    if args.module == 'superstore':
-        superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
-    else:
-        walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
-    input("End Process..")    
 
+    maxrun = 10
+    for i in range(1, maxrun+1):
+        if i > 1:
+            print("Process will be reapeated")
+        try:    
+            if args.module == 'superstore':
+                superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
+            else:
+                if i == 1:
+                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=False)
+                else:
+                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
+            input("End Process..")
+            break    
+        except Exception as e:
+            print(e)
+            if i == maxrun:
+                input("Execution Limit reached, Please check the script")
+            continue
+            
 
 if __name__ == '__main__':
     main()
