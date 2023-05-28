@@ -304,14 +304,15 @@ def main():
         input("Profile parameter was empty")
         sys.exit()
 
-    if args.isreplace not in ["yes", "no"]:
+    if args.isreplace in ["yes", "no"]:
+        if args.isreplace == "yes":
+            costempty = False
+        else:
+            costempty = True
+    else:    
         input("isreplace parameter was empty")
         sys.exit()
 
-    if args.isreplace == "yes":
-        costempty = False
-    else:
-        costempty = True
     
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
