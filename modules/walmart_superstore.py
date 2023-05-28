@@ -75,6 +75,7 @@ def get_urls(xlsheet, domainwl=[], cost_empty_only=False):
             if (domain, suffix) in domainwl:
                 tpl = (url, i)
                 if cost_empty_only == True:
+                    input(xlsheet[f'B{i}'].value)
                     if xlsheet[f'B{i}'].value == None or xlsheet[f'B{i}'].value == 'None':
                         urlList.append(tpl)
                 else:
