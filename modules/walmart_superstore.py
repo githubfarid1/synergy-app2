@@ -77,7 +77,6 @@ def get_urls(xlsheet, domainwl=[], cost_empty_only=False):
                 urlList.append(tpl)
     return urlList
 
-
 def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
     userAgentStrings = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
@@ -105,11 +104,10 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
     ]
 
     urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca', "walmart.com", "walmart.ca"],cost_empty_only=cost_empty_only)
-
     i = 0
     maxrec = len(urlList)
     with sync_playwright() as p:
-        browser = p.firefox.launch(headless=True, timeout=10000)
+        browser = p.firefox.launch(headless=False, timeout=10000)
         context = browser.new_context(user_agent=random.choice(userAgentStrings))
         page = context.new_page()
         while True:
@@ -125,7 +123,7 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
                     # page.wait_for_timeout(1000)
                     browser.close()
                     del browser
-                    browser = p.firefox.launch(headless=True, timeout=10000)
+                    browser = p.firefox.launch(headless=False, timeout=10000)
                     context = browser.new_context(user_agent=random.choice(userAgentStrings))
                     page = context.new_page()
                     continue
