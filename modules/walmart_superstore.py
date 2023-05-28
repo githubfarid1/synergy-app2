@@ -69,6 +69,7 @@ def get_urls(xlsheet, domainwl=[], cost_empty_only=False):
         url = xlsheet[f'A{i}'].value
         
         # domain = urlparse(url).netloc
+        print(url)
         domain = tldextract.extract(url).domain
         suffix = tldextract.extract(url).suffix
         if (domain, suffix) in domainwl:
