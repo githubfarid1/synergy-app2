@@ -224,7 +224,6 @@ def superstore_scraper(xlsheet, profilename):
         time.sleep(1)
     
 def main():
-    exit()
     parser = argparse.ArgumentParser(description="Amazon Shipment Check")
     parser.add_argument('-xls', '--xlsinput', type=str,help="XLSX File Input")
     parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
@@ -246,6 +245,15 @@ def main():
         input("Module parameter was empty")
         sys.exit()
 
+    if args.isreplace not in ("yes", "no"):
+        input("isreplace parameter was empty")
+        sys.exit()
+
+    if args.isreplace == "yes":
+        costempty = False
+    else:
+        costempty = True
+    
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
 
@@ -258,7 +266,7 @@ def main():
                 superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
             else:
                 if i == 1:
-                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=False)
+                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
                 else:
                     walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
             input("End Process..")
