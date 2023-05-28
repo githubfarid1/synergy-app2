@@ -1101,10 +1101,10 @@ class WalmartstFrame(ttk.Frame):
 		titleLabel = TitleLabel(self, text="Walmart Price Monitor")
 		closeButton = CloseButton(self)
 		xlsInputFile = FileChooserFrame(self, btype="file", label="Select Input Excel File:", filetypes=(("Excel files", "*.xlsx *.xlsm"),("all files", "*.*")), sheetlist=sheetlist)
-		isreplacevar = IntVar(value=1)
+		isreplacevar = StringVar(value="yes")
 		# isreplacevar.set("1")
 		labelsname = Label(self, text="Sheet Name:")
-		isreplacecheck = ttk.Checkbutton(self, text="Replace Old Data (price, sale, etc)", variable=isreplacevar, onvalue=1, offvalue=0)
+		isreplacecheck = ttk.Checkbutton(self, text="Replace Old Data (price, sale, etc)", variable=isreplacevar, onvalue="yes", offvalue="no")
 		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(xlsinput=xlsInputFile.filename, sname=sheetlist, isreplace=isreplacevar.get()))
 		
 		# layout
