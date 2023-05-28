@@ -279,7 +279,7 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                 continue
 
 def main():
-    parser = argparse.ArgumentParser(description="Amazon Shipment Check")
+    parser = argparse.ArgumentParser(description="SUperstore, walmart sscraper")
     parser.add_argument('-xls', '--xlsinput', type=str,help="XLSX File Input")
     parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
     parser.add_argument('-module', '--module', type=str,help="Module Run")
@@ -298,6 +298,10 @@ def main():
 
     if args.module == '':
         input("Module parameter was empty")
+        sys.exit()
+
+    if args.profile == '':
+        input("Profile parameter was empty")
         sys.exit()
 
     if args.isreplace not in ("yes", "no"):
