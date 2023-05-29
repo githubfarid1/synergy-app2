@@ -431,37 +431,45 @@ def main():
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
 
-    maxrun = 10
-    for i in range(1, maxrun+1):
-        if i > 1:
-            print("Process will be reapeated")
-        try:    
-            if args.module == 'superstore':
-                if i == 1:
-                    superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
-                else:
-                    superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
-                # superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
-            elif args.module == 'walmart':
-                if i == 1:
-                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
-                else:
-                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
-            elif args.module == 'wholesaleclub':
-                if i == 1:
-                    wholesale_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
-                else:
-                    wholesale_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
+    # maxrun = 10
+    # for i in range(1, maxrun+1):
+    #     if i > 1:
+    #         print("Process will be reapeated")
+    #     try:    
+            # if args.module == 'superstore':
+            #     if i == 1:
+            #         superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
+            #     else:
+            #         superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
+            #     # superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
+            # elif args.module == 'walmart':
+            #     if i == 1:
+            #         walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
+            #     else:
+            #         walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
+            # elif args.module == 'wholesaleclub':
+            #     if i == 1:
+            #         wholesale_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
+            #     else:
+            #         wholesale_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
 
-            input("End Process..")
-            break    
-        except Exception as e:
-            print(e)
-            if i == maxrun:
-                input("Execution Limit reached, Please check the script")
-            time.sleep(10)
-            continue
+            # input("End Process..")
+        #     break    
+        # except Exception as e:
+        #     print(e)
+        #     if i == maxrun:
+        #         input("Execution Limit reached, Please check the script")
+        #     time.sleep(10)
+        #     continue
             
+    if args.module == 'superstore':
+        superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
+    elif args.module == 'walmart':
+        walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
+    elif args.module == 'wholesaleclub':
+        wholesale_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
+
+    input("End Process..")
 
 if __name__ == '__main__':
     main()
