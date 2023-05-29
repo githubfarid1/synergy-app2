@@ -247,25 +247,25 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                 else:
                     print('OK')
 
-                price_element = page.locator("span[class='price__value selling-price-list__item__price selling-price-list__item__price--now-price__value']").first
+                price_element = page.locator("div[data-track-product-component='product-details'] span[class='price__value selling-price-list__item__price selling-price-list__item__price--now-price__value']").first
                 if price_element.count() > 0:
                     pricetxt = price_element.text_content()
                 else:
                     pricetxt = ""
 
-                sale_element = page.locator("del[class='price__value selling-price-list__item__price selling-price-list__item__price--was-price__value']").first
+                sale_element = page.locator("div[data-track-product-component='product-details'] del[class='price__value selling-price-list__item__price selling-price-list__item__price--was-price__value']").first
                 if sale_element.count() > 0:
                     saletxt = sale_element.text_content()
                 else:
                     saletxt = ""
 
-                limit_element = page.locator("p[class='text text--small3 text--left global-color-black product-promo__badge__content']").first
+                limit_element = page.locator("div[data-track-product-component='product-details'] p[class='text text--small3 text--left global-color-black product-promo__badge__content']").first
                 if limit_element.count() > 0:
                     limittxt = limit_element.text_content()
                 else:
                     limittxt = ""
 
-                expires_element = page.locator("p[class='text text--small8 text--left inherit product-promo__message__expiry-date']").first
+                expires_element = page.locator("div[data-track-product-component='product-details'] p[class='text text--small8 text--left inherit product-promo__message__expiry-date']").first
                 if expires_element.count() > 0:
                     expirestxt = expires_element.text_content()
                 else:
