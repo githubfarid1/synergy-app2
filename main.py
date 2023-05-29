@@ -1204,7 +1204,7 @@ class WholesaleFrame(ttk.Frame):
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
-			run_module(comlist=[PYLOC, "modules/walmart_superstore.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-module", "wholesale", "-profile", profileSelected.get(), "-isreplace", kwargs['isreplace']])
+			run_module(comlist=[PYLOC, "modules/walmart_superstore.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-module", "wholesaleclub", "-profile", profileSelected.get(), "-isreplace", kwargs['isreplace']])
 
 class CloseButton(ttk.Button):
 	def __init__(self, parent):
