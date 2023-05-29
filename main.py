@@ -341,6 +341,7 @@ class MainFrame(ttk.Frame):
 		canadaPostButton = FrameButton(self, window, text="Canada Post Tracker", class_frame=CanadaPostFrame)
 		walmartstButton = FrameButton(self, window, text="Walmart Scraper", class_frame=WalmartstFrame)
 		superstoreButton = FrameButton(self, window, text="Superstore Scraper", class_frame=SuperstoreFrame)
+		wholesaleButton = FrameButton(self, window, text="Wholesale Club Scraper", class_frame=WholesaleFrame)
 
 
 		# layout
@@ -366,6 +367,7 @@ class MainFrame(ttk.Frame):
 		# fdaEntryPdfButton['state'] = DISABLED
 		walmartstButton.grid(column = 1, row = 6, sticky=(W, E, N, S), padx=15, pady=5)
 		superstoreButton.grid(column = 2, row = 6, sticky=(W, E, N, S), padx=15, pady=5)
+		wholesaleButton.grid(column = 0, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
 
 class PdfConvertFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -1162,6 +1164,47 @@ class SuperstoreFrame(ttk.Frame):
 		else:
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
 			run_module(comlist=[PYLOC, "modules/walmart_superstore.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-module", "superstore", "-profile", profileSelected.get(), "-isreplace", kwargs['isreplace']])
+
+class WholesaleFrame(ttk.Frame):
+	def __init__(self, window) -> None:
+		super().__init__(window)
+		# configure
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
+
+		self.columnconfigure(0, weight=1)
+		self.rowconfigure(0, weight=1)
+		self.rowconfigure(1, weight=1)
+		self.rowconfigure(2, weight=1)
+		self.rowconfigure(3, weight=1)
+		self.rowconfigure(4, weight=1)
+		self.rowconfigure(5, weight=1)
+		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		
+		# populate
+		titleLabel = TitleLabel(self, text="Wholesale Club Price Monitor")
+		closeButton = CloseButton(self)
+		xlsInputFile = FileChooserFrame(self, btype="file", label="Select Input Excel File:", filetypes=(("Excel files", "*.xlsx *.xlsm"),("all files", "*.*")), sheetlist=sheetlist)
+		labelsname = Label(self, text="Sheet Name:")
+		isreplacevar = StringVar(value="yes")
+		isreplacecheck = ttk.Checkbutton(self, text="Replace Old Data (price, sale, etc)", variable=isreplacevar, onvalue="yes", offvalue="no")
+
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(xlsinput=xlsInputFile.filename, sname=sheetlist, isreplace=isreplacevar.get()))
+		
+		# layout
+		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
+		xlsInputFile.grid(column = 0, row = 2, sticky = (W,E))
+		labelsname.grid(column = 0, row = 3, sticky=(W))
+		isreplacecheck.grid(column = 0, row = 4, sticky=(W))
+		runButton.grid(column = 0, row = 5, sticky = (E))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+		sheetlist.grid(column=0, row = 3, pady=10)
+	def run_process(self, **kwargs):
+		if kwargs['xlsinput'] == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
+		else:
+			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
+			run_module(comlist=[PYLOC, "modules/walmart_superstore.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-module", "wholesale", "-profile", profileSelected.get(), "-isreplace", kwargs['isreplace']])
 
 class CloseButton(ttk.Button):
 	def __init__(self, parent):
