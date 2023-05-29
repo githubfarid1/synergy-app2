@@ -188,7 +188,7 @@ class FileChooserFrame(ttk.Frame):
 		if filenametmp != ():
 			self.filename = filenametmp
 			if kwargs['sheetlist'] != None:
-				wb = openpyxl.load_workbook(filenametmp)
+				wb = openpyxl.load_workbook(filenametmp, read_only=True)
 				if type(kwargs['sheetlist']) == tuple:
 					for idx, sl in enumerate(kwargs['sheetlist']):
 						kwargs['sheetlist'][idx]['values'] = wb.sheetnames
@@ -196,8 +196,6 @@ class FileChooserFrame(ttk.Frame):
 				else:
 					kwargs['sheetlist']['values'] = wb.sheetnames
 					kwargs['sheetlist'].current(0)
-				wb.close()
-				del wb
 
 class FileChooserMultipleFrame(ttk.Frame):
 	def __init__(self, window, **kwargs):
