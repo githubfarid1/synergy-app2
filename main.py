@@ -196,6 +196,7 @@ class FileChooserFrame(ttk.Frame):
 				else:
 					kwargs['sheetlist']['values'] = wb.sheetnames
 					kwargs['sheetlist'].current(0)
+				wb.close()
 
 class FileChooserMultipleFrame(ttk.Frame):
 	def __init__(self, window, **kwargs):
@@ -1122,7 +1123,6 @@ class WalmartstFrame(ttk.Frame):
 		else:
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
 			run_module(comlist=[PYLOC, "modules/walmart_superstore.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-module", "walmart", "-profile", profileSelected.get(), "-isreplace", kwargs['isreplace']])
-
 
 class SuperstoreFrame(ttk.Frame):
 	def __init__(self, window) -> None:

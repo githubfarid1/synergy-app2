@@ -457,6 +457,7 @@ def main():
             print(e)
             if i == maxrun:
                 input("Execution Limit reached, Please check the script")
+            time.sleep(10)
             continue
             
 
