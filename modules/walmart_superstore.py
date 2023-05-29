@@ -104,11 +104,11 @@ def get_urls(xlsheet, domainwl=[], cost_empty_only=False):
                 urlList.append(tpl)
     return urlList
 
-async def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
+def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
     urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca', "walmart.com", "walmart.ca"],cost_empty_only=cost_empty_only)
     i = 0
     maxrec = len(urlList)
-    with async_playwright() as p:
+    with sync_playwright() as p:
         browser = p.firefox.launch(headless=True, timeout=10000)
         context = browser.new_context(user_agent=random.choice(userAgentStrings))
         page = context.new_page()
@@ -119,7 +119,7 @@ async def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
             rownum = urlList[i][1]
             print(url, end=" ", flush=True)
             try:
-                await page.goto(url)
+                page.goto(url)
                 if page.title()=='Verify Your Identity' or page.title() == 'Robot or human?':
                     print('Failed')
                     # page.wait_for_timeout(1000)
@@ -393,7 +393,7 @@ def wholesale_playwright_scraper(xlsheet, cost_empty_only=False):
                 page = context.new_page()
                 continue
 
-async def main():
+def main():
     parser = argparse.ArgumentParser(description="SUperstore, walmart sscraper")
     parser.add_argument('-xls', '--xlsinput', type=str,help="XLSX File Input")
     parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
@@ -444,7 +444,7 @@ async def main():
                 # superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
             elif args.module == 'walmart':
                 if i == 1:
-                    await walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
+                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
                 else:
                     walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
             elif args.module == 'wholesaleclub':
