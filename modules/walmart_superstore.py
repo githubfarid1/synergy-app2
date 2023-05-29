@@ -20,6 +20,8 @@ import argparse
 import sys
 from sys import platform
 from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
+
 import random
 import tldextract
 
@@ -102,11 +104,11 @@ def get_urls(xlsheet, domainwl=[], cost_empty_only=False):
                 urlList.append(tpl)
     return urlList
 
-def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
+async def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
     urlList = get_urls(xlsheet, domainwl=['www.walmart.com','www.walmart.ca', "walmart.com", "walmart.ca"],cost_empty_only=cost_empty_only)
     i = 0
     maxrec = len(urlList)
-    with sync_playwright() as p:
+    with async_playwright() as p:
         browser = p.firefox.launch(headless=True, timeout=10000)
         context = browser.new_context(user_agent=random.choice(userAgentStrings))
         page = context.new_page()
@@ -117,7 +119,7 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
             rownum = urlList[i][1]
             print(url, end=" ", flush=True)
             try:
-                page.goto(url)
+                await page.goto(url)
                 if page.title()=='Verify Your Identity' or page.title() == 'Robot or human?':
                     print('Failed')
                     # page.wait_for_timeout(1000)
