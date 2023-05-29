@@ -252,6 +252,7 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                     pricetxt = price_element.text_content()
                 else:
                     pricetxt = ""
+
                 sale_element = page.locator("del[class='price__value selling-price-list__item__price selling-price-list__item__price--was-price__value']").first
                 if sale_element.count() > 0:
                     saletxt = sale_element.text_content()
@@ -263,7 +264,6 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                     limittxt = limit_element.text_content()
                 else:
                     limittxt = ""
-
 
                 expires_element = page.locator("p[class='text text--small8 text--left inherit product-promo__message__expiry-date']").first
                 if expires_element.count() > 0:
@@ -281,7 +281,6 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                 expirestxt = expirestxt.replace("Offer expires","").replace(".","")
                 xlsheet[f'D{rownum}'].value = limittxt
                 xlsheet[f'E{rownum}'].value = expirestxt.replace("Offer expires","")
-
 
                 print(title, strprice, strsale, limittxt, expirestxt, end="\n\n")
                 i += 1
