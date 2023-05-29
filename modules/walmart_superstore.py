@@ -393,7 +393,7 @@ def wholesale_playwright_scraper(xlsheet, cost_empty_only=False):
                 page = context.new_page()
                 continue
 
-def main():
+async def main():
     parser = argparse.ArgumentParser(description="SUperstore, walmart sscraper")
     parser.add_argument('-xls', '--xlsinput', type=str,help="XLSX File Input")
     parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
@@ -444,7 +444,7 @@ def main():
                 # superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
             elif args.module == 'walmart':
                 if i == 1:
-                    walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
+                    await walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
                 else:
                     walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
             elif args.module == 'wholesaleclub':
