@@ -153,6 +153,10 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
                     saletxt = "None"
                 title = page.title()
                 print(title, pricetxt, saletxt, end="\n\n")
+                xlsheet[f'B{rownum}'].value = ""
+                xlsheet[f'C{rownum}'].value = ""
+                xlsheet[f'D{rownum}'].value = ""
+
                 xlsheet[f'B{rownum}'].value = pricetxt
                 xlsheet[f'C{rownum}'].value = saletxt
                 if title == "":
@@ -273,6 +277,11 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
 
                 strprice = pricetxt.replace("$", '')
                 
+                xlsheet[f'B{rownum}'].value = ""
+                xlsheet[f'C{rownum}'].value = ""
+                xlsheet[f'D{rownum}'].value = ""
+                xlsheet[f'E{rownum}'].value = ""
+
                 xlsheet[f'B{rownum}'].value = strprice
                 strsale = ''
                 if saletxt != '':
