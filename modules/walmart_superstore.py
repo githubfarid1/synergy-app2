@@ -224,7 +224,7 @@ def superstore_scraper(xlsheet, profilename):
         time.sleep(1)
     
 def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
-    urlList = get_urls(xlsheet, domainwl=['www.realcanadiansuperstore.ca'])
+    urlList = get_urls(xlsheet, domainwl=['www.realcanadiansuperstore.ca'],cost_empty_only=cost_empty_only)
     i = 0
     maxrec = len(urlList)
     with sync_playwright() as p:
@@ -258,13 +258,31 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                 else:
                     saletxt = ""
 
+                limit_element = page.locator("p[class='text text--small3 text--left global-color-black product-promo__badge__content']").first
+                if limit_element.count() > 0:
+                    limittxt = limit_element.text_content()
+                else:
+                    limittxt = ""
+
+                expires_element = page.locator("p[class='text text--small3 text--left global-color-black product-promo__badge__content']").first
+                if expires_element.count() > 0:
+                    expirestxt = expires_element.text_content()
+                else:
+                    expirestxt = ""
+
                 strprice = pricetxt.replace("$", '')
+                
                 xlsheet[f'B{rownum}'].value = strprice
                 strsale = ''
                 if saletxt != '':
                     strsale = "{} (was {})".format(pricetxt, saletxt)
                     xlsheet[f'C{rownum}'].value = strsale
-                print(title, strprice, strsale, end="\n\n")
+                
+                xlsheet[f'D{rownum}'].value = limittxt
+                xlsheet[f'E{rownum}'].value = expirestxt.replace("Offer expires","")
+
+
+                print(title, strprice, strsale, limittxt, expirestxt, end="\n\n")
                 i += 1
                 page.wait_for_timeout(1000)
             except Exception as e:
@@ -322,7 +340,10 @@ def main():
             print("Process will be reapeated")
         try:    
             if args.module == 'superstore':
-                superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=False)
+                if i == 1:
+                    superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
+                else:
+                    superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
                 # superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
 
             else:
