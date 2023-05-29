@@ -314,7 +314,7 @@ def wholesale_playwright_scraper(xlsheet, cost_empty_only=False):
     i = 0
     maxrec = len(urlList)
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, timeout=10000)
+        browser = p.chromium.launch(headless=False, timeout=10000)
         context = browser.new_context(user_agent=random.choice(userAgentStrings))
         page = context.new_page()
         while True:
@@ -384,7 +384,7 @@ def wholesale_playwright_scraper(xlsheet, cost_empty_only=False):
                 page.wait_for_timeout(2000)
                 browser.close()
                 del browser
-                browser = p.chromium.launch(headless=True, timeout=10000)
+                browser = p.chromium.launch(headless=False, timeout=10000)
                 context = browser.new_context(user_agent=random.choice(userAgentStrings))
                 page = context.new_page()
                 continue
