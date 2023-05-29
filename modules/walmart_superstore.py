@@ -229,7 +229,88 @@ def superstore_scraper(xlsheet, profilename):
     
 def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
     notfound = ('404 | Real Canadian Superstore', 'Search Results | Real Canadian Superstore')
-    urlList = get_urls(xlsheet, domainwl=['www.realcanadiansuperstore.ca'],cost_empty_only=cost_empty_only)
+    urlList = get_urls(xlsheet, domainwl=['www.realcanadiansuperstore.ca', 'realcanadiansuperstore.ca'],cost_empty_only=cost_empty_only)
+    i = 0
+    maxrec = len(urlList)
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True, timeout=10000)
+        context = browser.new_context(user_agent=random.choice(userAgentStrings))
+        page = context.new_page()
+        while True:
+            if i == maxrec:
+                break
+            url = urlList[i][0]
+            rownum = urlList[i][1]
+            print(url, end=" ", flush=True)
+            try:
+                page.goto(url)
+                page.wait_for_selector("button[data-track='productAddToCartLocalize'], h1[class='error-page__title']")
+                title = page.title()
+                mess = page.locator("h1[class='error-page__title']")
+                if mess.count() > 1:
+                    print(mess.text_content())
+                else:
+                    print('OK')
+
+                price_element = page.locator("div[data-track-product-component='product-details'] span[class='price__value selling-price-list__item__price selling-price-list__item__price--now-price__value']").first
+                if price_element.count() > 0:
+                    pricetxt = price_element.text_content()
+                else:
+                    pricetxt = ""
+
+                sale_element = page.locator("div[data-track-product-component='product-details'] del[class='price__value selling-price-list__item__price selling-price-list__item__price--was-price__value']").first
+                if sale_element.count() > 0:
+                    saletxt = sale_element.text_content()
+                else:
+                    saletxt = ""
+
+                limit_element = page.locator("div[data-track-product-component='product-details'] p[class='text text--small3 text--left global-color-black product-promo__badge__content']").first
+                if limit_element.count() > 0:
+                    limittxt = limit_element.text_content()
+                else:
+                    limittxt = ""
+
+                expires_element = page.locator("div[data-track-product-component='product-details'] p[class='text text--small8 text--left inherit product-promo__message__expiry-date']").first
+                if expires_element.count() > 0:
+                    expirestxt = expires_element.text_content()
+                else:
+                    expirestxt = ""
+
+                strprice = pricetxt.replace("$", '')
+                
+                xlsheet[f'B{rownum}'].value = ""
+                xlsheet[f'C{rownum}'].value = ""
+                xlsheet[f'D{rownum}'].value = ""
+                xlsheet[f'E{rownum}'].value = ""
+                xlsheet[f'F{rownum}'].value = ""
+
+                xlsheet[f'B{rownum}'].value = strprice
+                strsale = ''
+                if saletxt != '':
+                    strsale = "{} (was {})".format(pricetxt, saletxt)
+                    xlsheet[f'C{rownum}'].value = strsale
+                expirestxt = expirestxt.replace("Offer expires","").replace(".","")
+                xlsheet[f'D{rownum}'].value = limittxt
+                xlsheet[f'E{rownum}'].value = expirestxt.replace("Offer expires","")
+                if title in notfound:
+                    xlsheet[f'F{rownum}'].value = "Not Found"
+                print(title, strprice, strsale, limittxt, expirestxt, end="\n\n")
+                i += 1
+                page.wait_for_timeout(1000)
+            except Exception as e:
+                print('Failed')
+                print(e)
+                page.wait_for_timeout(2000)
+                browser.close()
+                del browser
+                browser = p.chromium.launch(headless=True, timeout=10000)
+                context = browser.new_context(user_agent=random.choice(userAgentStrings))
+                page = context.new_page()
+                continue
+
+def wholesale_playwright_scraper(xlsheet, cost_empty_only=False):
+    notfound = ('404 | Real Canadian Superstore', 'Search Results | Real Canadian Superstore')
+    urlList = get_urls(xlsheet, domainwl=['www.wholesaleclub.ca', 'wholesaleclub.ca'],cost_empty_only=cost_empty_only)
     i = 0
     maxrec = len(urlList)
     with sync_playwright() as p:
@@ -357,12 +438,17 @@ def main():
                 else:
                     superstore_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
                 # superstore_scraper(xlsheet=xlsheet, profilename=args.profile)
-
-            else:
+            elif args.module == 'walmart':
                 if i == 1:
                     walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
                 else:
                     walmart_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
+            elif args.module == 'wholesaleclub':
+                if i == 1:
+                    wholesale_playwright_scraper(xlsheet=xlsheet, cost_empty_only=costempty)
+                else:
+                    wholesale_playwright_scraper(xlsheet=xlsheet, cost_empty_only=True)
+
             input("End Process..")
             break    
         except Exception as e:
