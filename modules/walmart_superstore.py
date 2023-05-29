@@ -294,6 +294,7 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                 xlsheet[f'E{rownum}'].value = expirestxt.replace("Offer expires","")
                 if title in notfound:
                     xlsheet[f'F{rownum}'].value = "Not Found"
+                    title = "Item Not Found"
                 print(title, strprice, strsale, limittxt, expirestxt, end="\n\n")
                 i += 1
                 page.wait_for_timeout(1000)
@@ -375,6 +376,7 @@ def wholesale_playwright_scraper(xlsheet, cost_empty_only=False):
                 xlsheet[f'E{rownum}'].value = expirestxt.replace("Offer expires","")
                 if title in notfound:
                     xlsheet[f'F{rownum}'].value = "Not Found"
+                    title = "Item Not Found"
                 print(title, strprice, strsale, limittxt, expirestxt, end="\n\n")
                 i += 1
                 page.wait_for_timeout(1000)
