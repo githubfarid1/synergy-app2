@@ -264,7 +264,7 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                 else:
                     limittxt = ""
 
-                expires_element = page.locator("p[class='text text--small3 text--left global-color-black product-promo__badge__content']").first
+                expires_element = page.locator("p[class='text text--small8 text--left inherit product-promo__message__expiry-date']").first
                 if expires_element.count() > 0:
                     expirestxt = expires_element.text_content()
                 else:
