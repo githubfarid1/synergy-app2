@@ -228,6 +228,7 @@ def superstore_scraper(xlsheet, profilename):
         time.sleep(1)
     
 def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
+    notfound = ('404 | Real Canadian Superstore', 'Search Results | Real Canadian Superstore')
     urlList = get_urls(xlsheet, domainwl=['www.realcanadiansuperstore.ca'],cost_empty_only=cost_empty_only)
     i = 0
     maxrec = len(urlList)
@@ -281,6 +282,7 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                 xlsheet[f'C{rownum}'].value = ""
                 xlsheet[f'D{rownum}'].value = ""
                 xlsheet[f'E{rownum}'].value = ""
+                xlsheet[f'F{rownum}'].value = ""
 
                 xlsheet[f'B{rownum}'].value = strprice
                 strsale = ''
@@ -290,7 +292,8 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                 expirestxt = expirestxt.replace("Offer expires","").replace(".","")
                 xlsheet[f'D{rownum}'].value = limittxt
                 xlsheet[f'E{rownum}'].value = expirestxt.replace("Offer expires","")
-
+                if title in notfound:
+                    xlsheet[f'F{rownum}'].value = "Not Found"
                 print(title, strprice, strsale, limittxt, expirestxt, end="\n\n")
                 i += 1
                 page.wait_for_timeout(1000)
