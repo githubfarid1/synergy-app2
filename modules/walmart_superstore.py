@@ -130,23 +130,23 @@ def walmart_playwright_scraper(xlsheet, cost_empty_only=False):
                 else:
                     print('OK')
 
-                price_element = page.locator("span[data-automation='buybox-price']").first
+                price_element = page.locator("div[id='main-buybox'] span[data-automation='buybox-price']").first
                 if price_element.count() > 0:
                     # print(price)
                     pricetxt = price_element.text_content().replace("$", "").replace("Now","")
                 else:
-                    price_element = page.locator("span[itemprop='price']").first
+                    price_element = page.locator("div[data-testid='add-to-cart-section'] span[itemprop='price']").first
                     if price_element.count() > 0:
                         pricetxt = price_element.text_content().replace("$", "").replace("Now","")
                     else:
-                        price_element = page.locator("span[data-automation='buybox-price']").first
-                        if price_element.count() > 0:
-                            pricetxt = price_element.text_content().replace("$", "").replace("Now","")
-                        else:
-                            pricetxt = "None"
+                        # price_element = page.locator("span[data-automation='buybox-price']").first
+                        # if price_element.count() > 0:
+                        #     pricetxt = price_element.text_content().replace("$", "").replace("Now","")
+                        # else:
+                        pricetxt = "None"
 
                 
-                sale_element = page.locator("div[data-automation='mix-match-badge']").first
+                sale_element = page.locator("div[id='main-buybox'] div[data-automation='mix-match-badge']").first
                 if sale_element.count() > 0:
                     saletxt = sale_element.text_content().replace("View All", "")
                 else:
