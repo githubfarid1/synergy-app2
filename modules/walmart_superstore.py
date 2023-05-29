@@ -309,7 +309,7 @@ def superstore_playwright_scraper(xlsheet, cost_empty_only=False):
                 continue
 
 def wholesale_playwright_scraper(xlsheet, cost_empty_only=False):
-    notfound = ('404 | Real Canadian Superstore', 'Search Results | Real Canadian Superstore')
+    notfound = ('404 | Wholesale Club', 'Search Results | Wholesale Club')
     urlList = get_urls(xlsheet, domainwl=['www.wholesaleclub.ca', 'wholesaleclub.ca'],cost_empty_only=cost_empty_only)
     i = 0
     maxrec = len(urlList)
