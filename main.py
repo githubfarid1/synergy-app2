@@ -13,7 +13,7 @@ from subprocess import Popen
 import openpyxl
 import git
 import warnings
-import pandas
+import pandas as pd
 
 warnings.filterwarnings("ignore", category=UserWarning)
 if platform == "linux" or platform == "linux2":
@@ -190,7 +190,10 @@ class FileChooserFrame(ttk.Frame):
 			self.filename = filenametmp
 			if kwargs['sheetlist'] != None:
 				# wb = openpyxl.load_workbook(filenametmp, read_only=True)
-				wb = pandas.read_excel(filenametmp, sheet_name=None)
+				# wb = pd.read_excel(filenametmp, sheet_name=None)
+				with open(filenametmp, "rb") as f:
+					wb = pd.read_excel(f, sheet_name=None)				
+					
 				if type(kwargs['sheetlist']) == tuple:
 					for idx, sl in enumerate(kwargs['sheetlist']):
 						# kwargs['sheetlist'][idx]['values'] = wb.sheetnames
@@ -201,7 +204,7 @@ class FileChooserFrame(ttk.Frame):
 					kwargs['sheetlist']['values'] = list(wb.keys())
 					kwargs['sheetlist'].current(0)
 				# wb.close()
-				del wb
+				
 
 class FileChooserMultipleFrame(ttk.Frame):
 	def __init__(self, window, **kwargs):
