@@ -192,16 +192,17 @@ class FileChooserFrame(ttk.Frame):
 				# wb = openpyxl.load_workbook(filenametmp, read_only=True)
 				# wb = pd.read_excel(filenametmp, sheet_name=None)
 				with open(filenametmp, "rb") as f:
-					wb = pd.read_excel(f, sheet_name=None)				
-					
+					# wb = pd.read_excel(f, sheet_name=None)				
+					wb = openpyxl.load_workbook(f, read_only=True)
+
 				if type(kwargs['sheetlist']) == tuple:
 					for idx, sl in enumerate(kwargs['sheetlist']):
-						# kwargs['sheetlist'][idx]['values'] = wb.sheetnames
-						kwargs['sheetlist'][idx]['values'] = list(wb.keys())
+						kwargs['sheetlist'][idx]['values'] = wb.sheetnames
+						# kwargs['sheetlist'][idx]['values'] = list(wb.keys())
 						kwargs['sheetlist'][idx].current(0)
 				else:
-					# kwargs['sheetlist']['values'] = wb.sheetnames
-					kwargs['sheetlist']['values'] = list(wb.keys())
+					kwargs['sheetlist']['values'] = wb.sheetnames
+					# kwargs['sheetlist']['values'] = list(wb.keys())
 					kwargs['sheetlist'].current(0)
 				# wb.close()
 				
