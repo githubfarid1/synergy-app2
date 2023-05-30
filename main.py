@@ -189,7 +189,7 @@ class FileChooserFrame(ttk.Frame):
 			self.filename = filenametmp
 			if kwargs['sheetlist'] != None:
 				# wb = openpyxl.load_workbook(filenametmp, read_only=True)
-				wb = xlrd.open_workbook(filenametmp, on_demand=True)
+				wb = xlrd.open_workbook_xls(filenametmp, on_demand=True)
 				if type(kwargs['sheetlist']) == tuple:
 					for idx, sl in enumerate(kwargs['sheetlist']):
 						# kwargs['sheetlist'][idx]['values'] = wb.sheetnames
