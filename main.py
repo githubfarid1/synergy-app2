@@ -201,6 +201,7 @@ class FileChooserFrame(ttk.Frame):
 					kwargs['sheetlist']['values'] = list(wb.keys())
 					kwargs['sheetlist'].current(0)
 				# wb.close()
+				del wb
 
 class FileChooserMultipleFrame(ttk.Frame):
 	def __init__(self, window, **kwargs):
