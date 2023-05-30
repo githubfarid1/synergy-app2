@@ -204,8 +204,8 @@ class FileChooserFrame(ttk.Frame):
 					kwargs['sheetlist']['values'] = wb.sheetnames
 					# kwargs['sheetlist']['values'] = list(wb.keys())
 					kwargs['sheetlist'].current(0)
-				wb.close()
-				del wb
+				# wb.close()
+				# del wb
 				
 
 class FileChooserMultipleFrame(ttk.Frame):
