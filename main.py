@@ -13,7 +13,7 @@ from subprocess import Popen
 import openpyxl
 import git
 import warnings
-
+import xlrd
 warnings.filterwarnings("ignore", category=UserWarning)
 if platform == "linux" or platform == "linux2":
     pass
@@ -188,13 +188,17 @@ class FileChooserFrame(ttk.Frame):
 		if filenametmp != ():
 			self.filename = filenametmp
 			if kwargs['sheetlist'] != None:
-				wb = openpyxl.load_workbook(filenametmp, read_only=True)
+				# wb = openpyxl.load_workbook(filenametmp, read_only=True)
+				wb = xlrd.open_workbook(filenametmp, on_demand=True)
 				if type(kwargs['sheetlist']) == tuple:
 					for idx, sl in enumerate(kwargs['sheetlist']):
-						kwargs['sheetlist'][idx]['values'] = wb.sheetnames
+						# kwargs['sheetlist'][idx]['values'] = wb.sheetnames
+						kwargs['sheetlist'][idx]['values'] = wb.sheet_names()
+
 						kwargs['sheetlist'][idx].current(0)
 				else:
-					kwargs['sheetlist']['values'] = wb.sheetnames
+					# kwargs['sheetlist']['values'] = wb.sheetnames
+					kwargs['sheetlist']['values'] = wb.sheet_names()
 					kwargs['sheetlist'].current(0)
 				# wb.close()
 
