@@ -194,11 +194,11 @@ class FileChooserFrame(ttk.Frame):
 				if type(kwargs['sheetlist']) == tuple:
 					for idx, sl in enumerate(kwargs['sheetlist']):
 						# kwargs['sheetlist'][idx]['values'] = wb.sheetnames
-						kwargs['sheetlist'][idx]['values'] = wb.keys()
+						kwargs['sheetlist'][idx]['values'] = list(wb.keys())
 						kwargs['sheetlist'][idx].current(0)
 				else:
 					# kwargs['sheetlist']['values'] = wb.sheetnames
-					kwargs['sheetlist']['values'] = wb.keys()
+					kwargs['sheetlist']['values'] = list(wb.keys())
 					kwargs['sheetlist'].current(0)
 				# wb.close()
 
