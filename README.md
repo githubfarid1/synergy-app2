@@ -8,5 +8,5 @@
 - rename address_original.csv to address.csv
 - rename setting_original.json to setting.json
 - rename chrome_profiles_original.json to chrome_profiles.json
-- if you have newest address.csv just copy it
+- if you have newest address.csv just replace existing address.csv with the newest
 
