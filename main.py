@@ -205,7 +205,7 @@ class FileChooserFrame(ttk.Frame):
 				else:
 					kwargs['sheetlist']['values'] = wb.sheetnames
 					kwargs['sheetlist'].current(0)
-				# wb.close()
+				wb.close()
 				os.remove(backfile)
 				# del wb
 				
