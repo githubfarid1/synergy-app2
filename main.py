@@ -73,7 +73,8 @@ class Window(Tk):
 		# self.rowconfigure(1, weight=1)
 		# self.rowconfigure(2, weight=1)
 		
-		exitButton = ttk.Button(self, text="Exit", command=lambda:self.destroy())
+		# exitButton = ttk.Button(self, text="Exit", command=lambda:self.destroy())
+		exitButton = ttk.Button(self, text="Exit", command=lambda:self.procexit())
 		pullButton = ttk.Button(self, text='Update Script', command=lambda:self.gitPull())
 		settingButton = ttk.Button(self, text='Chrome Profiles Setup', command=lambda:self.chromeProfile())
 		
@@ -103,6 +104,11 @@ class Window(Tk):
 		settingFrame = ChromeProfilesFrame(self)
 		settingFrame.grid(column=0, row=0, sticky=(N, E, W, S))
 
+	def procexit(self):
+		for p in Path(".").glob("__tmp*"):
+			p.unlink()
+		sys.exit()
+			
 class ChromeProfilesFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
