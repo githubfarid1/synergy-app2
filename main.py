@@ -108,7 +108,7 @@ class Window(Tk):
 		for p in Path(".").glob("__tmp*"):
 			p.unlink()
 		sys.exit()
-			
+
 class ChromeProfilesFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
@@ -208,7 +208,7 @@ class FileChooserFrame(ttk.Frame):
 					pass
 
 
-				wb = openpyxl.load_workbook(backfile)
+				wb = openpyxl.load_workbook(backfile, read_only=True)
 				if type(kwargs['sheetlist']) == tuple:
 					for idx, sl in enumerate(kwargs['sheetlist']):
 						kwargs['sheetlist'][idx]['values'] = wb.sheetnames
