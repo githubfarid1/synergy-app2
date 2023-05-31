@@ -197,7 +197,7 @@ class FileChooserFrame(ttk.Frame):
 				shutil.copyfile(filenametmp, backfile)
 
 
-				wb = openpyxl.load_workbook(backfile)
+				wb = openpyxl.load_workbook(backfile, read_only=True)
 				if type(kwargs['sheetlist']) == tuple:
 					for idx, sl in enumerate(kwargs['sheetlist']):
 						kwargs['sheetlist'][idx]['values'] = wb.sheetnames
