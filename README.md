@@ -1,6 +1,12 @@
 # synergy-app
 ## Installation Steps:
+- install git to your windows
+- git clone https://github.com/githubfarid1/synergy-app2.git
+- go to the folder
 - pip install -r requirements.txt
-- copy address.csv
-- copy setting.json
-- git installed
+- playwright install
+- rename address_original.csv to address.csv
+- rename setting_original.json to setting.json
+- rename chrome_profiles_original.json to chrome_profiles.json
+- if you have newest address.csv just copy it
+

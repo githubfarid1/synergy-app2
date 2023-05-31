@@ -200,9 +200,6 @@ class FileChooserFrame(ttk.Frame):
 			if kwargs['sheetlist'] != None:
 
 				fnameinput = os.path.basename(filenametmp)
-				#tes
-				# pathinput = filenametmp[0:-len(fnameinput)]
-				# backfile = "{}{}_tmp{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
 				backfile = "__tmp{}{}".format(os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
 				try:
 					shutil.copyfile(filenametmp, backfile)
@@ -221,7 +218,6 @@ class FileChooserFrame(ttk.Frame):
 					kwargs['sheetlist'].current(0)
 				wb.close()
 				# os.remove(backfile)
-				# del wb
 				
 
 class FileChooserMultipleFrame(ttk.Frame):
