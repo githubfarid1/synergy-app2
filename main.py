@@ -189,15 +189,7 @@ class FileChooserFrame(ttk.Frame):
 			self.filename = filenametmp
 			if kwargs['sheetlist'] != None:
 
-				fnameinput = os.path.basename(filenametmp)
-				pathinput = filenametmp[0:-len(fnameinput)]
-				backfile = "{}{}_backup{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
-				# backfile = "{}_tmp{}".format(os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
-
-				shutil.copy2(filenametmp, backfile)
-
-
-				wb = openpyxl.load_workbook(backfile, read_only=True)
+				wb = openpyxl.load_workbook(filenametmp, read_only=True)
 				if type(kwargs['sheetlist']) == tuple:
 					for idx, sl in enumerate(kwargs['sheetlist']):
 						kwargs['sheetlist'][idx]['values'] = wb.sheetnames
@@ -205,8 +197,8 @@ class FileChooserFrame(ttk.Frame):
 				else:
 					kwargs['sheetlist']['values'] = wb.sheetnames
 					kwargs['sheetlist'].current(0)
-				wb.close()
-				os.remove(backfile)
+				# wb.close()
+				# os.remove(filenametmp)
 				# del wb
 				
 
