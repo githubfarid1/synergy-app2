@@ -9,11 +9,12 @@ from pathlib import Path
 import os
 import sys
 from sys import platform
-from subprocess import Popen
+from subprocess import Popen, check_call
 import openpyxl
 import git
 import warnings
 import shutil
+
 warnings.filterwarnings("ignore", category=UserWarning)
 if platform == "linux" or platform == "linux2":
     pass
@@ -195,6 +196,7 @@ class FileChooserFrame(ttk.Frame):
 				# backfile = "{}_tmp{}".format(os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
 				try:
 					shutil.copyfile(filenametmp, backfile)
+					check_call(["attrib","+H",backfile])					
 				except:
 					pass
 
