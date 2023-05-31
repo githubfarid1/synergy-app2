@@ -13,8 +13,7 @@ from subprocess import Popen
 import openpyxl
 import git
 import warnings
-import pandas as pd
-
+import shutil
 warnings.filterwarnings("ignore", category=UserWarning)
 if platform == "linux" or platform == "linux2":
     pass
@@ -189,22 +188,25 @@ class FileChooserFrame(ttk.Frame):
 		if filenametmp != ():
 			self.filename = filenametmp
 			if kwargs['sheetlist'] != None:
-				wb = openpyxl.load_workbook(filenametmp, read_only=True)
-				# wb = pd.read_excel(filenametmp, sheet_name=None)
-				# with open(filenametmp, "rb") as f:
-					# wb = pd.read_excel(f, sheet_name=None)				
-					# wb = openpyxl.load_workbook(f, read_only=True)
 
+				fnameinput = os.path.basename(filenametmp)
+				# pathinput = filenametmp[0:-len(fnameinput)]
+				# backfile = "{}{}_backup{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
+				backfile = "{}_tmp{}".format(os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
+
+				shutil.copy(filenametmp, backfile)
+
+
+				wb = openpyxl.load_workbook(backfile, read_only=True)
 				if type(kwargs['sheetlist']) == tuple:
 					for idx, sl in enumerate(kwargs['sheetlist']):
 						kwargs['sheetlist'][idx]['values'] = wb.sheetnames
-						# kwargs['sheetlist'][idx]['values'] = list(wb.keys())
 						kwargs['sheetlist'][idx].current(0)
 				else:
 					kwargs['sheetlist']['values'] = wb.sheetnames
-					# kwargs['sheetlist']['values'] = list(wb.keys())
 					kwargs['sheetlist'].current(0)
-				# wb.close()
+				wb.close()
+				os.remove(backfile)
 				# del wb
 				
 
