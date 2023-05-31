@@ -191,9 +191,9 @@ class FileChooserFrame(ttk.Frame):
 			if kwargs['sheetlist'] != None:
 
 				fnameinput = os.path.basename(filenametmp)
-				pathinput = filenametmp[0:-len(fnameinput)]
-				backfile = "{}{}_backup{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
-				# backfile = "{}_tmp{}".format(os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
+				# pathinput = filenametmp[0:-len(fnameinput)]
+				# backfile = "{}{}_tmp{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
+				backfile = "__tmp{}{}".format(os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
 				try:
 					shutil.copyfile(filenametmp, backfile)
 					check_call(["attrib","+H",backfile])					
