@@ -194,7 +194,7 @@ class FileChooserFrame(ttk.Frame):
 				# backfile = "{}{}_backup{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
 				backfile = "{}_tmp{}".format(os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
 
-				shutil.copy(filenametmp, backfile)
+				shutil.copyfile(filenametmp, backfile)
 
 
 				wb = openpyxl.load_workbook(backfile, read_only=True)
