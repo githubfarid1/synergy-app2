@@ -105,8 +105,11 @@ class Window(Tk):
 		settingFrame.grid(column=0, row=0, sticky=(N, E, W, S))
 
 	def procexit(self):
-		for p in Path(".").glob("__tmp*"):
-			p.unlink()
+		try:
+			for p in Path(".").glob("__tmp*"):
+				p.unlink()
+		except:
+			pass
 		sys.exit()
 
 class ChromeProfilesFrame(ttk.Frame):
