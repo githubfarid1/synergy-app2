@@ -9,6 +9,3 @@
 - rename setting_original.json to setting.json
 - rename chrome_profiles_original.json to chrome_profiles.json
 - if you have newer address.csv just replace existing address.csv with the newest
-
-tesss
-sdslsdsdsd
