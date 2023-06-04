@@ -389,7 +389,7 @@ def main():
         try:
             maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
             xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
-            print(xls)
+            print(xlsdictall)
             exit()
             xlsdictwcode = {}
             for idx, xls in xlsdictall.items():
