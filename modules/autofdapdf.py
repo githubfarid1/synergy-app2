@@ -381,7 +381,7 @@ def main():
     isExist = os.path.exists(complete_output_folder)
     if not isExist:
         os.makedirs(complete_output_folder)
-    
+    xlsheet = xlbook.sheets[args.sheet]
     # check data from e to w except J
     maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
     xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
@@ -396,7 +396,6 @@ def main():
 
 
     maxrun = 10
-    xlsheet = xlbook.sheets[args.sheet]
     for i in range(1, maxrun+1):
         if i > 1:
             print("Error, Process will be reapeated - {} trying".format(i-1) )
