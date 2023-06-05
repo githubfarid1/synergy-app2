@@ -381,6 +381,20 @@ def main():
     isExist = os.path.exists(complete_output_folder)
     if not isExist:
         os.makedirs(complete_output_folder)
+    
+    # check data from e to w except J
+    maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
+    xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
+    colcheck = ()
+    for idx, xls in xlsdictall.items():
+        for data in xls['data']:
+            input(data)
+            exit()
+            if data[20] == 'None':
+                pass
+
+
+
     maxrun = 10
     xlsheet = xlbook.sheets[args.sheet]
     for i in range(1, maxrun+1):
@@ -389,13 +403,14 @@ def main():
         try:
             maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
             xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
-            input(xlsdictall)
+            # input(xlsdictall)
             xlsdictwcode = {}
             for idx, xls in xlsdictall.items():
                 for data in xls['data']:
                     if data[20] == 'None':
                         xlsdictwcode[idx] = xls
                         break
+            
 
             for xlsdata in xlsdictwcode.values():
                 try:
