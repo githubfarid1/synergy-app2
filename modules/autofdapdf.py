@@ -389,8 +389,7 @@ def main():
         try:
             maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
             xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
-            print(xlsdictall)
-            exit()
+            input(xlsdictall)
             xlsdictwcode = {}
             for idx, xls in xlsdictall.items():
                 for data in xls['data']:
@@ -399,12 +398,12 @@ def main():
                         break
 
             for xlsdata in xlsdictwcode.values():
-                
                 try:
                     driver.close()
                     driver.quit()
                 except:
                     pass
+                
                 driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
                 driver = browser_login(driver)
 
