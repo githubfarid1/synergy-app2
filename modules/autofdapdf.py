@@ -20,7 +20,7 @@ import warnings
 from random import randint
 import glob
 import string
-from datetime import date
+from datetime import date, datetime
 import json
 import amazon_lib as lib
 import xlwings as xw
@@ -250,14 +250,15 @@ def xls_data_generator(xlws, maxrow):
     wbox = []
     wentrycode = []
     wsku = []
+    wrow = []
     wentryid = xlworksheet['B{}'.format(2)].value
     for i in range(2, MAXROW+2):
         if wentryid != xlworksheet['B{}'.format(i)].value:# and xlworksheet['B{}'.format(i)].value != None:
             rid = uuid.uuid4().hex
-            allData[rid] = {'data':list(zip(wshipper, wcode, wdesc, wsize, wtotal, wmanufact, wmanufact_addr, wmanufact_city, wconsignee, wconsignee_addr, wconsignee_city, wconsignee_postal, wconsignee_stact, wconsignee_state, wsubmitter, wsubmitter_add, wsubmitter_cityetc, wsubmitter_country, wpnumber, wbox, wentrycode, wsku)),
+            allData[rid] = {'data':list(zip(wshipper, wcode, wdesc, wsize, wtotal, wmanufact, wmanufact_addr, wmanufact_city, wconsignee, wconsignee_addr, wconsignee_city, wconsignee_postal, wconsignee_stact, wconsignee_state, wsubmitter, wsubmitter_add, wsubmitter_cityetc, wsubmitter_country, wpnumber, wbox, wentrycode, wsku, wrow)),
             'count' : len(wcode)} 
             wentryid = xlworksheet['B{}'.format(i)].value
-            clearlist(wshipper, wcode, wdesc, wsize, wtotal, wmanufact, wmanufact_addr, wmanufact_city, wconsignee, wconsignee_addr, wconsignee_city, wconsignee_postal, wconsignee_stact, wconsignee_state, wsubmitter, wsubmitter_add, wsubmitter_cityetc, wsubmitter_country, wpnumber, wbox, wentrycode, wsku)
+            clearlist(wshipper, wcode, wdesc, wsize, wtotal, wmanufact, wmanufact_addr, wmanufact_city, wconsignee, wconsignee_addr, wconsignee_city, wconsignee_postal, wconsignee_stact, wconsignee_state, wsubmitter, wsubmitter_add, wsubmitter_cityetc, wsubmitter_country, wpnumber, wbox, wentrycode, wsku, wrow)
         
         if xlworksheet['B{}'.format(i)].value == None:
             break
@@ -287,6 +288,7 @@ def xls_data_generator(xlws, maxrow):
         wbox.append(str(xlworksheet['D{}'.format(i)].value).strip())
         wentrycode.append(str(xlworksheet['A{}'.format(i)].value).strip())
         wsku.append(str(xlworksheet['E{}'.format(i)].value).strip())
+        wrow.append(i)
     return allData
 
 def choose_pdf_file(file_list, entry_id):
@@ -383,16 +385,68 @@ def main():
         os.makedirs(complete_output_folder)
     xlsheet = xlbook.sheets[args.sheet]
     # check data from e to w except J
+    
+    # 'DMT Distributors (102 Central Avenue)', 
+    # '03JGT02', 
+    # 'Desc1', 
+    # '1200', 
+    # '8', 
+    # 'Christie Brown & Co.-Mondelez Can. Inc.', 
+    # '3300 Bloor St W Suite 1801', 
+    # 'Toronto', 
+    # 'LAS1', 
+    # '12300 Bermuda Road', 
+    # 'Henderson', 
+    # '89044', 
+    # 'Nevada', 
+    # 'NV', 
+    # 'DMT Distributors Ltd.', 
+    # '328 Dunluce Road NW', 
+    # 'Edmonton/AB/T5X4P3', 
+    # 'Canada', 
+    # '', 
+    # 'Box 1', 
+    # '###-7647133-1', 
+    # 'B122',
+    #'row'
+    strnow = datetime.now().strftime("%Y-%m-%d-%H%M%S")
+    
+    filename = "fda-excel-report-{}.log".format(strnow)
+    pathname = args.output + file_delimeter() + filename
+    if os.path.exists(pathname):
+        os.remove(pathname)
+    file_handler = logging.FileHandler(pathname)
+    file_handler.setLevel(logging.CRITICAL)
+    
+    file_handler_format = '%(message)s'
+    file_handler.setFormatter(logging.Formatter(file_handler_format))
+    logger.addHandler(file_handler)
+    logger.critical("###### Start ######")
+    logger.critical("Filename: {}".format(args.input))
+    logger.critical("Sheet Name:{}".format(args.sheet))
+
+
     maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
     xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
-    colcheck = ()
+   							 							 
+    colchecks = {(21, '"SKU"'), (1, '"Code"'), (2, '" Description"'), (3, '"Size (grams)"'), (4, '"Total Quantitiy"'), (5, '"Manufacturer"'), (6, '"Manufacturer address"'), (7, '"Manufacturer City/postal code"'), (8, '"Consignee"'), (9, '"Consignee Address"'), (10, '"Consignee City"'),(11, '"Consignee Postal"'),(12, '"State Actual"'),(13, '"State"'),(14 , '"Shipper/Exporter"'), (15, '"Address"'),(16, '"City/State/Zip Code"'),(17, '"Country"')}
+    errors = []
     for idx, xls in xlsdictall.items():
         for data in xls['data']:
-            input(data)
-            exit()
-            if data[20] == 'None':
-                pass
+            for col in colchecks:
+                if data[col[0]] == 'None' or data[col[0]] == '0':
+                    errors.append((col[1], data[22]))
+    
+    logger.critical("")
+    if len(errors) == 0:
+        logger.critical("No Error found in the Excel file")
 
+    else:
+        print("Error Found in the excel file. Please check file {}".format(pathname))
+        for er in errors:
+            logger.critical("Empty or zero value found in column {}, row number {}".format(er[0], er[1]) )
+
+        sys.exit()
 
 
     maxrun = 10
@@ -409,8 +463,6 @@ def main():
                     if data[20] == 'None':
                         xlsdictwcode[idx] = xls
                         break
-            
-
             for xlsdata in xlsdictwcode.values():
                 try:
                     driver.close()
@@ -465,6 +517,9 @@ def main():
                 deltree(complete_output_folder + file_delimeter() + dir)
 
             list_of_files = glob.glob(complete_output_folder + file_delimeter() + "*.pdf")
+            if len(list_of_files) == 0:
+                print("No PDF file will be proccessed, the Script Stopped")
+                sys.exit()
             allsavedfiles = []
             for xlsdata in xlsdictall.values():
                 entry_id = xlsdata['data'][0][20]
