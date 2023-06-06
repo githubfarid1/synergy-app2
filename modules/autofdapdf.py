@@ -429,12 +429,12 @@ def main():
     maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
     xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
    							 							 
-    colchecks = {(21, '"SKU"'), (1, '"Code"'), (2, '" Description"'), (3, '"Size (grams)"'), (4, '"Total Quantitiy"'), (5, '"Manufacturer"'), (6, '"Manufacturer address"'), (7, '"Manufacturer City/postal code"'), (8, '"Consignee"'), (9, '"Consignee Address"'), (10, '"Consignee City"'),(11, '"Consignee Postal"'),(12, '"State Actual"'),(13, '"State"'),(14 , '"Shipper/Exporter"'), (15, '"Address"'),(16, '"City/State/Zip Code"'),(17, '"Country"')}
+    colchecks = {(21, '"SKU"'), (1, '"Code"'), (2, '"Description"'), (3, '"Size (grams)"'), (4, '"Total Quantitiy"'), (5, '"Manufacturer"'), (6, '"Manufacturer address"'), (7, '"Manufacturer City/postal code"'), (8, '"Consignee"'), (9, '"Consignee Address"'), (10, '"Consignee City"'),(11, '"Consignee Postal"'),(12, '"State Actual"'),(13, '"State"'),(14 , '"Shipper/Exporter"'), (15, '"Address"'),(16, '"City/State/Zip Code"'),(17, '"Country"')}
     errors = []
     for idx, xls in xlsdictall.items():
         for data in xls['data']:
             for col in colchecks:
-                if data[col[0]] == 'None' or data[col[0]] == '0':
+                if data[col[0]] == 'None' or data[col[0]] == '0' or data[col[0]].strip() == '':
                     errors.append((col[1], data[22]))
     
     logger.critical("")
