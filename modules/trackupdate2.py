@@ -99,7 +99,7 @@ def parse(xlsheet, profile, track_empty_only=False):
     # Use the active cell when the file was loaded
     # ws = wb.active
     first = True
-    maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
+    maxrow = xlsheet.range('R' + str(xlsheet.cells.last_cell.row)).end('up').row
     for i in range(2, maxrow + 2):
 
     # for i in range(2, ws.max_row + 1):
