@@ -235,7 +235,7 @@ def main():
         input("isreplace parameter was empty")
         sys.exit()
     
-    xlbook = xw.Book(args.xlsinput)
+    xlbook = xw.Book(args.input)
     xlsheet = xlbook.sheets[args.sheetname]
 
     parse(xlsheet=xlsheet, profile=args.data, track_empty_only=costempty)
