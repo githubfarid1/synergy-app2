@@ -215,7 +215,7 @@ def main():
     parser = argparse.ArgumentParser(description="Tracking Update")
     parser.add_argument('-i', '--input', type=str,help="File Input")
     parser.add_argument('-d', '--data', type=str,help="Chrome User Data Directory")
-    parser.add_argument('-s', '--sheetname', type=str,help="Sheet Name of XLSX file")
+    # parser.add_argument('-s', '--sheetname', type=str,help="Sheet Name of XLSX file")
     parser.add_argument('-r', '--isreplace', type=str,help="is replace the data")
 
     args = parser.parse_args()
@@ -224,7 +224,7 @@ def main():
         exit()
     isExist = os.path.exists(args.input)
     if isExist == False :
-        print('Please check XLSX file')
+        print('Please check the Excel file')
         exit()
     if args.isreplace in ["yes", "no"]:
         if args.isreplace == "yes":
@@ -236,8 +236,8 @@ def main():
         sys.exit()
     
     xlbook = xw.Book(args.input)
-    xlsheet = xlbook.sheets[args.sheetname]
-
+    # xlsheet = xlbook.sheets[args.sheetname]
+    xlsheet = xlbook.sheets['dyk_manifest_template']
     parse(xlsheet=xlsheet, profile=args.data, track_empty_only=costempty)
     
 if __name__ == '__main__':
