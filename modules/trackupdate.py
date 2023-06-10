@@ -156,7 +156,11 @@ def parse(fileinput, profile):
         try:
             carrier = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[8]/div/div/div[1]/div[2]/div/div[2]/div[1]/div[2]').text
         except:
-            pass
+            try:
+                carrier = driver.find_element(By.XPATH,'//*[@id="MYO-app"]/div/div[1]/div[1]/div/div[7]/div/div/div[1]/div[2]/div/div[2]/div[1]/div[2]').text
+            except:
+                carrier = ''
+            
 
         # print(carrier)
         print(tracking_id,weight, cost, service)

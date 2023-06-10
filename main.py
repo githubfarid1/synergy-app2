@@ -449,18 +449,27 @@ class ScrapeBySellerAmazonFrame(ttk.Frame):
 		closeButton = CloseButton(self)
 	
 		xlsInputFile = FileChooserFrame(self, btype="file", label="Select XLSX Input File:", filetypes=(("xlsx files", "*.xlsx"),("all files", "*.*")))
-		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename))
+		labelsname = Label(self, text="Website: ")		
+
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename, website=websitecombo.get()))
 		# layout
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
 		runButton.grid(column = 0, row = 3, sticky = (E))
 		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		xlsInputFile.grid(column = 0, row = 1, sticky = (W,E))
+		labelsname.grid(column = 0, row = 2, sticky=(W))
+		
+		websitecombo = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		websitecombo['values'] = ["amazon.com", "amazon.ca"]
+		websitecombo.current(0)
+
+		websitecombo.grid(column = 0, row = 2)
 
 	def run_process(self, **kwargs):
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			run_module(comlist=[PYLOC, "modules/scrapebyseller.py", "-i", kwargs['input'], "-d", profileSelected.get()])
+			run_module(comlist=[PYLOC, "modules/scrapebyseller.py", "-i", kwargs['input'], "-d", profileSelected.get(), "-w", kwargs['website'] ])
 
 class TrackingUpdateFrame(ttk.Frame):
 	def __init__(self, window) -> None:
