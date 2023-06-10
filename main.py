@@ -348,7 +348,7 @@ class MainFrame(ttk.Frame):
 		pdfconvertButton = FrameButton(self, window, text="PDF Converter", class_frame=PdfConvertFrame)
 		scrapeBySellerButton = FrameButton(self, window, text="Scrape By Amazon Seller", class_frame=ScrapeBySellerAmazonFrame)
 		scrapeWalmartButton = FrameButton(self, window, text="Scrape Walmart", class_frame=ScrapeWalmartFrame)
-		trackingUpdateButton = FrameButton(self, window, text="Amazon Tracking Update", class_frame=TrackingUpdateFrame)
+		trackingUpdateButton = FrameButton(self, window, text="Amazon Tracking Update", class_frame=TrackingUpdate2Frame)
 		statisticsButton = FrameButton(self, window, text="Statistics", class_frame=StatisticsFrame)
 		dykShippedButton = FrameButton(self, window, text="DYK Shipped", class_frame=DykShippedFrame)
 		costLookupButton = FrameButton(self, window, text="Cost Lookup", class_frame=CostLookupFrame)
@@ -503,6 +503,50 @@ class TrackingUpdateFrame(ttk.Frame):
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
 			run_module(comlist=[PYLOC, "modules/trackupdate.py", "-i", kwargs['input'], "-d", profileSelected.get()])
+
+class TrackingUpdate2Frame(ttk.Frame):
+	def __init__(self, window) -> None:
+		super().__init__(window)
+		# configure
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
+		self.columnconfigure(0, weight=1)
+		self.rowconfigure(0, weight=1)
+		self.rowconfigure(1, weight=1)
+		self.rowconfigure(2, weight=1)
+		self.rowconfigure(3, weight=1)
+		self.rowconfigure(4, weight=1)
+		self.rowconfigure(5, weight=1)
+
+		# populate
+		titleLabel = TitleLabel(self, text="Amazon Tracking Update")
+		closeButton = CloseButton(self)
+		
+		# xlsInputFile = FileChooserFrame(self, btype="file", label="Select XLSM or XLSX Input File:", filetypes=(("excel files", "*.xlsm *.xlsx"),("all files", "*.*")))
+		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		xlsInputFile = FileChooserFrame(self, btype="file", label="Select Input Excel File:", filetypes=(("Excel files", "*.xlsx *.xlsm"),("all files", "*.*")), sheetlist=sheetlist)
+		labelsname = Label(self, text="Sheet Name:")
+		isreplacevar = StringVar(value="yes")
+		isreplacecheck = ttk.Checkbutton(self, text="Replace Data (Tracking, Input Weight, Cost, etc)", variable=isreplacevar, onvalue="yes", offvalue="no")
+		
+		
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename, sname=sheetlist, isreplace=isreplacevar.get()))
+		
+		# layout
+		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
+		xlsInputFile.grid(column = 0, row = 1, sticky = (W, E))
+		labelsname.grid(column = 0, row = 2, sticky=(W))
+		isreplacecheck.grid(column = 0, row = 3, sticky=(W))
+		sheetlist.grid(column=0, row = 2, pady=10)
+		
+		runButton.grid(column = 0, row = 3, sticky = (E))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+
+	def run_process(self, **kwargs):
+		if kwargs['input'] == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
+		else:
+			run_module(comlist=[PYLOC, "modules/trackupdate2.py", "-i", kwargs['input'], "-s", kwargs['sname'].get(), "-r", kwargs['isreplace'], "-d", profileSelected.get()])
 
 class StatisticsFrame(ttk.Frame):
 	def __init__(self, window) -> None:
