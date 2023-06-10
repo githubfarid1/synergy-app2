@@ -365,6 +365,7 @@ class MainFrame(ttk.Frame):
 		walmartstButton = FrameButton(self, window, text="Walmart Scraper", class_frame=WalmartstFrame)
 		superstoreButton = FrameButton(self, window, text="Superstore Scraper", class_frame=SuperstoreFrame)
 		wholesaleButton = FrameButton(self, window, text="Wholesale Club Scraper", class_frame=WholesaleFrame)
+		amazonpdfButton = FrameButton(self, window, text="Amazon PDF Extractor", class_frame=AmazonPdfFrame)
 
 
 		# layout
@@ -391,6 +392,7 @@ class MainFrame(ttk.Frame):
 		walmartstButton.grid(column = 1, row = 6, sticky=(W, E, N, S), padx=15, pady=5)
 		superstoreButton.grid(column = 2, row = 6, sticky=(W, E, N, S), padx=15, pady=5)
 		wholesaleButton.grid(column = 0, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
+		amazonpdfButton.grid(column = 1, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
 
 class PdfConvertFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -1284,6 +1286,59 @@ class WholesaleFrame(ttk.Frame):
 		else:
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
 			run_module(comlist=[PYLOC, "modules/walmart_superstore.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-module", "wholesaleclub", "-profile", profileSelected.get(), "-isreplace", kwargs['isreplace']])
+
+class AmazonPdfFrame(ttk.Frame):
+	def __init__(self, window) -> None:
+		super().__init__(window)
+		# configure
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
+
+		self.columnconfigure(0, weight=1)
+		self.rowconfigure(0, weight=1)
+		self.rowconfigure(1, weight=1)
+		self.rowconfigure(2, weight=1)
+		self.rowconfigure(3, weight=1)
+		self.rowconfigure(4, weight=1)
+		self.rowconfigure(5, weight=1)
+		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		
+		# populate
+		titleLabel = TitleLabel(self, text="Amazon PDF Extractor")
+		closeButton = CloseButton(self)
+
+		pdfInputFiles = FileChooserMultipleFrame(self, label="Select Input PDF File:", filetypes=(("pdf files", "*.pdf"),("all files", "*.*")))
+
+		xlsInputFile = FileChooserFrame(self, btype="file", label="Select Input Excel File:", filetypes=(("Excel files", "*.xlsx *.xlsm"),("all files", "*.*")), sheetlist=sheetlist)
+
+		outputfolder = FileChooserFrame(self, btype="folder", label="Output PDF Folder:", filetypes=())
+
+		labelsname = Label(self, text="Sheet Name:")
+		
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(pdfinput=pdfInputFiles.filenames, xlsinput=xlsInputFile.filename, sname=sheetlist, pdfoutput=outputfolder.filename))
+		
+		# layout
+		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
+		pdfInputFiles.grid(column = 0, row = 1, sticky = (W,E))
+		xlsInputFile.grid(column = 0, row = 2, sticky = (W,E))
+		labelsname.grid(column = 0, row = 3, sticky=(W))
+		# sheetName.grid(column = 0, row = 3, pady=10)
+		outputfolder.grid(column = 0, row = 4, sticky = (W,E))
+		sheetlist.grid(column=0, row = 3, pady=10)
+
+		runButton.grid(column = 0, row = 5, sticky = (E))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+		# self.runButton.state(['disabled'])
+
+	def run_process(self, **kwargs):
+		if kwargs['pdfinput'] == "" or kwargs['xlsinput'] == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
+		else:
+			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
+			run_module(comlist=[PYLOC, "modules/amazonpdf.py", "-pdf", kwargs['pdfinput'], "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-output", kwargs['pdfoutput'] ])
+
+
+
 
 class CloseButton(ttk.Button):
 	def __init__(self, parent):
