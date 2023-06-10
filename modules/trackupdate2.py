@@ -172,7 +172,7 @@ def parse(xlsheet, profile, track_empty_only=False):
 
         # print(carrier)
         print(tracking_id,weight, cost, service)
-        xlsheet['M{}'.format(i)].options(numbers=int).value = tracking_id
+        xlsheet['M{}'.format(i)].options(numbers=int).value = str(tracking_id)
         xlsheet['N{}'.format(i)].value = weight
         xlsheet['O{}'.format(i)].value = cost
         xlsheet['P{}'.format(i)].value = service
