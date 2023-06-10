@@ -100,7 +100,7 @@ def parse(xlsheet, profile, track_empty_only=False):
     # ws = wb.active
     first = True
     maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
-    for i in range(1, maxrow + 2):
+    for i in range(2, maxrow + 2):
 
     # for i in range(2, ws.max_row + 1):
         if xlsheet['R{}'.format(i)].value == None:
