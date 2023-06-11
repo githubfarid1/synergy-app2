@@ -849,7 +849,7 @@ def extract_pdf(download_folder, box, shipment_id, label):
     try:
         mfile = fitz.open(pdffile)
     except:
-        return
+        return "failed"
         
     print(pdffile)
     fname = "{}{}{}.pdf".format(foldername, lib.file_delimeter() ,  box.strip())
@@ -875,6 +875,9 @@ def extract_pdf(download_folder, box, shipment_id, label):
         page.insert_text((550.2469787597656, 100.38037109375), "Box:{}".format(str(box)), rotate=90, color=white)
         page.set_rotation(90)
         mfile.save(fname)
+        return "success"
+    else:
+        return "failed"
 
 def main():
     clear_screan()
@@ -964,8 +967,10 @@ def main():
     # input(json.dumps(shipment.datareadylist))
     for rlist in shipment.datareadylist:
         # print(rlist['shipid'])
-        # if rlist['shipid'] != None:
-        extract_pdf(download_folder=folderamazonship, box=rlist['boxname'], shipment_id=rlist['shipid'][0:12], label=rlist['shipid'] )
+        if rlist['shipid'] != None:
+            
+            ret = extract_pdf(download_folder=folderamazonship, box=rlist['boxname'], shipment_id=rlist['shipid'][0:12], label=rlist['shipid'] )
+            print(rlist['boxname'], ret)
     addressfile = Path("address.csv")
     resultfile = lib.join_pdfs(source_folder=folderamazonship + lib.file_delimeter() + "combined" , output_folder = folderamazonship, tag='Labels')
     if resultfile != "":
