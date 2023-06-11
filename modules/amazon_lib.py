@@ -153,7 +153,7 @@ def generate_xls_from_pdf(fileinput, addressfile):
         imgcrop = images[0].crop(box = (180,750,750,900))
         res = reader.readtext(numpy.array(imgcrop)  , detail = 0)
         tracking_id = res[1].strip().replace('TRACKING #','').replace(' ','').replace(":","")
-        # print(tracking_id)
+        print(tracking_id)
         lines = pdf.extract_text(space_width=200).split("\n")
         # print(lines)
         if platform == "win32":

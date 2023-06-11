@@ -949,10 +949,10 @@ def main():
     #         continue
     #     break
     
+
+    # --------------
     shipment = AmazonShipment(xlsfile=args.xlsinput, sname=args.sheetname, chrome_data=args.chromedata, download_folder=folderamazonship, xlworksheet=xlsheet)
-    # shipment.data_generator()
-    # if len(shipment.datalist) == 0:
-    #     break
+    # --------------
 
     shipment.data_generator()
     for rlist in shipment.datareadylist:
