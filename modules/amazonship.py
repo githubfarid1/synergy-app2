@@ -840,7 +840,6 @@ class AmazonShipment:
 
 def extract_pdf(download_folder, box, shipment_id, label):
     pdffile = "{}{}package-{}.pdf".format(download_folder, lib.file_delimeter() , shipment_id)
-    
     foldername = "{}{}combined".format(download_folder, lib.file_delimeter() ) 
     isExist = os.path.exists(foldername)
     if not isExist:
@@ -970,11 +969,12 @@ def main():
 
     shipment.data_generator()
     # input(json.dumps(shipment.datareadylist))
+    print("Extract PDF..", end=" ", flush=True)
     for rlist in shipment.datareadylist:
-        # print(rlist['shipid'])
         if rlist['shipid'] != None:
             ret = extract_pdf(download_folder=folderamazonship, box=rlist['boxname'], shipment_id=rlist['shipid'][0:12], label=rlist['shipid'] )
             # print(ret)
+    print("Finished")
     addressfile = Path("address.csv")
     resultfile = lib.join_pdfs(source_folder=folderamazonship + lib.file_delimeter() + "combined" , output_folder = folderamazonship, tag='Labels')
     if resultfile != "":
