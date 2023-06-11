@@ -841,7 +841,11 @@ def extract_pdf(download_folder, box, shipment_id, label):
     if not isExist:
         os.makedirs(foldername)
     white = fitz.utils.getColor("white")
-    mfile = fitz.open(pdffile)
+    try:
+        mfile = fitz.open(pdffile)
+    except:
+        return
+        
     fname = "{}{}{}.pdf".format(foldername, lib.file_delimeter() ,  box.strip())
     tmpname = "{}{}{}.pdf".format(foldername, lib.file_delimeter() , "tmp")
 
