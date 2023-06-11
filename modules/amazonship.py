@@ -932,41 +932,40 @@ def main():
 
     logger2.info("###### Start ######")
     logger2.info("Filename: {}\nSheet Name:{}\nPDF Output Folder:{}".format(args.xlsinput, args.sheetname, folderamazonship))
-    # maxrun = 10
-    # for i in range(1, maxrun+1):
-    #     if i > 1:
-    #         print("Process will be reapeated")
-    #     try:    
-    #         shipment = AmazonShipment(xlsfile=args.xlsinput, sname=args.sheetname, chrome_data=args.chromedata, download_folder=folderamazonship, xlworksheet=xlsheet)
-    #         shipment.data_generator()
-    #         if len(shipment.datalist) == 0:
-    #             break
-    #         shipment.parse()
-    #         try:
-    #             xlbook.save(args.xlsinput)
-    #         except:
-    #             pass    
-    #     except Exception as e:
-    #         logger.error(e)
-    #         print("There is an error, check logs/amazonship-err.log")
-    #         try:
-    #             xlbook.save(args.xlsinput)
-    #         except:
-    #             pass
-    #         if i == maxrun:
-    #             logger.error("Execution Limit reached, Please check the script")
-    #         continue
-    #     break
+    maxrun = 10
+    for i in range(1, maxrun+1):
+        if i > 1:
+            print("Process will be reapeated")
+        try:    
+            shipment = AmazonShipment(xlsfile=args.xlsinput, sname=args.sheetname, chrome_data=args.chromedata, download_folder=folderamazonship, xlworksheet=xlsheet)
+            shipment.data_generator()
+            if len(shipment.datalist) == 0:
+                break
+            shipment.parse()
+            try:
+                xlbook.save(args.xlsinput)
+            except:
+                pass    
+        except Exception as e:
+            logger.error(e)
+            print("There is an error, check logs/amazonship-err.log")
+            try:
+                xlbook.save(args.xlsinput)
+            except:
+                pass
+            if i == maxrun:
+                logger.error("Execution Limit reached, Please check the script")
+            continue
+        break
     
 
     # --------------
-    shipment = AmazonShipment(xlsfile=args.xlsinput, sname=args.sheetname, chrome_data=args.chromedata, download_folder=folderamazonship, xlworksheet=xlsheet)
-    shipment.data_generator()
-    if len(shipment.datalist) == 0:
-        print("empty")
-    else:
-        shipment.parse()
-
+    # shipment = AmazonShipment(xlsfile=args.xlsinput, sname=args.sheetname, chrome_data=args.chromedata, download_folder=folderamazonship, xlworksheet=xlsheet)
+    # shipment.data_generator()
+    # if len(shipment.datalist) == 0:
+    #     print("empty")
+    # else:
+    #     shipment.parse()
     # --------------
 
     shipment.data_generator()
