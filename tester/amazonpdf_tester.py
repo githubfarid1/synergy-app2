@@ -34,6 +34,7 @@ def generate_xls_from_pdf(fileinput):
         with Path("pdftmp.pdf").open(mode="wb") as output_file:
             pdfWriter.write(output_file)
         images = convert_from_path(Path('pdftmp.pdf'))
+        print(len(images))
         imgcrop = images[0].crop(box = (180,750,750,900))
         res = reader.readtext(numpy.array(imgcrop)  , detail = 0)
         tracking_id = res[1].strip().replace('TRACKING #','').replace(' ','').replace(":","")
