@@ -961,7 +961,7 @@ def main():
     # --------------
 
     shipment.data_generator()
-    input(json.dumps(shipment.datareadylist))
+    # input(json.dumps(shipment.datareadylist))
     for rlist in shipment.datareadylist:
         # print(rlist['shipid'])
         extract_pdf(download_folder=folderamazonship, box=rlist['boxname'], shipment_id=rlist['shipid'][0:12], label=rlist['shipid'] )
