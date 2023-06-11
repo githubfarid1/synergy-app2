@@ -219,7 +219,6 @@ class FileChooserFrame(ttk.Frame):
 				wb.close()
 				# os.remove(backfile)
 				
-
 class FileChooserMultipleFrame(ttk.Frame):
 	def __init__(self, window, **kwargs):
 		super().__init__(window)
@@ -552,7 +551,6 @@ class TrackingUpdate2Frame(ttk.Frame):
 		else:
 			# run_module(comlist=[PYLOC, "modules/trackupdate2.py", "-i", kwargs['input'], "-s", kwargs['sname'].get(), "-r", kwargs['isreplace'], "-d", profileSelected.get()])
 			run_module(comlist=[PYLOC, "modules/trackupdate2.py", "-i", kwargs['input'],  "-r", kwargs['isreplace'], "-d", profileSelected.get()])
-
 
 class StatisticsFrame(ttk.Frame):
 	def __init__(self, window) -> None:

@@ -7,10 +7,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager as CM
 import time
-from openpyxl import Workbook, load_workbook
-# If you need to get the column letter, also import this
-from openpyxl.utils import get_column_letter
-# from bs4 import BeautifulSoup
 import warnings
 import argparse
 import os
@@ -87,22 +83,12 @@ def parse(xlsheet, profile, track_empty_only=False):
     options.add_argument('--no-sandbox')
     options.add_argument("--log-level=3")
     options.add_argument("--window-size=800,600")
-    # options.add_argument("user-agent=" + ua.random )
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     driver = webdriver.Chrome(service=Service(CM().install()), options=options)
     os.system('cls')
-    # print('File Selected:', fileinput)
-
-    # wb = load_workbook(filename=trackupdate_source, read_only=False, keep_vba=True, data_only=True)
-    # ws = wb['dyk_manifest_template']
-    # Use the active cell when the file was loaded
-    # ws = wb.active
-    first = True
     maxrow = xlsheet.range('R' + str(xlsheet.cells.last_cell.row)).end('up').row
     for i in range(2, maxrow + 2):
-
-    # for i in range(2, ws.max_row + 1):
         if xlsheet['R{}'.format(i)].value == None:
             break
         if track_empty_only == True:
