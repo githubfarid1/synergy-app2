@@ -845,7 +845,7 @@ def extract_pdf(download_folder, box, shipment_id, label):
         mfile = fitz.open(pdffile)
     except:
         return
-        
+    print(pdffile)    
     fname = "{}{}{}.pdf".format(foldername, lib.file_delimeter() ,  box.strip())
     tmpname = "{}{}{}.pdf".format(foldername, lib.file_delimeter() , "tmp")
 
