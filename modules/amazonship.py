@@ -836,6 +836,7 @@ class AmazonShipment:
 
 def extract_pdf(download_folder, box, shipment_id, label):
     pdffile = "{}{}package-{}.pdf".format(download_folder, lib.file_delimeter() , shipment_id)
+    print(pdffile)
     foldername = "{}{}combined".format(download_folder, lib.file_delimeter() ) 
     isExist = os.path.exists(foldername)
     if not isExist:
@@ -845,7 +846,7 @@ def extract_pdf(download_folder, box, shipment_id, label):
         mfile = fitz.open(pdffile)
     except:
         return
-    print(pdffile)    
+        
     fname = "{}{}{}.pdf".format(foldername, lib.file_delimeter() ,  box.strip())
     tmpname = "{}{}{}.pdf".format(foldername, lib.file_delimeter() , "tmp")
 
