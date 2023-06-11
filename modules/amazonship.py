@@ -969,9 +969,8 @@ def main():
     for rlist in shipment.datareadylist:
         # print(rlist['shipid'])
         if rlist['shipid'] != None:
-            
             ret = extract_pdf(download_folder=folderamazonship, box=rlist['boxname'], shipment_id=rlist['shipid'][0:12], label=rlist['shipid'] )
-            print(ret)
+            # print(ret)
     addressfile = Path("address.csv")
     resultfile = lib.join_pdfs(source_folder=folderamazonship + lib.file_delimeter() + "combined" , output_folder = folderamazonship, tag='Labels')
     if resultfile != "":
