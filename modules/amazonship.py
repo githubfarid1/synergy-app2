@@ -615,8 +615,13 @@ class AmazonShipment:
                     y += 1
                     # skip if shipment_id was filled
                     if ''.join(str(self.xlworksheet['B{}'.format(y)].value)).strip() == 'Shipment ID':
-                        if ''.join(str(self.xlworksheet['E{}'.format(y)].value)).strip() != 'None':
-                            shipment_empty = False
+                        # if ''.join(str(self.xlworksheet['E{}'.format(y)].value)).strip() != 'None':
+                        #     shipment_empty = False
+                        boxes = ('E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P')
+                        for box in boxes:
+                            if ''.join(str(self.xlworksheet['{}{}'.format(box, y)].value)).strip() != 'None':
+                                shipment_empty = False
+                                break
 
                     if str(self.xlworksheet['B{}'.format(y)].value) == 'Tracking Number':
                         endrow = y + 1
@@ -636,7 +641,6 @@ class AmazonShipment:
             boxes = ('E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P')
             boxcount = 0
             for box in boxes:
-                
                 if self.xlworksheet['{}{}'.format(box, shipmentdata['begin'])].value != None:
                     boxcount += 1
                 else:
