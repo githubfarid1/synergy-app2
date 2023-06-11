@@ -54,4 +54,4 @@ def generate_xls_from_pdf(fileinput):
     print("Finished")
 
 
-generate_xls_from_pdf("package-FBA176VJ336F.pdf")
+generate_xls_from_pdf(r"C:\synergy-data-tester\shipment_creation_2023-05-30\package-FBA176VGRJ9Y.pdf")
