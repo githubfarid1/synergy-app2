@@ -50,7 +50,7 @@ def generate_xls_from_pdf(fileinput):
         shipper = lines[2]
         code = lines[12]
         box = lines[-2].replace(":", " ")
-        input(tracking_id)
+        input(res)
     print("Finished")
 
 
