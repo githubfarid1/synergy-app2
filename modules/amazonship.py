@@ -849,7 +849,7 @@ def extract_pdf(download_folder, box, shipment_id, label):
     try:
         mfile = fitz.open(pdffile)
     except:
-        return pdffile + " " + "failed not found"
+        return pdffile + " " + "file not found"
         
     # print(pdffile)
     fname = "{}{}{}.pdf".format(foldername, lib.file_delimeter() ,  box.strip())
@@ -860,6 +860,7 @@ def extract_pdf(download_folder, box, shipment_id, label):
     for i in range(0, mfile.page_count):
         page = mfile[i]
         plist = page.search_for(label)
+        print(label)
         if len(plist) != 0:
             found = True
             pfound = i
