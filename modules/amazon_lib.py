@@ -120,7 +120,6 @@ def add_page_numbers(pdffile):
     os.remove(tmpfile)
     print("Finished")
 
-    
 def generate_xls_from_pdf(fileinput, addressfile):
     print("Generate new XLS file from PDF File...", end=" ", flush=True)
     addressdict = pd.read_csv(addressfile, usecols=['Consignee', 'Address']).to_dict('index')

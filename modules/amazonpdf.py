@@ -11,6 +11,12 @@ import unicodedata as ud
 from sys import platform
 from os import walk
 import json
+import xlwings as xw
+from PyPDF2 import PdfMerger, PdfFileReader, PdfFileWriter
+import easyocr
+from pathlib import Path
+from pdf2image import convert_from_path
+import numpy
 
 POSX1CODE1 = 12.0
 POSX2CODE1 = 32.01737594604492
@@ -612,6 +618,250 @@ def del_non_annot_page(pdffiles, pdffolder):
         os.remove(tmpfile)    
     print("")
 
+
+def data_generator(xlsworksheet):
+    shipmentlist = []
+    shipreadylist = []
+    maxrow = xlsworksheet.range('B' + str(xlsworksheet.cells.last_cell.row)).end('up').row
+    for i in range(2, maxrow + 2):
+        shipment_row = str(xlsworksheet['A{}'.format(i)].value)
+        if shipment_row.find('Shipment') != -1:
+            # print(shipment_row, i)
+            startrow = i
+            y = i
+            shipment_empty = True
+            while True:
+                y += 1
+                # skip if shipment_id was filled
+                if ''.join(str(xlsworksheet['B{}'.format(y)].value)).strip() == 'Shipment ID':
+                    # if ''.join(str(xlsworksheet['E{}'.format(y)].value)).strip() != 'None':
+                    #     shipment_empty = False
+                    boxes = ('E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P')
+                    for box in boxes:
+                        if ''.join(str(xlsworksheet['{}{}'.format(box, y)].value)).strip() != 'None':
+                            shipment_empty = False
+                            break
+
+                if str(xlsworksheet['B{}'.format(y)].value) == 'Tracking Number':
+                    endrow = y + 1
+                    i = y + 1
+                    break
+            if shipment_empty == True:
+                shipmentlist.append({'begin':startrow, 'end':endrow})
+            else:
+                shipreadylist.append({'begin':startrow, 'end':endrow})
+
+    # print(json.dumps(shipmentlist))
+    for index, shipmentdata in enumerate(shipmentlist):
+        shipmentlist[index]['submitter'] = xlsworksheet['B{}'.format(shipmentdata['begin'])].value
+        shipmentlist[index]['address'] = xlsworksheet['B{}'.format(shipmentdata['begin']+1)].value
+        shipmentlist[index]['name'] = xlsworksheet['A{}'.format(shipmentdata['begin'])].value
+        boxes = ('E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P')
+        boxcount = 0
+        for box in boxes:
+            if xlsworksheet['{}{}'.format(box, shipmentdata['begin'])].value != None:
+                boxcount += 1
+            else:
+                break
+        if boxcount == 0:
+            del shipmentlist[index]
+            continue
+        shipmentlist[index]['boxcount'] = boxcount
+        start = shipmentdata['begin'] + 2
+        shipmentlist[index]['weightboxes'] = []
+        shipmentlist[index]['dimensionboxes'] = []
+        shipmentlist[index]['nameboxes'] = []
+        shipmentlist[index]['items'] = []
+
+        # get weightboxes
+        rowsearch = 0
+        for i in range(start, shipmentdata['end']):
+            if xlsworksheet['B{}'.format(i)].value == 'Weight':
+                rowsearch = i
+                break
+        
+        for ke, box in enumerate(boxes):
+            if ke == boxcount:
+                break
+            shipmentlist[index]['weightboxes'].append(int(xlsworksheet['{}{}'.format(box, rowsearch)].value)) #UP
+
+        # get dimensionboxes
+        rowsearch = 0
+        for i in range(start, shipmentdata['end']):
+            if xlsworksheet['B{}'.format(i)].value == 'Dimensions':
+                rowsearch = i
+                break
+        
+        for ke, box in enumerate(boxes):
+            if ke == boxcount:
+                break
+            shipmentlist[index]['dimensionboxes'].append(xlsworksheet['{}{}'.format(box, rowsearch)].value)
+
+        #get nameboxes
+        for ke, box in enumerate(boxes):
+            if ke == boxcount:
+                break
+            shipmentlist[index]['nameboxes'].append(str(int(xlsworksheet['{}{}'.format(box, shipmentdata['begin'])].value)))
+
+        ti = -1
+        for i in range(start, shipmentdata['end']):
+            ti += 1
+            if xlsworksheet['A{}'.format(i)].value == None or str(xlsworksheet['A{}'.format(i)].value).strip() == '':
+                break
+            
+            dict = {
+                'id': xlsworksheet['A{}'.format(i)].value,
+                'name': xlsworksheet['B{}'.format(i)].value,
+                'total': int(xlsworksheet['C{}'.format(i)].value), #UP
+                'expiry': str(xlsworksheet['D{}'.format(i)].value),
+                'boxes':[],
+
+            }
+
+            shipmentlist[index]['items'].append(dict)
+            for ke, box in enumerate(boxes):
+                if ke == boxcount:
+                    break
+                if xlsworksheet['{}{}'.format(box, i)].value == None or str(xlsworksheet['{}{}'.format(box, i)].value).strip() == '':
+                    shipmentlist[index]['items'][ti]['boxes'].append(0)
+                else:                           
+                    shipmentlist[index]['items'][ti]['boxes'].append(int(xlsworksheet['{}{}'.format(box, i)].value)) #UP
+    shipids = []
+    for shipmentdata in shipreadylist:
+        boxes = ('E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P')
+        boxcount = 0
+        start = shipmentdata['begin'] + 2
+        for box in boxes:
+            
+            if xlsworksheet['{}{}'.format(box, shipmentdata['begin'])].value != None:
+                boxcount += 1
+            else:
+                break
+        if boxcount == 0:
+            del shipreadylist[index]
+            continue
+
+        rowsearch = 0
+        for i in range(start, shipmentdata['end']):
+            if xlsworksheet['B{}'.format(i)].value == 'Shipment ID':
+                rowsearch = i
+                break
+
+        
+
+        rowsearch2 = 0
+        for i in range(start, shipmentdata['end']):
+            if xlsworksheet['B{}'.format(i)].value == 'Tracking Number':
+                rowsearch2 = i
+                break
+
+        for ke, box in enumerate(boxes):
+            if ke == boxcount:
+                break
+            mdict = {
+                'boxname':str(int(xlsworksheet['{}{}'.format(box, shipmentdata['begin'])].value)),
+                'shipid': xlsworksheet['{}{}'.format(box, rowsearch)].value,
+                'label': xlsworksheet['{}{}'.format(box, rowsearch2)].value
+
+            }
+            shipids.append(mdict)
+
+    #cleansing
+    idxdel = []
+    for index, shipmentdata in enumerate(shipmentlist):
+        try:
+            cheat = shipmentdata['name']
+        except:
+            idxdel.append(index)
+    
+    for idx in idxdel:
+        for index, shipmentdata in enumerate(shipmentlist):
+            try:
+                cheat = shipmentdata['name']
+            except:
+                del shipmentlist[index]
+            
+        # pass
+    return shipids
+
+def extract_pdf(download_folder, filename, datalist):
+    pdffile = filename #"{}{}package-{}.pdf".format(download_folder, file_delimeter() , shipment_id)
+    foldername = "{}{}combined".format(download_folder, file_delimeter() ) 
+    isExist = os.path.exists(foldername)
+    if not isExist:
+        os.makedirs(foldername)
+
+    white = fitz.utils.getColor("white")
+    try:
+        mfile = fitz.open(pdffile)
+    except:
+        return pdffile + " " + "file not found"
+        
+    # print(pdffile)
+    reader = easyocr.Reader(['en'], gpu=False, verbose=False)
+
+    # fname = "{}{}{}.pdf".format(foldername, file_delimeter() ,  box.strip())
+    tmpname = "{}{}{}.pdf".format(foldername, file_delimeter() , "tmp")
+
+    for i in range(0, mfile.page_count):
+        found = False
+        pfound = 0
+        page = mfile[i]
+        page.set_rotation(90)
+        for data in datalist:
+            plist = page.search_for(data['shipid'])
+            if len(plist) != 0:
+                found = True
+                pfound = i
+                break
+        
+        if found:
+            # print(fname)
+            pdfWriter = PdfFileWriter()
+            single = fitz.open()
+            single.insert_pdf(mfile, from_page=pfound, to_page=pfound)
+            mfile.close()
+            single.save(tmpname)
+            # with Path(tmpname).open(mode="wb") as output_file:
+            #     pdfWriter.write(output_file)
+            # images = convert_from_path(Path(tmpname))
+            images = convert_from_path(tmpname)
+            imgcrop = images[0].crop(box = (180,750,750,900))
+            res = reader.readtext(numpy.array(imgcrop)  , detail = 0)
+            tracking_id = res[1].strip().replace('TRACKING #','').replace(' ','').replace(":","")
+            print(tracking_id)
+
+    #         mfile = fitz.open(tmpname)
+    #         page = mfile[0]
+    #         page.insert_text((550.2469787597656, 100.38037109375), "Box:{}".format(str(box)), rotate=90, color=white)
+    #         page.set_rotation(90)
+    #         mfile.save(fname)
+    #         return pdffile + " " + box + " " + "success"
+    #     else:
+    #         return pdffile + " " + box + " " +  "failed"
+
+
+    #     plist = page.search_for(label)
+    #     if len(plist) != 0:
+    #         found = True
+    #         pfound = i
+    #         break
+
+    # if found:
+    #     # print(fname)
+    #     single = fitz.open()
+    #     single.insert_pdf(mfile, from_page=pfound, to_page=pfound)
+    #     mfile.close()
+    #     single.save(tmpname)
+    #     mfile = fitz.open(tmpname)
+    #     page = mfile[0]
+    #     page.insert_text((550.2469787597656, 100.38037109375), "Box:{}".format(str(box)), rotate=90, color=white)
+    #     page.set_rotation(90)
+    #     mfile.save(fname)
+    #     return pdffile + " " + box + " " + "success"
+    # else:
+    #     return pdffile + " " + box + " " +  "failed"
+
 def main():
     parser = argparse.ArgumentParser(description="FDA PDF Extractor")
     parser.add_argument('-pdf', '--pdfinput', type=str,help="PDF File Input")
@@ -619,12 +869,6 @@ def main():
     parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
     parser.add_argument('-output', '--pdfoutput', type=str,help="PDF output folder")
     args = parser.parse_args()
-    # if args.pdfinput[-4:] != '.pdf':
-    #     input('1st file input have to PDF file')
-    #     sys.exit()
-    # if args.xlsinput[-5:] != '.xlsx':
-    #     input('2nd File input have to XLSX file')
-    #     sys.exit()
         
     if not (args.xlsinput[-5:] == '.xlsx' or args.xlsinput[-5:] == '.xlsm'):
         input('input the right XLSX or XLSM file')
@@ -648,19 +892,27 @@ def main():
         input(args.pdfoutput + " folder does not exist")
         sys.exit()
 
+    print('Opening the Source Excel File...', end="", flush=True)
+    xlbook = xw.Book(args.xlsinput)
+    xlsheet = xlbook.sheets[args.sheetname]
+    print('OK')
+    print("Data Mounting...", end=" ", flush=True)
+    datalist = data_generator(xlsworksheet=xlsheet)
+    print("Passed")
     allsavedfiles = []
     for filename in filelist:
-        prior = PriorPdf(filename, 0, args.xlsinput, args.sheetname, args.pdfoutput)
-        prior.highlightpdf_generator()
-        prior.save_to_xls()
-        prior.insert_text()
-        allsavedfiles.extend(prior.savedfiles)
-    setall = set(allsavedfiles)
-    if len(setall) != len(allsavedfiles):
-        input("Combining all pdf files Failed because there are one or more files is has the same name.")
-    else:
-        del_non_annot_page(allsavedfiles, args.pdfoutput)
-        combine_allpdf(allsavedfiles, args.pdfoutput)
+        # prior = PriorPdf(filename, 0, args.xlsinput, args.sheetname, args.pdfoutput)
+        extract_pdf(download_folder=args.pdfoutput, filename=filename, datalist=datalist)
+        # prior.highlightpdf_generator()
+        # prior.save_to_xls()
+        # prior.insert_text()
+        # allsavedfiles.extend(prior.savedfiles)
+    # setall = set(allsavedfiles)
+    # if len(setall) != len(allsavedfiles):
+    #     input("Combining all pdf files Failed because there are one or more files is has the same name.")
+    # else:
+    #     del_non_annot_page(allsavedfiles, args.pdfoutput)
+    #     combine_allpdf(allsavedfiles, args.pdfoutput)
     input("data generating completed...")
 
 if __name__ == '__main__':
