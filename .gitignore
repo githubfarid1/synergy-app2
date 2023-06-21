@@ -164,3 +164,4 @@ cython_debug/
 /gitme.bat
 modules/__pycache__/
 /chrome_profiles.json
+/synergy-venv
