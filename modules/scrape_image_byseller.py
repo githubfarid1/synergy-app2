@@ -104,11 +104,11 @@ def parse(fileinput, imagedir, postal):
         print("Page Found..", end=" ", flush=True)
 
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False, timeout=10000)
+            browser = p.chromium.launch(headless=True, timeout=10000)
             context = browser.new_context(user_agent=random.choice(userAgentStrings))
             page = context.new_page()
             # page2 = context.new_page()
-            # page.route("**/*", block_aggressively2) 
+            page.route("**/*", block_aggressively2) 
             page.goto(baseurl)
             page.query_selector("a#nav-global-location-popover-link").click()
             page.wait_for_selector("input.GLUX_Full_Width").fill(postal)
@@ -135,19 +135,19 @@ def parse(fileinput, imagedir, postal):
                      browser.close()
                 except:
                      pass
-                browser = p.chromium.launch(headless=False, timeout=10000)
+                browser = p.chromium.launch(headless=True, timeout=10000)
                 context = browser.new_context(user_agent=random.choice(userAgentStrings))
                 page = context.new_page()
                 page2 = context.new_page()
-                url = baseurl + '&page={}'.format(ipage)
-                # input(url)
-                # page.route("**/*", block_aggressively2)
-                page.goto(url) 
+                page.route("**/*", block_aggressively2)
+                page.goto(baseurl) 
                 page.query_selector("a#nav-global-location-popover-link").click()
                 page.wait_for_selector("input.GLUX_Full_Width").fill(postal)
                 page.query_selector("span[data-action='GLUXPostalUpdateAction']").click()
                 page.wait_for_selector("div.a-popover-footer span[data-action='GLUXConfirmAction']").click()
                 time.sleep(2)
+                url = baseurl + '&page={}'.format(ipage)
+                page.goto(url) 
                 html = page.content()
                 soup = BeautifulSoup(html,"html.parser")
                 if soup.find('div', class_='s-main-slot') != None:
@@ -166,7 +166,7 @@ def parse(fileinput, imagedir, postal):
                             pricestr = ""
                             if alink.has_attr('href'):
                                 itemurl = "https://www.amazon.com{}".format(alink['href'])
-                                # page2.route("**/*", block_aggressively3) 
+                                page2.route("**/*", block_aggressively3) 
                                 page2.goto(itemurl)
                                 html = page2.content()
                                 soup = BeautifulSoup(html,"html.parser")
