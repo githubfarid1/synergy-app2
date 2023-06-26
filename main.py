@@ -365,6 +365,7 @@ class MainFrame(ttk.Frame):
 		superstoreButton = FrameButton(self, window, text="Superstore Scraper", class_frame=SuperstoreFrame)
 		wholesaleButton = FrameButton(self, window, text="Wholesale Club Scraper", class_frame=WholesaleFrame)
 		amazonpdfButton = FrameButton(self, window, text="Amazon PDF Extractor", class_frame=AmazonPdfFrame)
+		scrapeBySellerImagesButton = FrameButton(self, window, text="Amazon By Seller with Images", class_frame=ScrapeBySellerAmazonImagesFrame)
 
 
 		# layout
@@ -392,7 +393,7 @@ class MainFrame(ttk.Frame):
 		superstoreButton.grid(column = 2, row = 6, sticky=(W, E, N, S), padx=15, pady=5)
 		wholesaleButton.grid(column = 0, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
 		amazonpdfButton.grid(column = 1, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
-
+		scrapeBySellerImagesButton.grid(column = 2, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
 class PdfConvertFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
@@ -1336,6 +1337,51 @@ class AmazonPdfFrame(ttk.Frame):
 			run_module(comlist=[PYLOC, "modules/amazonpdf.py", "-pdf", kwargs['pdfinput'], "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-output", kwargs['pdfoutput'] ])
 
 
+class ScrapeBySellerAmazonImagesFrame(ttk.Frame):
+	def __init__(self, window) -> None:
+		super().__init__(window)
+		# configure
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
+
+		self.columnconfigure(0, weight=1)
+		self.rowconfigure(0, weight=1)
+		self.rowconfigure(1, weight=1)
+		self.rowconfigure(2, weight=1)
+		self.rowconfigure(3, weight=1)
+		self.rowconfigure(4, weight=1)
+		self.rowconfigure(5, weight=1)
+
+		# populate
+		titleLabel = TitleLabel(self, text="Scrape By Amazon Seller with Images")
+		closeButton = CloseButton(self)
+	
+		xlsInputFile = FileChooserFrame(self, btype="file", label="Select XLSX Input File:", filetypes=(("xlsx files", "*.xlsx"),("all files", "*.*")))
+		labelsname = Label(self, text="Website: ")		
+		labeldeliver = Label(self, text="Deliver To (Postal Code): ")		
+		outputfolder = FileChooserFrame(self, btype="folder", label="Images Folder:", filetypes=())
+		websitecombo = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		websitecombo['values'] = ["amazon.com", "amazon.ca"]
+		websitecombo.current(0)
+		delivertext = Entry(self)
+		delivertext.insert(0, "59484")
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename, output=outputfolder.filename, website=websitecombo.get(), postal=delivertext.get()))
+		# layout
+		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
+		runButton.grid(column = 0, row = 5, sticky = (E))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+		xlsInputFile.grid(column = 0, row = 1, sticky = (W,E))
+		labelsname.grid(column = 0, row = 2, sticky=(W))
+		labeldeliver.grid(column = 0, row = 3, sticky=(W))
+		outputfolder.grid(column = 0, row = 4, sticky = (W,E))
+		websitecombo.grid(column = 0, row = 2)
+		delivertext.grid(column=0, row=3)
+
+	def run_process(self, **kwargs):
+		if kwargs['input'] == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
+		else:
+			run_module(comlist=[PYLOC, "modules/scrape_image_byseller.py", "-i", kwargs['input'], "-d", kwargs['output'], "-w", kwargs['website'], "-p", kwargs['postal'] ])
 
 
 class CloseButton(ttk.Button):
