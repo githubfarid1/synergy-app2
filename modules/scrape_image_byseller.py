@@ -108,7 +108,7 @@ def parse(fileinput, imagedir, postal):
             context = browser.new_context(user_agent=random.choice(userAgentStrings))
             page = context.new_page()
             # page2 = context.new_page()
-            page.route("**/*", block_aggressively2) 
+            # page.route("**/*", block_aggressively2) 
             page.goto(baseurl)
             page.query_selector("a#nav-global-location-popover-link").click()
             page.wait_for_selector("input.GLUX_Full_Width").fill(postal)
@@ -139,7 +139,7 @@ def parse(fileinput, imagedir, postal):
                 context = browser.new_context(user_agent=random.choice(userAgentStrings))
                 page = context.new_page()
                 page2 = context.new_page()
-                page.route("**/*", block_aggressively2)
+                # page.route("**/*", block_aggressively2)
                 page.goto(baseurl) 
                 page.query_selector("a#nav-global-location-popover-link").click()
                 page.wait_for_selector("input.GLUX_Full_Width").fill(postal)
@@ -166,7 +166,7 @@ def parse(fileinput, imagedir, postal):
                             pricestr = ""
                             if alink.has_attr('href'):
                                 itemurl = "https://www.amazon.com{}".format(alink['href'])
-                                page2.route("**/*", block_aggressively3) 
+                                # page2.route("**/*", block_aggressively3) 
                                 page2.goto(itemurl)
                                 html = page2.content()
                                 soup = BeautifulSoup(html,"html.parser")
