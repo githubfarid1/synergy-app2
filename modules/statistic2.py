@@ -56,27 +56,42 @@ def parse(fileinput, profile, country):
             break
         print(ws['A{}'.format(i)].value)
 
+        # headers = {
+        #     'authority': 'sellercentral.amazon.com',
+        #     'accept': '*/*',
+        #     'accept-language': 'en-US,en;q=0.9',
+        #     # Requests sorts cookies= alphabetically
+        #     # 'cookie': 'ubid-main=130-3908922-3270858; sid="XetUu4ai7bifPzLfLHP8Vw==|5fnXbjUwIS6qb21zO6OtGu9Mq2TvJMVAoJzoErtnhE8="; __Host-mselc=H4sIAAAAAAAA/6tWSs5MUbJSSsytyjPUS0xOzi/NK9HLT85M0XM0DA0KDncOcgly8bWMUNJRykVSmZtalJyRCFKq52jkZ+pp6GTi6Gvq5OkGUpeNrLAApCQkLMDF29M7wsDFNUipFgAKAR4EdQAAAA==; session-id=146-7378674-3450147; csm-hit=tb:EETFMRQ23JVJNSS7S2P7+s-N98CQT4MKY68RGJB1NT0|1658705269743&t:1658705269743&adb:adblk_no; session-id-time=2289425277l; session-token=bhWDdtJdp8kJ3acOrlXTTmx0x6BJi4nF4gIhHbFPrSdGzyhIDUzVEB7+Z8370q6+KiLzlyf/3HuXp0HfQeo7u2EXCYBWTWNWdqninHDcxmtHSt8m6PvxzCHONCYZ9OnDWlxkSX0GUFM/o18g6ffzb+wviDax+otltFjbhc3pCvrQJhBoow3hbEAtM/eYGycyYKocacymYTG8oKUgjAMipx4KsM4fmIsro0aIbRZtlouidjEw4IBlntFPRYGTId0V; x-main="tGJbBvopA2ojz59XsYYhNNpwvx8Nzgw26NeX?bU?ELJVaamnWgnqyL9PSxOkkzYi"; at-main=Atza|IwEBIM-peKpCY-cfyymPPp2_tya9lTQumvakYjS1ePQC9kQhYYcXkMUyINVQl0-ATUvYjyTnhJh2xApoxiqYg0nQ_EsZqPupogVCQdd8QQM7SB0YNykyuQiTLn1iVNXbPH3DQXtcoMvTF_bKRSXyjpx6_oLbElGmxt7rGzXlctmS_HbiuuLhN9QMJcZbhhHimfTSBp6MxbU5xHg0APVXqwdR1jCC9pFnPoDa7-Lmp2IOalDKFw; sess-at-main="QCWuILPzA3OInwTQ+G1is0Fos2W3CuuxwXOtRVJ6wvc="; sst-main=Sst1|PQGJqoRjyjqPMDWrAM8edRGnCesTf1Zx5A7orf94ozeCdfZJ2gvTP6mNIDX5a5aplT-T6PstKgHHjUejfrJp3mIgHmLvE0mIIaGQQZsM0qKM6OpmmBylbMdYkAITBN9BWObidGxtGu_Aa2kyQ1uA9p02Fm8SMPlKc1us8OnHlnq6Mc-LbXtA7ydXNVs9hHvI4sVjw1ST8xoks4kyxuoq84StFlvhZAuSiCLFCua9lkkRw_2YTgkDHVgY_c6rVeumklTt2f25S0qcPv6uqT6_RKR6-qcbmEhzqHSIR14c5SwVGC0',
+        #     'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1&',
+        #     'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+        #     'sec-ch-ua-mobile': '?0',
+        #     'sec-ch-ua-platform': '"Windows"',
+        #     'sec-fetch-dest': 'empty',
+        #     'sec-fetch-mode': 'cors',
+        #     'sec-fetch-site': 'same-origin',
+        #     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
+        # }
         headers = {
             'authority': 'sellercentral.amazon.com',
             'accept': '*/*',
             'accept-language': 'en-US,en;q=0.9',
-            # Requests sorts cookies= alphabetically
-            # 'cookie': 'ubid-main=130-3908922-3270858; sid="XetUu4ai7bifPzLfLHP8Vw==|5fnXbjUwIS6qb21zO6OtGu9Mq2TvJMVAoJzoErtnhE8="; __Host-mselc=H4sIAAAAAAAA/6tWSs5MUbJSSsytyjPUS0xOzi/NK9HLT85M0XM0DA0KDncOcgly8bWMUNJRykVSmZtalJyRCFKq52jkZ+pp6GTi6Gvq5OkGUpeNrLAApCQkLMDF29M7wsDFNUipFgAKAR4EdQAAAA==; session-id=146-7378674-3450147; csm-hit=tb:EETFMRQ23JVJNSS7S2P7+s-N98CQT4MKY68RGJB1NT0|1658705269743&t:1658705269743&adb:adblk_no; session-id-time=2289425277l; session-token=bhWDdtJdp8kJ3acOrlXTTmx0x6BJi4nF4gIhHbFPrSdGzyhIDUzVEB7+Z8370q6+KiLzlyf/3HuXp0HfQeo7u2EXCYBWTWNWdqninHDcxmtHSt8m6PvxzCHONCYZ9OnDWlxkSX0GUFM/o18g6ffzb+wviDax+otltFjbhc3pCvrQJhBoow3hbEAtM/eYGycyYKocacymYTG8oKUgjAMipx4KsM4fmIsro0aIbRZtlouidjEw4IBlntFPRYGTId0V; x-main="tGJbBvopA2ojz59XsYYhNNpwvx8Nzgw26NeX?bU?ELJVaamnWgnqyL9PSxOkkzYi"; at-main=Atza|IwEBIM-peKpCY-cfyymPPp2_tya9lTQumvakYjS1ePQC9kQhYYcXkMUyINVQl0-ATUvYjyTnhJh2xApoxiqYg0nQ_EsZqPupogVCQdd8QQM7SB0YNykyuQiTLn1iVNXbPH3DQXtcoMvTF_bKRSXyjpx6_oLbElGmxt7rGzXlctmS_HbiuuLhN9QMJcZbhhHimfTSBp6MxbU5xHg0APVXqwdR1jCC9pFnPoDa7-Lmp2IOalDKFw; sess-at-main="QCWuILPzA3OInwTQ+G1is0Fos2W3CuuxwXOtRVJ6wvc="; sst-main=Sst1|PQGJqoRjyjqPMDWrAM8edRGnCesTf1Zx5A7orf94ozeCdfZJ2gvTP6mNIDX5a5aplT-T6PstKgHHjUejfrJp3mIgHmLvE0mIIaGQQZsM0qKM6OpmmBylbMdYkAITBN9BWObidGxtGu_Aa2kyQ1uA9p02Fm8SMPlKc1us8OnHlnq6Mc-LbXtA7ydXNVs9hHvI4sVjw1ST8xoks4kyxuoq84StFlvhZAuSiCLFCua9lkkRw_2YTgkDHVgY_c6rVeumklTt2f25S0qcPv6uqT6_RKR6-qcbmEhzqHSIR14c5SwVGC0',
+            # 'cookie': 'session-id=143-3445911-9496428; i18n-prefs=USD; ubid-main=135-1698517-0362129; s_pers=%20s_fid%3D71A5BA2BB54387EC-23184C6241077C36%7C1843500634686%3B%20s_dl%3D1%7C1685649634687%3B%20s_ev15%3D%255B%255B%2527NSGoogle%2527%252C%25271685647834690%2527%255D%255D%7C1843500634690%3B; sid="dX8/EHJKQIXIjQiHhXasMw==|WqlaeXcqyUHpafXiPOE+HvuAXb9VtooobpWbpBGPdRw="; __Host-mselc=H4sIAAAAAAAA/6tWSs5MUbJSSsytyjPUS0xOzi/NK9HLT85M0XM0DA0KDncOcgly8bWMUNJRykVSmZtalJyRCFKq52jkZ+pp6GTi6Gvq5OkGUpeNrLAApCQkLMDF29M7wsDFNUipFgAKAR4EdQAAAA==; csm-hit=tb:PX1964Z7C79TD2WTG6SF+s-PX1964Z7C79TD2WTG6SF|1686870448919&t:1686870448919&adb:adblk_no; x-main="gtbOEYZN@OUowIfunUGsjiVHUzltTTkVWqILyfswxxe2ajrdhVUiZ7gHsPyMs6rM"; at-main=Atza|IwEBIGhTt9SC20bEDL_jPZ-uWJ8eOPMFcghh2361jPFWp6na_i0MegZBxkkd41Bpp8WrKxNWtcRZfmF2S9dt8P-EoGpqCqnjV2mDjzd3SCjaaYhSSIprXyykVKpB9l0ZV4ygu5t4XwMc69tPZcbVl9wauMC7jGNhwoYfUtyVifeFjGgqicfSUGwaLOI40Cr_yHMzasSZ-QypwZ6Dd_mRAkt8oHTQqTZePHDMM0-AthhN2otI6Q; sess-at-main="sWzNJufEovEvfA5e7MN4evAhPItNf7P30NyYRq6arZQ="; sst-main=Sst1|PQEgEQOY7GkT5bLupUDyHd_JCZ0-Y3uGRb_jlkpn-M3PdlFyQ4xQD2LZM5TN_NBF0qOg9tUDb0-BdOnHkDhUfTfkGABaziFvpQ2RoOKsFz7nSCLlz32DlqBFns5La5L_GC5pc1lfEB1v_AHnIc45fzMxGC-o2UqGSxaTYiGDrVNYfcBecWCei0CeafmHa1P9LwRLN__lTQ2KzEKIVjlS4mBIZdJF_mk7wR7qB7jWD2-qigz4ATyuzzEtNcvKzMXolMMvtp0xbODE8_KHtFlJNlMB2JCiUQ1vnHKCm-xQnUMOmug; session-id-time=2082787201l; session-token=v4dwNlZA2MkZ5m50zthq0nchzhhrfz43wz0g/GsT4QOr3qpvwMwlsZFoK1gl2WxSzhYDKvndCH8uHd7o5qX4JVuh1yrKhLPfFxrkRFTIjI9/dhAYaIQ0qVLxJadthlQweb1Ym0HTs5ZbEAF6CD5N4zx57FbMNbBuXx1RFNqJsHU3NFfPKMzQZeDeq4zkYKIzNnQMrixt54eOjteR/WoNe0eYvBHNZ2tagkpIgcOy5WI/JWbcJZz0MONOsHZiy1oMo9GUFHrsoc0=',
             'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1&',
-            'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+            'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Windows"',
             'sec-fetch-dest': 'empty',
             'sec-fetch-mode': 'cors',
             'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
-        }
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+        }        
 
         params = {
             'searchKey': '{}'.format(ws['A{}'.format(i)].value),
             'countryCode': '{}'.format(country),
             'locale': 'en-US',
         }
+        # https://sellercentral.amazon.com/revenuecalculator/productmatch?searchKey=B0187HZG2E&countryCode=CA&locale=en-US
         session = requests.Session()
         response = session.get('https://sellercentral.amazon.com/revenuecalculator/productmatch', params=params, cookies=cookies, headers=headers)
         data = response.json()
