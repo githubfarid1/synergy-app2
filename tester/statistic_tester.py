@@ -44,4 +44,4 @@ response = requests.get(
     cookies=cookies,
     headers=headers,
 )
-print(response)
+print(response.json())
