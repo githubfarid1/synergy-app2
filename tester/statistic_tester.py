@@ -33,7 +33,7 @@ headers = {
 }
 
 params = {
-    'searchKey': 'B0767TX5PD',
+    'searchKey': 'B0187HZG2E',
     'countryCode': 'CA',
     'locale': 'en-US',
 }
