@@ -248,7 +248,9 @@ def parse(fileinput, profile, country):
             response = session.post('https://sellercentral.amazon.com/revenuecalculator/getfees', params=params, cookies=cookies, headers=headers, data=json_data)
             # print(response)
             data = response.json()
+            input(data)
             # try:
+            
             feeamount = data['data']['programFeeResultMap']['Core']['otherFeeInfoMap']['FulfillmentFee']['total']['amount']
             # except:
             #     feeamount = ""
