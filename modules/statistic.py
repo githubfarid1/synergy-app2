@@ -212,7 +212,7 @@ def parse(fileinput, profile, country):
                 'MFN',
             ],
         }
-        # input(json_data)
+        input(json_data)
 
         if merchantsku != '':
             json_data['itemInfo']['merchantSku'] = merchantsku
