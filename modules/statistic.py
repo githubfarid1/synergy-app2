@@ -217,7 +217,7 @@ def parse(fileinput, profile, country):
             ],
         }
         # print("xxx")
-        input(json_data)
+        # input(json_data)
 
         if merchantsku != '':
             json_data['itemInfo']['merchantSku'] = merchantsku
@@ -258,7 +258,7 @@ def parse(fileinput, profile, country):
                 feeamount = data['data']['programFeeResultMap']['Core']['otherFeeInfoMap']['FulfillmentFee']['total']['amount']
             except:
                 feeamount = ""
-                input(data)            
+                # input(data)            
 
         print(name, weight, dim1, dim2, dim3, feeamount)
         ws['B{}'.format(i)].value = name
