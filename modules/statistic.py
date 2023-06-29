@@ -171,14 +171,14 @@ def parse(fileinput, profile, country):
         except:
             mfnshipping = 0
         
-        try:
-            weight = data['data']['weight']
-            dim1 = data['data']['width']
-            dim2 = data['data']['length']
-            dim3 = data['data']['height']
+        # try:
+        weight = data['data']['weight']
+        dim1 = data['data']['width']
+        dim2 = data['data']['length']
+        dim3 = data['data']['height']
 
-        except Exception as e:
-            input(e)
+        # except Exception as e:
+        #     input(e)
 
         params = {
             'locale': 'en-US',
