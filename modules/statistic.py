@@ -170,6 +170,16 @@ def parse(fileinput, profile, country):
             mfnshipping = data['data']['shipping']['amount']
         except:
             mfnshipping = 0
+        
+        try:
+            weight = data['data']['weight']
+            dim1 = data['data']['width']
+            dim2 = data['data']['length']
+            dim3 = data['data']['height']
+
+        except:
+            pass
+
         params = {
             'locale': 'en-US',
         }
