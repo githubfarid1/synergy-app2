@@ -195,8 +195,8 @@ def parse(fileinput, profile, country):
                 # 'fnsku': fnsku,
                 'glProductGroupName': gl,
                 # 'specialDeliveryRequirement': specialdel,
-                'packageLength': '{}'.format(dim1),
-                'packageWidth': '{}'.format(dim2),
+                'packageLength': '{}'.format(dim2),
+                'packageWidth': '{}'.format(dim1),
                 'packageHeight': '{}'.format(dim3),
                 'dimensionUnit': dimensionunit,
                 'packageWeight': '{}'.format(weight),
@@ -212,7 +212,7 @@ def parse(fileinput, profile, country):
                 'MFN',
             ],
         }
-        input(json_data)
+        # input(json_data)
 
         if merchantsku != '':
             json_data['itemInfo']['merchantSku'] = merchantsku
