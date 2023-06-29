@@ -149,6 +149,8 @@ def parse(fileinput, profile, country):
             'asin': '{}'.format(ws['A{}'.format(i)].value),
             'countryCode': '{}'.format(country),
             'locale': 'en-US',
+            'searchType':"GENERAL",
+            'fnsku':"",
         }
         # print(params)
         # time.sleep(5)
