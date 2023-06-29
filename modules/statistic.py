@@ -249,13 +249,12 @@ def parse(fileinput, profile, country):
             # input(response)
             data = response.json()
             # input(data)
-            # try:
-            
-            feeamount = data['data']['programFeeResultMap']['Core']['otherFeeInfoMap']['FulfillmentFee']['total']['amount']
-            # except:
-            #     feeamount = ""
-            print(feeamount)
-            input(data)            
+            try:
+                feeamount = data['data']['programFeeResultMap']['Core']['otherFeeInfoMap']['FulfillmentFee']['total']['amount']
+            except:
+                feeamount = ""
+                input(data)            
+
         print(name, weight, dim1, dim2, dim3, feeamount)
         ws['B{}'.format(i)].value = name
         ws['C{}'.format(i)].value = round(weight,3)
