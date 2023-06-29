@@ -1,29 +1,20 @@
 from selenium import webdriver
-# from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager as CM
-# from selenium.webdriver.common.action_chains import ActionChains
 import json
 import warnings
 from urllib.parse import urlencode, urlparse
 import time
-# from random import randint
-# import pyautogui as pg
-# import undetected_chromedriver as uc 
 import os
-# import shutil
 import xlwings as xw
 import argparse
 import sys
 from sys import platform
 from playwright.sync_api import sync_playwright
-# from playwright.async_api import async_playwright
-
 import random
-# import tldextract
 
 userAgentStrings = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
