@@ -212,6 +212,7 @@ def parse(fileinput, profile, country):
                 'MFN',
             ],
         }
+        print("xxx")
         input(json_data)
 
         if merchantsku != '':
