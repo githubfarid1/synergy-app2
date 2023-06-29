@@ -10,7 +10,7 @@ import random
 from openpyxl import Workbook, load_workbook
 from bs4 import BeautifulSoup 
 import re
-import urllib
+from urllib import request
 
 
 userAgentStrings = [
@@ -173,7 +173,8 @@ def parse(fileinput, imagedir, postal):
                                 for img in imagelist:
                                     urlp = urlparse(img)
                                     filename, file_extension = os.path.splitext(urlp.path)
-                                    urllib.request.urlretrieve(img,  f'{imagedir}{asin}_{str(icount)}{file_extension}')
+                                    request.urlretrieve(img,  f'{imagedir}{asin}_{str(icount)}{file_extension}')
+                                    
                                     icount += 1
                             except:
                                  pass
