@@ -246,7 +246,7 @@ def parse(fileinput, profile, country):
         else:
             session = requests.Session()
             response = session.post('https://sellercentral.amazon.com/revenuecalculator/getfees', params=params, cookies=cookies, headers=headers, data=json_data)
-            # print(response)
+            input(response)
             data = response.json()
             input(data)
             # try:
