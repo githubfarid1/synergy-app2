@@ -162,12 +162,16 @@ def parse(fileinput, profile, country):
             afnprice = data['data']['price']['amount']
             mfnprice = data['data']['price']['amount']
         except:
-            afnprice = 0
-            mfnprice = 0
-        try:    
-            currency = data['data']['price']['currency']
-        except:
-            currency= 'USD'
+            afnprice = "1"
+            mfnprice = "1"
+        # try:    
+        #     currency = data['data']['price']['currency']
+        # except:
+        #     currency= 'USD'
+        if country == 'CA':
+            currency = "CAD"
+        else:
+            currency = "USD"
         try:
             mfnshipping = data['data']['shipping']['amount']
         except:
@@ -204,7 +208,7 @@ def parse(fileinput, profile, country):
                 'afnPriceStr': '{}'.format(afnprice),
                 'mfnPriceStr': '{}'.format(mfnprice),
                 'mfnShippingPriceStr': '{}'.format(mfnshipping),
-                'currency': "CAD", #currency,
+                'currency': currency,
                 'isNewDefined': False,
             },
             'programIdList': [
@@ -212,7 +216,7 @@ def parse(fileinput, profile, country):
                 'MFN',
             ],
         }
-        print("xxx")
+        # print("xxx")
         input(json_data)
 
         if merchantsku != '':
