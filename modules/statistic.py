@@ -147,7 +147,7 @@ def parse(fileinput, profile, country):
         }
         params = {
             'asin': '{}'.format(ws['A{}'.format(i)].value),
-            'countryCode': 'US',
+            'countryCode': '{}'.format(country),
             'locale': 'en-US',
         }
         # print(params)
@@ -175,7 +175,7 @@ def parse(fileinput, profile, country):
         }
 
         json_data = {
-            'countryCode': 'US',
+            'countryCode': '{}'.format(country),
             'itemInfo': {
                 'asin': asin,
                 # 'merchantSku':  merchantsku,
