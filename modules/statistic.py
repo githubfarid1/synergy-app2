@@ -245,7 +245,7 @@ def parse(fileinput, profile, country):
             feeamount = 0    
         else:
             session = requests.Session()
-            response = session.post('https://sellercentral.amazon.com/revenuecalculator/getfees', params=params, cookies=cookies, headers=headers, json=json_data)
+            response = session.post('https://sellercentral.amazon.com/revenuecalculator/getfees', params=params, cookies=cookies, headers=headers, data=json_data)
             # print(response)
             data = response.json()
             # try:
