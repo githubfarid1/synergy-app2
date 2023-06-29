@@ -204,7 +204,7 @@ def parse(fileinput, profile, country):
                 'afnPriceStr': "1", #'{}'.format(afnprice),
                 'mfnPriceStr': "1", #'{}'.format(mfnprice),
                 'mfnShippingPriceStr': '{}'.format(mfnshipping),
-                'currency': currency,
+                'currency': "CAD", #currency,
                 'isNewDefined': False,
             },
             'programIdList': [
