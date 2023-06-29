@@ -172,6 +172,7 @@ def parse(fileinput, profile, country):
             mfnshipping = 0
         
         # try:
+        input(data)
         weight = data['data']['weight']
         dim1 = data['data']['width']
         dim2 = data['data']['length']
