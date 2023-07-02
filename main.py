@@ -55,7 +55,7 @@ class Window(Tk):
 	def __init__(self) -> None:
 		super().__init__()
 		self.title('Synergy Script ' + VERSION)
-		self.resizable(0, 0)
+		# self.resizable(0, 0)
 		self.grid_propagate(False)
 		width = 700
 		height = 650
@@ -576,21 +576,33 @@ class StatisticsFrame(ttk.Frame):
 		clist['values'] = [country for country in countries]
 		clist.current(0)
 		xlsInputFile = FileChooserFrame(self, btype="file", label="Select XLSX Input File:", filetypes=(("xlsx files", "*.xlsx"),("all files", "*.*")))
-		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename, country=clist.get() ))
+		#tes
+		isreplacevar = StringVar(value="yes")
+		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		labelsname = Label(self, text="Sheet Name:")
+
+		isreplacecheck = ttk.Checkbutton(self, text="Replace Old Data (price, sale, etc)", variable=isreplacevar, onvalue="yes", offvalue="no")
+
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename, country=clist.get(), isreplace=isreplacevar.get() ))
 		# layout
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
 		xlsInputFile.grid(column = 0, row = 1, sticky = (W,E))
-		labelclist.grid(column = 0, row = 2, sticky=(W))
-		clist.grid(column = 0, row = 2, pady=10)
-		runButton.grid(column = 0, row = 3, sticky = (E))
+		labelclist.grid(column = 0, row = 3, sticky=(W))
+		clist.grid(column = 0, row = 3, pady=10)
+		runButton.grid(column = 0, row = 5, sticky = (E))
 		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+		#tes
+		isreplacecheck.grid(column = 0, row = 4, sticky=(W))
+		sheetlist.grid(column=0, row = 2, pady=10)
+		labelsname.grid(column = 0, row = 2, sticky=(W))
 
+		
 	def run_process(self, **kwargs):
 		# print(kwargs)
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			run_module(comlist=[PYLOC, "modules/statistic.py", "-i", kwargs['input'], "-c", kwargs['country'], "-d", profileSelected.get()])
+			run_module(comlist=[PYLOC, "modules/statistic.py", "-i", kwargs['input'], "-c", kwargs['country'], "-d", profileSelected.get(), "-r", kwargs['isreplace']])
 
 class CanadaPostFrame(ttk.Frame):
 	def __init__(self, window) -> None:
