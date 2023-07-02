@@ -24,7 +24,8 @@ headers = {
     'sec-fetch-dest': 'empty',
     'sec-fetch-mode': 'cors',
     'sec-fetch-site': 'same-origin',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+    #'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
 }
 
 def getProfiles():
@@ -61,9 +62,8 @@ def parse(fileinput, profile, country, datalist, xlsheet):
     driver = webdriver.Chrome(service=Service(CM().install()), options=options)
 
     driver.get('https://sellercentral.amazon.com/revcal?ref=RC1&')
-    a = driver.execute_script("return navigator.userAgent")
-    input(a)
-        
+    user_agent = driver.execute_script("return navigator.userAgent")
+
     cookies = {}
     for cookie in driver.get_cookies():
         cookies[cookie['name']] = cookie['value']
@@ -82,7 +82,7 @@ def parse(fileinput, profile, country, datalist, xlsheet):
         session = requests.Session()
         response = session.get('https://sellercentral.amazon.com/revenuecalculator/productmatch', params=params, cookies=cookies, headers=headers)
         data = response.json()
-        # input(data)
+        input(data)
         csrftoken = response.headers['anti-csrftoken-a2z']
         try:
             name = data['data']['otherProducts']['products'][0]['title']
