@@ -35,7 +35,7 @@ def getProfiles():
 def get_xlsdata(xlsheet, isreplace):
     datalist = []
     maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
-    for i in range(1, maxrow + 2):
+    for i in range(1, maxrow + 1):
         asin = xlsheet[f'A{i}'].value
         tup = (asin, i)
         
