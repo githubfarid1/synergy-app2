@@ -78,6 +78,7 @@ def parse(fileinput, profile, country, datalist, xlsheet):
         session = requests.Session()
         response = session.get('https://sellercentral.amazon.com/revenuecalculator/productmatch', params=params, cookies=cookies, headers=headers)
         data = response.json()
+        input(data)
         csrftoken = response.headers['anti-csrftoken-a2z']
         try:
             name = data['data']['otherProducts']['products'][0]['title']
