@@ -61,6 +61,9 @@ def parse(fileinput, profile, country, datalist, xlsheet):
     driver = webdriver.Chrome(service=Service(CM().install()), options=options)
 
     driver.get('https://sellercentral.amazon.com/revcal?ref=RC1&')
+    a = driver.execute_script("return navigator.userAgent")
+    input(a)
+        
     cookies = {}
     for cookie in driver.get_cookies():
         cookies[cookie['name']] = cookie['value']
