@@ -268,6 +268,7 @@ def parse(fileinput, profile, country, isreplace, xlsheet):
 def main():
     parser = argparse.ArgumentParser(description="Statistics")
     parser.add_argument('-i', '--input', type=str,help="File Input")
+    parser.add_argument('-s', '--sheetname', type=str,help="Sheet Name")
     parser.add_argument('-d', '--profile', type=str,help="Chrome Profile Selected")
     parser.add_argument('-c', '--country', type=str,help="Country")
     parser.add_argument('-r', '--replace', type=str,help="Replace")
@@ -283,7 +284,7 @@ def main():
         exit()
     
     xlbook = xw.Book(args.xlsinput)
-    xlsheet = xlbook.sheets["Sheet1"]
+    xlsheet = xlbook.sheets[args.sheetname]
     input("")
     parse(args.input, args.profile, args.country, args.replace, xlsheet)
     

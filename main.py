@@ -583,7 +583,7 @@ class StatisticsFrame(ttk.Frame):
 
 		xlsInputFile = FileChooserFrame(self, btype="file", label="Select XLSX Input File:", filetypes=(("xlsx files", "*.xlsx"),("all files", "*.*")), sheetlist=sheetlist)
 
-		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename, country=clist.get(), isreplace=isreplacevar.get() ))
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename, sname=sheetlist, country=clist.get(), isreplace=isreplacevar.get() ))
 		# layout
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
 		xlsInputFile.grid(column = 0, row = 1, sticky = (W,E))
@@ -602,7 +602,7 @@ class StatisticsFrame(ttk.Frame):
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			run_module(comlist=[PYLOC, "modules/statistic_new.py", "-i", kwargs['input'], "-c", kwargs['country'], "-d", profileSelected.get(), "-r", kwargs['isreplace']])
+			run_module(comlist=[PYLOC, "modules/statistic_new.py", "-i", kwargs['input'], "-s", kwargs['sname'].get(), "-c", kwargs['country'], "-d", profileSelected.get(), "-r", kwargs['isreplace']])
 
 class CanadaPostFrame(ttk.Frame):
 	def __init__(self, window) -> None:
