@@ -18,7 +18,22 @@ def getProfiles():
 	config = json.load(file)
 	return config
 
-def parse(fileinput, profile, country, isreplace, xlsheet):
+def get_xlsdata(xlsheet, isreplace):
+    datalist = []
+    maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
+    for i in range(1, maxrow + 2):
+        asin = xlsheet[f'A{i}'].value
+        tup = (asin, i)
+        
+        if xlsheet[f'B{i}'].value != None:
+            if isreplace:
+                datalist.append(tup)
+        else:
+            datalist.append(tup)
+
+    return datalist
+
+def parse(fileinput, profile, country, datalist, xlsheet):
     warnings.filterwarnings("ignore", category=UserWarning) 
     options = webdriver.ChromeOptions()
     options.add_argument("user-data-dir={}".format(getProfiles()[profile]['chrome_user_data']))
@@ -39,16 +54,7 @@ def parse(fileinput, profile, country, isreplace, xlsheet):
     # exit()
     os.system('cls')
     print('File Selected:', fileinput)
-    statistic_source = fileinput
-    wb = load_workbook(filename=statistic_source)
-    ws = wb['Sheet1']
-    # Use the active cell when the file was loaded
-    ws = wb.active
-    for i in range(1, ws.max_row + 1):
-        if ws['A{}'.format(i)].value == None:
-            break
-        print(ws['A{}'.format(i)].value)
-
+    for row in range(0, len(datalist)):
         headers = {
             'authority': 'sellercentral.amazon.com',
             'accept': '*/*',
@@ -64,10 +70,11 @@ def parse(fileinput, profile, country, isreplace, xlsheet):
         }
 
         params = {
-            'searchKey': '{}'.format(ws['A{}'.format(i)].value),
+            'searchKey': '{}'.format(datalist[row][0]),
             'countryCode': '{}'.format(country),
             'locale': 'en-US',
         }
+
         session = requests.Session()
         response = session.get('https://sellercentral.amazon.com/revenuecalculator/productmatch', params=params, cookies=cookies, headers=headers)
         data = response.json()
@@ -136,7 +143,7 @@ def parse(fileinput, profile, country, isreplace, xlsheet):
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
         }
         params = {
-            'asin': '{}'.format(ws['A{}'.format(i)].value),
+            'asin': '{}'.format(datalist[row][0]),
             'countryCode': '{}'.format(country),
             'locale': 'en-US',
             'searchType':"GENERAL",
@@ -154,10 +161,7 @@ def parse(fileinput, profile, country, isreplace, xlsheet):
         except:
             afnprice = "1"
             mfnprice = "1"
-        # try:    
-        #     currency = data['data']['price']['currency']
-        # except:
-        #     currency= 'USD'
+
         if country == 'CA':
             currency = "CAD"
         else:
@@ -168,7 +172,6 @@ def parse(fileinput, profile, country, isreplace, xlsheet):
             mfnshipping = 0
         
         try:
-            # input(data)
             weight = data['data']['weight']
             dim1 = data['data']['width']
             dim2 = data['data']['length']
@@ -185,10 +188,7 @@ def parse(fileinput, profile, country, isreplace, xlsheet):
             'countryCode': '{}'.format(country),
             'itemInfo': {
                 'asin': asin,
-                # 'merchantSku':  merchantsku,
-                # 'fnsku': fnsku,
                 'glProductGroupName': gl,
-                # 'specialDeliveryRequirement': specialdel,
                 'packageLength': '{}'.format(dim2),
                 'packageWidth': '{}'.format(dim1),
                 'packageHeight': '{}'.format(dim3),
@@ -206,8 +206,6 @@ def parse(fileinput, profile, country, isreplace, xlsheet):
                 'MFN',
             ],
         }
-        # print("xxx")
-        # input(json_data)
 
         if merchantsku != '':
             json_data['itemInfo']['merchantSku'] = merchantsku
@@ -239,29 +237,22 @@ def parse(fileinput, profile, country, isreplace, xlsheet):
         else:
             session = requests.Session()
             response = session.post('https://sellercentral.amazon.com/revenuecalculator/getfees', params=params, cookies=cookies, headers=headers, json=json_data)
-            # input(response)
             data = response.json()
-            # input(data)
             try:
                 feeamount = data['data']['programFeeResultMap']['Core']['otherFeeInfoMap']['FulfillmentFee']['total']['amount']
             except:
                 feeamount = ""
-                # input(data)            
-
         print(name, weight, dim1, dim2, dim3, feeamount)
-        ws['B{}'.format(i)].value = name
-        ws['C{}'.format(i)].value = round(weight,3)
-        ws['D{}'.format(i)].value = round(dim1,3)
-        ws['E{}'.format(i)].value = round(dim2,3)
-        ws['F{}'.format(i)].value = round(dim3,3)
-        ws['G{}'.format(i)].value = feeamount
+        xlsheet['B{}'.format(datalist[row][1])].value = name
+        xlsheet['C{}'.format(datalist[row][1])].value = round(weight,3)
+        xlsheet['D{}'.format(datalist[row][1])].value = round(dim1,3)
+        xlsheet['E{}'.format(datalist[row][1])].value = round(dim2,3)
+        xlsheet['F{}'.format(datalist[row][1])].value = round(dim3,3)
+        xlsheet['G{}'.format(datalist[row][1])].value = feeamount
         # if i == 10:
         #     break
 
         time.sleep(2)
-
-        # exit()
-    wb.save(statistic_source)
     input('Finished...')
 
 
@@ -285,8 +276,9 @@ def main():
     
     xlbook = xw.Book(args.input)
     xlsheet = xlbook.sheets[args.sheetname]
-    input("")
-    parse(args.input, args.profile, args.country, args.replace, xlsheet)
+    # input("")
+    datalist = get_xlsdata(xlsheet=xlsheet, isreplace=args.isreplace)
+    parse(args.input, args.profile, args.country, datalist, xlsheet)
     
 if __name__ == '__main__':
     main()
