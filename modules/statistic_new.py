@@ -277,7 +277,7 @@ def main():
     xlbook = xw.Book(args.input)
     xlsheet = xlbook.sheets[args.sheetname]
     # input("")
-    datalist = get_xlsdata(xlsheet=xlsheet, isreplace=args.isreplace)
+    datalist = get_xlsdata(xlsheet=xlsheet, isreplace=args.replace)
     parse(args.input, args.profile, args.country, datalist, xlsheet)
     
 if __name__ == '__main__':
