@@ -13,6 +13,20 @@ import argparse
 import json
 import xlwings as xw
 
+headers = {
+    'authority': 'sellercentral.amazon.com',
+    'accept': '*/*',
+    'accept-language': 'en-US,en;q=0.9',
+    'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1',
+    'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-origin',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+}
+
 def getProfiles():
 	file = open("chrome_profiles.json", "r")
 	config = json.load(file)
@@ -55,19 +69,19 @@ def parse(fileinput, profile, country, datalist, xlsheet):
     # os.system('cls')
     print('File Selected:', fileinput)
     for row in range(0, len(datalist)):
-        headers = {
-            'authority': 'sellercentral.amazon.com',
-            'accept': '*/*',
-            'accept-language': 'en-US,en;q=0.9',
-            'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1',
-            'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-        }
+        # headers = {
+        #     'authority': 'sellercentral.amazon.com',
+        #     'accept': '*/*',
+        #     'accept-language': 'en-US,en;q=0.9',
+        #     'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1',
+        #     'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+        #     'sec-ch-ua-mobile': '?0',
+        #     'sec-ch-ua-platform': '"Windows"',
+        #     'sec-fetch-dest': 'empty',
+        #     'sec-fetch-mode': 'cors',
+        #     'sec-fetch-site': 'same-origin',
+        #     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+        # }
     
         params = {
             'searchKey': '{}'.format(datalist[row][0]),
@@ -132,19 +146,19 @@ def parse(fileinput, profile, country, datalist, xlsheet):
                     time.sleep(2)
                     continue
 
-        headers = {
-            'authority': 'sellercentral.amazon.com',
-            'accept': '*/*',
-            'accept-language': 'en-US,en;q=0.9',
-            'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1&',
-            'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
-        }
+        # headers = {
+        #     'authority': 'sellercentral.amazon.com',
+        #     'accept': '*/*',
+        #     'accept-language': 'en-US,en;q=0.9',
+        #     'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1&',
+        #     'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+        #     'sec-ch-ua-mobile': '?0',
+        #     'sec-ch-ua-platform': '"Windows"',
+        #     'sec-fetch-dest': 'empty',
+        #     'sec-fetch-mode': 'cors',
+        #     'sec-fetch-site': 'same-origin',
+        #     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
+        # }
         params = {
             'asin': '{}'.format(datalist[row][0]),
             'countryCode': '{}'.format(country),
@@ -217,23 +231,23 @@ def parse(fileinput, profile, country, datalist, xlsheet):
         if specialdel != '':
             json_data['itemInfo']['specialDeliveryRequirement'] = specialdel
 
-        headers = {
-            'authority': 'sellercentral.amazon.com',
-            'accept': '*/*',
-            'accept-language': 'en-US,en;q=0.9',
-            'anti-csrftoken-a2z': csrftoken, 
-            'content-type': 'application/json; charset=UTF-8',
-            'origin': 'https://sellercentral.amazon.com',
-            'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1&',
-            'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
-        }
-
+        # headers = {
+        #     'authority': 'sellercentral.amazon.com',
+        #     'accept': '*/*',
+        #     'accept-language': 'en-US,en;q=0.9',
+        #     'anti-csrftoken-a2z': csrftoken, 
+        #     'content-type': 'application/json; charset=UTF-8',
+        #     'origin': 'https://sellercentral.amazon.com',
+        #     'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1&',
+        #     'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+        #     'sec-ch-ua-mobile': '?0',
+        #     'sec-ch-ua-platform': '"Windows"',
+        #     'sec-fetch-dest': 'empty',
+        #     'sec-fetch-mode': 'cors',
+        #     'sec-fetch-site': 'same-origin',
+        #     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
+        # }
+        headers['anti-csrftoken-a2z'] = csrftoken
         
         if dim1 == 0 or dim2 == 0 or dim3 == 0:
             feeamount = 0    
