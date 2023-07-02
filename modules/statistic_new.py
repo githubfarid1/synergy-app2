@@ -283,7 +283,7 @@ def main():
         print('Please check XLSX file')
         exit()
     
-    xlbook = xw.Book(args.xlsinput)
+    xlbook = xw.Book(args.input)
     xlsheet = xlbook.sheets[args.sheetname]
     input("")
     parse(args.input, args.profile, args.country, args.replace, xlsheet)
