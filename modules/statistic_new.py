@@ -18,14 +18,13 @@ headers = {
     'accept': '*/*',
     'accept-language': 'en-US,en;q=0.9',
     'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1',
-    # 'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-    'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+    'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
     'sec-ch-ua-mobile': '?0',
     'sec-ch-ua-platform': '"Windows"',
     'sec-fetch-dest': 'empty',
     'sec-fetch-mode': 'cors',
     'sec-fetch-site': 'same-origin',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
 }
 
 def getProfiles():
@@ -62,7 +61,7 @@ def parse(fileinput, profile, country, datalist, xlsheet):
     driver = webdriver.Chrome(service=Service(CM().install()), options=options)
 
     driver.get('https://sellercentral.amazon.com/revcal?ref=RC1&')
-    user_agent = driver.execute_script("return navigator.userAgent")
+    # headers['user_agent'] = driver.execute_script("return navigator.userAgent")
 
     cookies = {}
     for cookie in driver.get_cookies():
