@@ -18,7 +18,7 @@ def getProfiles():
 	config = json.load(file)
 	return config
 
-def parse(fileinput, profile, country):
+def parse(fileinput, profile, country, isreplace, xlsheet):
     warnings.filterwarnings("ignore", category=UserWarning) 
     options = webdriver.ChromeOptions()
     options.add_argument("user-data-dir={}".format(getProfiles()[profile]['chrome_user_data']))
@@ -284,7 +284,8 @@ def main():
     
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets["Sheet1"]
-    parse(args.input, args.profile, args.country, args.replace)
+    input("")
+    parse(args.input, args.profile, args.country, args.replace, xlsheet)
     
 if __name__ == '__main__':
     main()

@@ -602,7 +602,7 @@ class StatisticsFrame(ttk.Frame):
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			run_module(comlist=[PYLOC, "modules/statistic.py", "-i", kwargs['input'], "-c", kwargs['country'], "-d", profileSelected.get(), "-r", kwargs['isreplace']])
+			run_module(comlist=[PYLOC, "modules/statistic_new.py", "-i", kwargs['input'], "-c", kwargs['country'], "-d", profileSelected.get(), "-r", kwargs['isreplace']])
 
 class CanadaPostFrame(ttk.Frame):
 	def __init__(self, window) -> None:
