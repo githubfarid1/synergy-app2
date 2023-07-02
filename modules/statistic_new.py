@@ -47,6 +47,7 @@ def parse(fileinput, profile, country, datalist, xlsheet):
     driver = webdriver.Chrome(service=Service(CM().install()), options=options)
 
     driver.get('https://sellercentral.amazon.com/revcal?ref=RC1&')
+    driver.get_
     cookies = {}
     for cookie in driver.get_cookies():
         cookies[cookie['name']] = cookie['value']
@@ -59,34 +60,15 @@ def parse(fileinput, profile, country, datalist, xlsheet):
             'authority': 'sellercentral.amazon.com',
             'accept': '*/*',
             'accept-language': 'en-US,en;q=0.9',
-            # Requests sorts cookies= alphabetically
-            # 'cookie': 'ubid-main=130-3908922-3270858; sid="XetUu4ai7bifPzLfLHP8Vw==|5fnXbjUwIS6qb21zO6OtGu9Mq2TvJMVAoJzoErtnhE8="; __Host-mselc=H4sIAAAAAAAA/6tWSs5MUbJSSsytyjPUS0xOzi/NK9HLT85M0XM0DA0KDncOcgly8bWMUNJRykVSmZtalJyRCFKq52jkZ+pp6GTi6Gvq5OkGUpeNrLAApCQkLMDF29M7wsDFNUipFgAKAR4EdQAAAA==; session-id=146-7378674-3450147; csm-hit=tb:EETFMRQ23JVJNSS7S2P7+s-N98CQT4MKY68RGJB1NT0|1658705269743&t:1658705269743&adb:adblk_no; session-id-time=2289425277l; session-token=bhWDdtJdp8kJ3acOrlXTTmx0x6BJi4nF4gIhHbFPrSdGzyhIDUzVEB7+Z8370q6+KiLzlyf/3HuXp0HfQeo7u2EXCYBWTWNWdqninHDcxmtHSt8m6PvxzCHONCYZ9OnDWlxkSX0GUFM/o18g6ffzb+wviDax+otltFjbhc3pCvrQJhBoow3hbEAtM/eYGycyYKocacymYTG8oKUgjAMipx4KsM4fmIsro0aIbRZtlouidjEw4IBlntFPRYGTId0V; x-main="tGJbBvopA2ojz59XsYYhNNpwvx8Nzgw26NeX?bU?ELJVaamnWgnqyL9PSxOkkzYi"; at-main=Atza|IwEBIM-peKpCY-cfyymPPp2_tya9lTQumvakYjS1ePQC9kQhYYcXkMUyINVQl0-ATUvYjyTnhJh2xApoxiqYg0nQ_EsZqPupogVCQdd8QQM7SB0YNykyuQiTLn1iVNXbPH3DQXtcoMvTF_bKRSXyjpx6_oLbElGmxt7rGzXlctmS_HbiuuLhN9QMJcZbhhHimfTSBp6MxbU5xHg0APVXqwdR1jCC9pFnPoDa7-Lmp2IOalDKFw; sess-at-main="QCWuILPzA3OInwTQ+G1is0Fos2W3CuuxwXOtRVJ6wvc="; sst-main=Sst1|PQGJqoRjyjqPMDWrAM8edRGnCesTf1Zx5A7orf94ozeCdfZJ2gvTP6mNIDX5a5aplT-T6PstKgHHjUejfrJp3mIgHmLvE0mIIaGQQZsM0qKM6OpmmBylbMdYkAITBN9BWObidGxtGu_Aa2kyQ1uA9p02Fm8SMPlKc1us8OnHlnq6Mc-LbXtA7ydXNVs9hHvI4sVjw1ST8xoks4kyxuoq84StFlvhZAuSiCLFCua9lkkRw_2YTgkDHVgY_c6rVeumklTt2f25S0qcPv6uqT6_RKR6-qcbmEhzqHSIR14c5SwVGC0',
             'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1',
-            # 'sec-ch-ua': '"Not.A/Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
             'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Windows"',
             'sec-fetch-dest': 'empty',
             'sec-fetch-mode': 'cors',
             'sec-fetch-site': 'same-origin',
-            # 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-
         }
-        # headers = {
-        #     'authority': 'sellercentral.amazon.com',
-        #     'accept': '*/*',
-        #     'accept-language': 'en-US,en;q=0.9',
-        #     # 'cookie': 'ubid-main=134-2916247-3956466; sid="RKuvscDzYqo2pj6EC6xZSg==|rFEMF0Ui1EtgdZNsSaK0if3w96U0CrXu+BuN5pNtC8w="; __Host-mselc=H4sIAAAAAAAA/6tWSs5MUbJSSsytyjPUS0xOzi/NK9HLT85M0XM0DA0KDncOcgly8bWMUNJRykVSmZtalJyRCFKq52jkZ+pp6GTi6Gvq5OkGUpeNrLAApCQkLMDF29M7wsDFNUipFgAKAR4EdQAAAA==; lc-main=en_US; i18n-prefs=USD; session-id=131-7427739-0234048; sp-cdn="L5Z9:CA"; csm-hit=tb:BCSM1CGNC5V9WNVAWCFE+s-BCSM1CGNC5V9WNVAWCFE|1687961922928&t:1687961922928&adb:adblk_no; session-id-time=2318681929l; session-token=OSAM/q5JNzWa4x6Bs4URSqrtmkMcrO+NDrHx96DKpeXv/gK4zBbozK43JwOCAQYJfym4WKBU7vtj50r3+se0la5ABj7PuzHIIEKNc6kiuebU6ft3lnAg/cBmIkTJ47gYn2ow+nTDIQyW3+A5Juc/iTwuJjCdoKUlY/3t7AkIds7BhHT7jnvO89sqPzcGfkZwQXQl4zT3RhsmSqkXi6Skd1qPEsjXv5VyjEKJHCaXMd2WqvJa5ORiTx74kEdLxMBk; x-main="dTPGR1EUeOl0rlwt6KYxgWgy@y79zqGILIqaEwhJZJFeO8DwqwiEUwoJHIt9cdD1"; at-main=Atza|IwEBIOYwB3Vw6gSC-9mrn55LRLkEb0EM6phy53Pf-yBPU-gIp3NpvkPqV66XMcrULpL-D95n_V0K8y3utdhHU-Kjsycc-hGCVuiOZeV5ITbGjdXoCHzjAj5ykd8_Ydu1XQPf0zaZQoDpCuxljuuNhAKxAdkQxHU_9AC1PwXMKX0IFM1jmUqQhFI8HBd1Pfdrs9mV669wPW8zRwN2ETDIbBOqLQAS_gDLtXke7rpW5F3Bep_DQw; sess-at-main="ZDpcJt3EExmE+bz3zjzLyOFjPxJEGGF6IL0BaaOuPHU="; sst-main=Sst1|PQFl5t7iExTeRMvRjVqBF5t-CSMhh_H1suyQH_6sq0wbPbSp7fL5y2iGCApDjRauZFPSdgzV6epj77x_BnUAfaxnLK6k31ZhTLJbYVTgj-gexZtRFpuqc8XJ_4erx_DODYlWYnyXg_L1G5tVXNu-KXIrPz8m9DstbqGn6soXNdt3A1LxOhi1rpJdYBxgDVRoULtQQQBCw2akA6CcIXo5vLkVO_C1V1cTaxat6lw2rpxLVHIb6oshSnFoIlxiub9IkVkBbQlH1VbGR6RmGidkf9-B42sIQL9vtWI-IiCNVGzdNjE',
-        #     'referer': 'https://sellercentral.amazon.com/revcal?ref=RC1',
-        #     'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-        #     'sec-ch-ua-mobile': '?0',
-        #     'sec-ch-ua-platform': '"Windows"',
-        #     'sec-fetch-dest': 'empty',
-        #     'sec-fetch-mode': 'cors',
-        #     'sec-fetch-site': 'same-origin',
-        #     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-        # }
     
         params = {
             'searchKey': '{}'.format(datalist[row][0]),
