@@ -24,7 +24,7 @@ headers = {
     'sec-fetch-dest': 'empty',
     'sec-fetch-mode': 'cors',
     'sec-fetch-site': 'same-origin',
-    # 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
 }
 
 def getProfiles():
@@ -81,7 +81,7 @@ def parse(fileinput, profile, country, datalist, xlsheet):
         session = requests.Session()
         response = session.get('https://sellercentral.amazon.com/revenuecalculator/productmatch', params=params, cookies=cookies, headers=headers)
         data = response.json()
-        input(data)
+        # input(data)
         csrftoken = response.headers['anti-csrftoken-a2z']
         try:
             name = data['data']['otherProducts']['products'][0]['title']
