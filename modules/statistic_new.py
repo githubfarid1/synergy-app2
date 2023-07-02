@@ -68,12 +68,12 @@ def parse(fileinput, profile, country, datalist, xlsheet):
             'sec-fetch-site': 'same-origin',
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
         }
-        input(datalist[row][0])
         params = {
             'searchKey': '{}'.format(datalist[row][0]),
             'countryCode': '{}'.format(country),
             'locale': 'en-US',
         }
+        input(params)
 
         session = requests.Session()
         response = session.get('https://sellercentral.amazon.com/revenuecalculator/productmatch', params=params, cookies=cookies, headers=headers)
@@ -127,6 +127,7 @@ def parse(fileinput, profile, country, datalist, xlsheet):
                 except:
                     print('Product is Not Found')
                     # exit()
+                    time.sleep(2)
                     continue
 
         headers = {
