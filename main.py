@@ -575,13 +575,13 @@ class StatisticsFrame(ttk.Frame):
 		# for country in countries:
 		clist['values'] = [country for country in countries]
 		clist.current(0)
-		xlsInputFile = FileChooserFrame(self, btype="file", label="Select XLSX Input File:", filetypes=(("xlsx files", "*.xlsx"),("all files", "*.*")), sheetlist=sheetlist)
 		#tes
 		isreplacevar = StringVar(value="yes")
 		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
 		labelsname = Label(self, text="Sheet Name:")
-
 		isreplacecheck = ttk.Checkbutton(self, text="Replace Old Data (price, sale, etc)", variable=isreplacevar, onvalue="yes", offvalue="no")
+
+		xlsInputFile = FileChooserFrame(self, btype="file", label="Select XLSX Input File:", filetypes=(("xlsx files", "*.xlsx"),("all files", "*.*")), sheetlist=sheetlist)
 
 		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename, country=clist.get(), isreplace=isreplacevar.get() ))
 		# layout
