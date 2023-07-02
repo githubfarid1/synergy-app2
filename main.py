@@ -575,7 +575,7 @@ class StatisticsFrame(ttk.Frame):
 		# for country in countries:
 		clist['values'] = [country for country in countries]
 		clist.current(0)
-		xlsInputFile = FileChooserFrame(self, btype="file", label="Select XLSX Input File:", filetypes=(("xlsx files", "*.xlsx"),("all files", "*.*")))
+		xlsInputFile = FileChooserFrame(self, btype="file", label="Select XLSX Input File:", filetypes=(("xlsx files", "*.xlsx"),("all files", "*.*")), sheetlist=sheetlist)
 		#tes
 		isreplacevar = StringVar(value="yes")
 		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
