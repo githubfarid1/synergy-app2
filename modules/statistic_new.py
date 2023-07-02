@@ -1,11 +1,7 @@
-# https://sellercentral.amazon.com/revcal?ref=RC1&
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager as CM
 import time
-from openpyxl import Workbook, load_workbook
-# If you need to get the column letter, also import this
-from openpyxl.utils import get_column_letter
 import requests
 import os
 import warnings
@@ -66,8 +62,6 @@ def parse(fileinput, profile, country, datalist, xlsheet):
     cookies = {}
     for cookie in driver.get_cookies():
         cookies[cookie['name']] = cookie['value']
-    # print(cookies)
-    # exit()
     # os.system('cls')
     print('File Selected:', fileinput)
     for row in range(0, len(datalist)):
@@ -77,7 +71,6 @@ def parse(fileinput, profile, country, datalist, xlsheet):
             'locale': 'en-US',
         }
         # input(params)
-
         session = requests.Session()
         response = session.get('https://sellercentral.amazon.com/revenuecalculator/productmatch', params=params, cookies=cookies, headers=headers)
         data = response.json()
@@ -225,9 +218,6 @@ def parse(fileinput, profile, country, datalist, xlsheet):
         xlsheet['E{}'.format(datalist[row][1])].value = round(dim2,3)
         xlsheet['F{}'.format(datalist[row][1])].value = round(dim3,3)
         xlsheet['G{}'.format(datalist[row][1])].value = feeamount
-        # if i == 10:
-        #     break
-
         time.sleep(2)
     input('Finished...')
 

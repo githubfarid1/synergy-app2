@@ -213,6 +213,9 @@ def main():
     if isExist == False :
         print('Please check Images Folder')
         exit()
+    xlbook = xw.Book(args.input)
+    # xlsheet = xlbook.sheets["Sheet1"]
+
     parse(args.input, args.dir + file_delimeter(), args.postal)
     
 if __name__ == '__main__':
