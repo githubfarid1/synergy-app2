@@ -52,7 +52,7 @@ def parse(fileinput, profile, country, datalist, xlsheet):
         cookies[cookie['name']] = cookie['value']
     # print(cookies)
     # exit()
-    os.system('cls')
+    # os.system('cls')
     print('File Selected:', fileinput)
     for row in range(0, len(datalist)):
         headers = {
@@ -68,7 +68,7 @@ def parse(fileinput, profile, country, datalist, xlsheet):
             'sec-fetch-site': 'same-origin',
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
         }
-
+        input(datalist[row][0])
         params = {
             'searchKey': '{}'.format(datalist[row][0]),
             'countryCode': '{}'.format(country),
