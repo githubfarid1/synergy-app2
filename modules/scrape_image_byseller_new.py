@@ -162,6 +162,17 @@ def parse(fileinput, imagedir, postal):
                                     namestr = name.text
                                 except:
                                     namestr = ""
+                            
+                            price = search.find('span',class_='a-price').find("span", class_="a-offscreen")
+                            fpricestr = ""
+                            if price:
+                                try:
+                                     fpricestr = price.text
+                                except:
+                                     fpricestr = ""
+                                    
+                                
+                            # span.a-price > span.a-offscreen
                             alink = search.find("a", class_='a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal')
                             pricestr = ""
                             if alink.has_attr('href'):
@@ -173,8 +184,8 @@ def parse(fileinput, imagedir, postal):
                                 try:
                                     pricestr = soup.find("span", class_="priceToPay").find("span", class_="a-offscreen").text.replace("$","")
                                 except Exception as er:
-                                    input("price empty")
-                                    pricestr = ""
+                                    # input("price empty")
+                                    pricestr = fpricestr
                             try:
                                 m = re.search(r"'colorImages': ({.*})", html)
                                 datastr = m.group(0).replace("'colorImages': { 'initial': ", "")[:-1]
