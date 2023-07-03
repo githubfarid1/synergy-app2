@@ -128,19 +128,25 @@ def parse(fileinput, imagedir, postal):
             # input("")
 
             for ipage in range(1, maxpage+1):
-                print(sheet_name, "Page {} scraping...".format(ipage))
-                try:
-                     browser.close()
-                except:
-                     pass
-                browser = p.firefox.launch(headless=False, timeout=10000)
-                context = browser.new_context(user_agent=random.choice(userAgentStrings))
-                page = context.new_page()
-                page2 = context.new_page()
-                # page.route("**/*", block_aggressively2)
-                page.goto(baseurl)
-                # time.sleep(1)
-                page.wait_for_selector("a#nav-global-location-popover-link")
+                while True:
+                    print(sheet_name, "Page {} scraping...".format(ipage))
+                    try:
+                        browser.close()
+                    except:
+                        pass
+                    browser = p.firefox.launch(headless=False, timeout=10000)
+                    context = browser.new_context(user_agent=random.choice(userAgentStrings))
+                    page = context.new_page()
+                    page2 = context.new_page()
+                    # page.route("**/*", block_aggressively2)
+                    page.goto(baseurl)
+                    # time.sleep(1)
+                    try:
+                        page.wait_for_selector("a#nav-global-location-popover-link")
+                        break
+                    except:
+                         continue
+                    
                 page.query_selector("a#nav-global-location-popover-link").click()
                 page.wait_for_selector("input.GLUX_Full_Width").fill(postal)
                 page.query_selector("span[data-action='GLUXPostalUpdateAction']").click()
