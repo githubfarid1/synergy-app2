@@ -102,7 +102,7 @@ def parse(fileinput, imagedir, postal):
         print("Page Found..", end=" ", flush=True)
 
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False, timeout=10000)
+            browser = p.firefox.launch(headless=False, timeout=10000)
             context = browser.new_context(user_agent=random.choice(userAgentStrings))
             page = context.new_page()
             # page2 = context.new_page()
@@ -133,7 +133,7 @@ def parse(fileinput, imagedir, postal):
                      browser.close()
                 except:
                      pass
-                browser = p.chromium.launch(headless=False, timeout=10000)
+                browser = p.firefox.launch(headless=False, timeout=10000)
                 context = browser.new_context(user_agent=random.choice(userAgentStrings))
                 page = context.new_page()
                 page2 = context.new_page()
