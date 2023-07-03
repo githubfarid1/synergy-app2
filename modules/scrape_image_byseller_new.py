@@ -173,6 +173,7 @@ def parse(fileinput, imagedir, postal):
                                 try:
                                     pricestr = soup.find("span", class_="priceToPay").find("span", class_="a-offscreen").text.replace("$","")
                                 except Exception as er:
+                                    input("price empty")
                                     pricestr = ""
                             try:
                                 m = re.search(r"'colorImages': ({.*})", html)
@@ -201,7 +202,8 @@ def parse(fileinput, imagedir, postal):
                             ws2['C{}'.format(index)].value = pricestr
                             # input("pa")
                 else:
-                     input("pause")
+                    #  input("pause")
+                    pass
                 print(sheet_name, 'page {}'.format(ipage), 'End..')
 
 
