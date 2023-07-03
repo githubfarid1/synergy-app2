@@ -162,14 +162,10 @@ def parse(fileinput, imagedir, postal):
                                     namestr = name.text
                                 except:
                                     namestr = ""
-                            
-                            price = search.find('span',class_='a-price').find("span", class_="a-offscreen")
-                            fpricestr = ""
-                            if price:
-                                try:
-                                     fpricestr = price.text
-                                except:
-                                     fpricestr = ""
+                            try:
+                                fpricestr = search.find('span',class_='a-price').find("span", class_="a-offscreen").text
+                            except:
+                                fpricestr = ""
                                     
                                 
                             # span.a-price > span.a-offscreen
