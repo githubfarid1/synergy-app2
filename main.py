@@ -1393,7 +1393,7 @@ class ScrapeBySellerAmazonImagesFrame(ttk.Frame):
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		else:
-			run_module(comlist=[PYLOC, "modules/scrape_image_byseller.py", "-i", kwargs['input'], "-d", kwargs['output'], "-w", kwargs['website'], "-p", kwargs['postal'] ])
+			run_module(comlist=[PYLOC, "modules/scrape_image_byseller_new.py", "-i", kwargs['input'], "-d", kwargs['output'], "-w", kwargs['website'], "-p", kwargs['postal'] ])
 
 
 class CloseButton(ttk.Button):

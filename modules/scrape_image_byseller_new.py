@@ -70,18 +70,31 @@ def parse(fileinput, imagedir, postal):
     notfound = ['Sorry! Something went wrong!', 'Amazon.com']
     print('File Selected:', fileinput)
     scrapebyseller_source = fileinput
-    wb = load_workbook(filename=scrapebyseller_source , read_only=False)
-    ws = wb['Sheet1']
-    for irow in range(1, ws.max_row + 1):
+    # wb = load_workbook(filename=scrapebyseller_source , read_only=False)
+    # ws = wb['Sheet1']
+    
+    xlbook = xw.Book(scrapebyseller_source)
+    ws = xlbook.sheets["Sheet1"]
+    maxrow = ws.range('A' + str(ws.cells.last_cell.row)).end('up').row
+    for irow in range(1, maxrow + 1):
+
+
+    # for irow in range(1, ws.max_row + 1):
         if ws['A{}'.format(irow)].value == None:
             break
         sheet_name = ws['A{}'.format(irow)].value
-        if sheet_name in wb.sheetnames:
-            sheet = wb[sheet_name]
-            wb.remove(sheet)
-        wb.create_sheet(sheet_name)
+        wks = xlbook.sheets
+        if sheet_name in [s.name for s in wks]:
+             xlbook.sheets[sheet_name].delete()
+        xlbook.sheets.add(sheet_name)
+        # if sheet_name in wb.sheetnames:
+        #     sheet = wb[sheet_name]
+        #     wb.remove(sheet)
+
+        # wb.create_sheet(sheet_name)
         print(sheet_name, 'Created..')
-        ws2 = wb[sheet_name]
+        # ws2 = wb[sheet_name]
+        ws2 = xlbook.sheets[sheet_name]
         asins = []
         baseurl = ws['B{}'.format(irow)].value
         pno = 0
@@ -190,7 +203,7 @@ def parse(fileinput, imagedir, postal):
                 print(sheet_name, 'page {}'.format(ipage), 'End..')
 
 
-    wb.save(fileinput)
+    # wb.save(fileinput)
     input('Finished...')
 
 def main():
@@ -213,9 +226,7 @@ def main():
     if isExist == False :
         print('Please check Images Folder')
         exit()
-    xlbook = xw.Book(args.input)
-    # xlsheet = xlbook.sheets["Sheet1"]
-
+    
     parse(args.input, args.dir + file_delimeter(), args.postal)
     
 if __name__ == '__main__':
