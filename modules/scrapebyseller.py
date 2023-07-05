@@ -16,6 +16,7 @@ import psutil
 import warnings
 import argparse
 import json
+from urllib.parse import urlparse
 
 def getProfiles():
 	file = open("chrome_profiles.json", "r")
@@ -71,7 +72,18 @@ def parse(fileinput, profile):
             html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
             soup = BeautifulSoup(html,"html.parser")
             # input('pause')
+            if soup.find('div', class_='s-main-slot') == None:
+                try:
+                    linkdom = soup.find("div", {"id":"seller-info-storefront-link"}).find("a", class_="a-link-normal")
+                    domain = urlparse(url).netloc
+                    driver.get("{}/{}".format(domain, linkdom['href']) )
+                except:
+                    break
+
+
             if soup.find('div', class_='s-main-slot') != None:
+                
+                # div#seller-info-storefront-link  a.a-link-normal
                 searchs = soup.find('div', class_='s-main-slot').find_all('div')
                 for search in searchs:
                     if search.has_attr('data-asin') and search['data-asin'] != '':
@@ -98,7 +110,7 @@ def parse(fileinput, profile):
                 else:
                     break
             else:
-                pass            
+                break
     wb.save(scrapebyseller_source)
     driver.close()
     input('Finished...')
