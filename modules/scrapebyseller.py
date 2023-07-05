@@ -94,7 +94,7 @@ def parse(fileinput, profile):
                         index += 1
                         ws2['A{}'.format(index)].value = asin
                         ws2['B{}'.format(index)].value = name
-                print(sheet_name, 'page {}'.format(page+1), 'Scrapped..')
+                print(sheet_name, 'page {}'.format(page), 'Scrapped..')
                 # time.sleep(2)
                 # break
                 if soup.select('.s-pagination-next.s-pagination-disabled') == []:
