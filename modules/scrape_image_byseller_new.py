@@ -161,8 +161,9 @@ def parse(fileinput, imagedir, postal, website):
                 if soup.find('div', class_='s-main-slot') == None:
                     try:
                         linkdom = soup.find("div", {"id":"seller-info-storefront-link"}).find("a", class_="a-link-normal")
-                        domain = urlparse(url).netloc
-                        url = "https://{}{}".format(domain, linkdom['href']) 
+                        # domain = urlparse(url).netloc
+                        input("pause")
+                        url = "https://{}{}".format(website, linkdom['href']) 
                         page.goto(url)
                         html = page.content()
                         soup = BeautifulSoup(html,"html.parser")
