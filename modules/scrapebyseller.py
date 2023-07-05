@@ -73,18 +73,14 @@ def parse(fileinput, profile):
             soup = BeautifulSoup(html,"html.parser")
             # input('pause')
             if soup.find('div', class_='s-main-slot') == None:
-                # try:
-
-                linkdom = soup.find("div", {"id":"seller-info-storefront-link"}).find("a", class_="a-link-normal")
-                # input(linkdom['href'])
-                domain = urlparse(url).netloc
-                input("{}/{}".format(domain, linkdom['href']))
-                driver.get("{}/{}".format(domain, linkdom['href']) )
-                input("{}/{}".format(domain, linkdom['href']))
-                html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
-                soup = BeautifulSoup(html,"html.parser")
-                # except:
-                #     break
+                try:
+                    linkdom = soup.find("div", {"id":"seller-info-storefront-link"}).find("a", class_="a-link-normal")
+                    domain = urlparse(url).netloc
+                    driver.get("{}{}".format(domain, linkdom['href']) )
+                    html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
+                    soup = BeautifulSoup(html,"html.parser")
+                except:
+                    break
 
 
             if soup.find('div', class_='s-main-slot') != None:
