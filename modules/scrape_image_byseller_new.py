@@ -115,6 +115,8 @@ def parse(fileinput, imagedir, postal, website):
                 page.wait_for_selector("div.a-popover-footer span[data-action='GLUXConfirmAction']").click()
             
             time.sleep(2)
+            html = page.content()
+            soup = BeautifulSoup(html,"html.parser")
             if soup.find('div', class_='s-main-slot') == None:
                 try:
                     linkdom = soup.find("div", {"id":"seller-info-storefront-link"}).find("a", class_="a-link-normal")
