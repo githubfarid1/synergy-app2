@@ -76,6 +76,7 @@ def parse(fileinput, profile):
                 try:
                     linkdom = soup.find("div", {"id":"seller-info-storefront-link"}).find("a", class_="a-link-normal")
                     domain = urlparse(url).netloc
+                    input("{}{}".format(domain, linkdom['href']))
                     driver.get("{}{}".format(domain, linkdom['href']) )
                     html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
                     soup = BeautifulSoup(html,"html.parser")
