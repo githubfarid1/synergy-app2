@@ -156,6 +156,17 @@ def parse(fileinput, imagedir, postal):
                 page.goto(url) 
                 html = page.content()
                 soup = BeautifulSoup(html,"html.parser")
+                if soup.find('div', class_='s-main-slot') == None:
+                    try:
+                        linkdom = soup.find("div", {"id":"seller-info-storefront-link"}).find("a", class_="a-link-normal")
+                        domain = urlparse(url).netloc
+                        url = "https://{}{}".format(domain, linkdom['href']) 
+                        page.goto(url)
+                        html = page.content()
+                        soup = BeautifulSoup(html,"html.parser")
+                    except:
+                        pass
+
                 if soup.find('div', class_='s-main-slot') != None:
                     searchs = soup.find('div', class_='s-main-slot').find_all('div')
                     for search in searchs:
