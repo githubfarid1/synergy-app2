@@ -115,6 +115,14 @@ def parse(fileinput, imagedir, postal, website):
                 page.wait_for_selector("div.a-popover-footer span[data-action='GLUXConfirmAction']").click()
             
             time.sleep(2)
+            if soup.find('div', class_='s-main-slot') == None:
+                try:
+                    linkdom = soup.find("div", {"id":"seller-info-storefront-link"}).find("a", class_="a-link-normal")
+                    url = "https://{}{}".format(website, linkdom['href']) 
+                    page.goto(url)
+                except:
+                    pass
+
             try:
                 last = page.wait_for_selector("span[class='s-pagination-item s-pagination-disabled']")
             except:
@@ -158,17 +166,17 @@ def parse(fileinput, imagedir, postal, website):
                 page.goto(url) 
                 html = page.content()
                 soup = BeautifulSoup(html,"html.parser")
-                if soup.find('div', class_='s-main-slot') == None:
-                    try:
-                        linkdom = soup.find("div", {"id":"seller-info-storefront-link"}).find("a", class_="a-link-normal")
-                        # domain = urlparse(url).netloc
-                        input("pause")
-                        url = "https://{}{}".format(website, linkdom['href']) 
-                        page.goto(url)
-                        html = page.content()
-                        soup = BeautifulSoup(html,"html.parser")
-                    except:
-                        pass
+                # if soup.find('div', class_='s-main-slot') == None:
+                #     try:
+                #         linkdom = soup.find("div", {"id":"seller-info-storefront-link"}).find("a", class_="a-link-normal")
+                #         # domain = urlparse(url).netloc
+                #         # input("pause")
+                #         url = "https://{}{}".format(website, linkdom['href']) 
+                #         page.goto(url)
+                #         html = page.content()
+                #         soup = BeautifulSoup(html,"html.parser")
+                #     except:
+                #         pass
 
                 if soup.find('div', class_='s-main-slot') != None:
                     searchs = soup.find('div', class_='s-main-slot').find_all('div')
