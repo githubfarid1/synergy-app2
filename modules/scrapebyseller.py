@@ -82,7 +82,7 @@ def parse(fileinput, profile):
                     driver.get(url)
                     html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
                     soup = BeautifulSoup(html,"html.parser")
-                    input("pause")
+                    # input("pause")
                 except:
                     break
 
