@@ -81,7 +81,7 @@ def parse(fileinput, profile):
                     driver.get("https://{}{}".format(domain, linkdom['href']) )
                     html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
                     soup = BeautifulSoup(html,"html.parser")
-                    print("pause")
+                    input("pause")
                 except:
                     break
 
