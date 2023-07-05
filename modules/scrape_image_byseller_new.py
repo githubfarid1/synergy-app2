@@ -65,7 +65,7 @@ def block_aggressively3(route):
 	else: 
 		route.continue_() 
 
-def parse(fileinput, imagedir, postal):
+def parse(fileinput, imagedir, postal, website):
     # os.system('cls')
     notfound = ['Sorry! Something went wrong!', 'Amazon.com']
     print('File Selected:', fileinput)
@@ -108,10 +108,12 @@ def parse(fileinput, imagedir, postal):
             # page2 = context.new_page()
             # page.route("**/*", block_aggressively2) 
             page.goto(baseurl)
-            page.query_selector("a#nav-global-location-popover-link").click()
-            page.wait_for_selector("input.GLUX_Full_Width").fill(postal)
-            page.query_selector("span[data-action='GLUXPostalUpdateAction']").click()
-            page.wait_for_selector("div.a-popover-footer span[data-action='GLUXConfirmAction']").click()
+            if website == "amazon.com":
+                page.query_selector("a#nav-global-location-popover-link").click()
+                page.wait_for_selector("input.GLUX_Full_Width").fill(postal)
+                page.query_selector("span[data-action='GLUXPostalUpdateAction']").click()
+                page.wait_for_selector("div.a-popover-footer span[data-action='GLUXConfirmAction']").click()
+            
             time.sleep(2)
             try:
                 last = page.wait_for_selector("span[class='s-pagination-item s-pagination-disabled']")
@@ -255,7 +257,7 @@ def main():
         print('Please check Images Folder')
         exit()
     
-    parse(args.input, args.dir + file_delimeter(), args.postal)
+    parse(args.input, args.dir + file_delimeter(), args.postal, args.website)
     
 if __name__ == '__main__':
     main()
