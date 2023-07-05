@@ -191,8 +191,8 @@ def parse(fileinput, imagedir, postal, website):
                             alink = search.find("a", class_='a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal')
                             pricestr = ""
                             if alink.has_attr('href'):
-                                domain = urlparse(url).netloc
-                                itemurl = "https://{}{}".format(domain, alink['href'])
+                                # domain = urlparse(url).netloc
+                                itemurl = "https://{}{}".format(website, alink['href'])
                                 # page2.route("**/*", block_aggressively3) 
                                 page2.goto(itemurl)
                                 html = page2.content()
