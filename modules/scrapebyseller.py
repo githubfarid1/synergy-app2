@@ -71,32 +71,34 @@ def parse(fileinput, profile):
             html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
             soup = BeautifulSoup(html,"html.parser")
             # input('pause')
-            searchs = soup.find('div', class_='s-main-slot').find_all('div')
-            for search in searchs:
-                if search.has_attr('data-asin') and search['data-asin'] != '':
-                    # asins.append(search['data-asin'])
-                    name = ''
-                    asin = search['data-asin']
-                    search.find('span',class_='a-size-medium a-color-base a-text-normal')
-                    if search:
-                        name = search.find('span',class_='a-size-medium a-color-base a-text-normal').text
-                    index += 1
-                    ws2['A{}'.format(index)].value = asin
-                    ws2['B{}'.format(index)].value = name
-            print(sheet_name, 'page {}'.format(page+1), 'Scrapped..')
-            # time.sleep(2)
-            # break
-            if soup.select('.s-pagination-next.s-pagination-disabled') == []:
-                page += 1
-                url = url + '&page={}'.format(page)
-                time.sleep(2)
-                driver.get(url)
-                
+            if soup.find('div', class_='s-main-slot') != None:
+                searchs = soup.find('div', class_='s-main-slot').find_all('div')
+                for search in searchs:
+                    if search.has_attr('data-asin') and search['data-asin'] != '':
+                        # asins.append(search['data-asin'])
+                        name = ''
+                        asin = search['data-asin']
+                        search.find('span',class_='a-size-medium a-color-base a-text-normal')
+                        if search:
+                            name = search.find('span',class_='a-size-medium a-color-base a-text-normal').text
+                        index += 1
+                        ws2['A{}'.format(index)].value = asin
+                        ws2['B{}'.format(index)].value = name
+                print(sheet_name, 'page {}'.format(page+1), 'Scrapped..')
+                # time.sleep(2)
                 # break
-                # urls.append(url)
+                if soup.select('.s-pagination-next.s-pagination-disabled') == []:
+                    page += 1
+                    url = url + '&page={}'.format(page)
+                    time.sleep(2)
+                    driver.get(url)
+                    
+                    # break
+                    # urls.append(url)
+                else:
+                    break
             else:
-                break
-
+                pass            
     wb.save(scrapebyseller_source)
     driver.close()
     input('Finished...')
