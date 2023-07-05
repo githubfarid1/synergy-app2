@@ -106,6 +106,8 @@ def main():
     parser = argparse.ArgumentParser(description="Scrape By Amazon Seller")
     parser.add_argument('-i', '--input', type=str,help="File Input")
     parser.add_argument('-d', '--data', type=str,help="Chrome User Data Directory")
+    parser.add_argument('-w', '--website', type=str,help="Website")
+
     args = parser.parse_args()
     if args.input[-5:] != '.xlsx':
         print('File input have to XLSX file')
