@@ -148,11 +148,11 @@ def parse(fileinput, imagedir, postal, website):
                         break
                     except:
                          continue
-                    
-                page.query_selector("a#nav-global-location-popover-link").click()
-                page.wait_for_selector("input.GLUX_Full_Width").fill(postal)
-                page.query_selector("span[data-action='GLUXPostalUpdateAction']").click()
-                page.wait_for_selector("div.a-popover-footer span[data-action='GLUXConfirmAction']").click()
+                if website == "amazon.com":
+                    page.query_selector("a#nav-global-location-popover-link").click()
+                    page.wait_for_selector("input.GLUX_Full_Width").fill(postal)
+                    page.query_selector("span[data-action='GLUXPostalUpdateAction']").click()
+                    page.wait_for_selector("div.a-popover-footer span[data-action='GLUXConfirmAction']").click()
                 time.sleep(2)
                 url = baseurl + '&page={}'.format(ipage)
                 page.goto(url) 
