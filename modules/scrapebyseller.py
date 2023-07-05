@@ -65,31 +65,23 @@ def parse(fileinput, profile):
         url = ws['B{}'.format(i)].value
         time.sleep(2)
         driver.get(url)
-        page = 0
+        page = 1
         index = 0
         first = True
         while True:
-            # print(url)
             html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
             soup = BeautifulSoup(html,"html.parser")
-            # input('pause')
             if soup.find('div', class_='s-main-slot') == None:
                 try:
                     linkdom = soup.find("div", {"id":"seller-info-storefront-link"}).find("a", class_="a-link-normal")
                     domain = urlparse(url).netloc
                     url = "https://{}{}".format(domain, linkdom['href']) 
-                    # input("{}{}".format(domain, linkdom['href']))
                     driver.get(url)
                     html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
                     soup = BeautifulSoup(html,"html.parser")
-                    # input("pause")
                 except:
                     break
-
-
             if soup.find('div', class_='s-main-slot') != None:
-                
-                # div#seller-info-storefront-link  a.a-link-normal
                 searchs = soup.find('div', class_='s-main-slot').find_all('div')
                 for search in searchs:
                     if search.has_attr('data-asin') and search['data-asin'] != '':
