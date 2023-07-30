@@ -135,7 +135,7 @@ def browser_init(profilename, pdfoutput_folder):
                 "plugins.always_open_pdf_externally": True #It will not show PDF directly in chrome                    
             }
     options.add_experimental_option("prefs", profile)
-    return webdriver.Chrome(service=Service(CM().install()), options=options)
+    return webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
 
 def browser_login(driver):
     loginurl = "https://www.access.fda.gov/oaa/logonFlow.htm?execution=e1s1"

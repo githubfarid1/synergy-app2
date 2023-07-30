@@ -120,7 +120,7 @@ class AmazonShipment:
                     "plugins.always_open_pdf_externally": True #It will not show PDF directly in chrome                    
                     }
         options.add_experimental_option("prefs", profile)
-        return webdriver.Chrome(service=Service(CM().install()), options=options)
+        return webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
 
     def parse(self):
         print("Try to login... ", end="")

@@ -31,7 +31,7 @@ def parse(fileoutput, profile):
     # options.add_argument("user-agent=" + ua.random )
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
-    driver = webdriver.Chrome(service=Service(CM().install()), options=options)
+    driver = webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
     os.system('cls')
     print('File Selected:', fileoutput)
 

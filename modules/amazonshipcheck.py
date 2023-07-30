@@ -112,7 +112,7 @@ class AmazonShipmentCheck:
         options.add_argument("--disable-notifications")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option('useAutomationExtension', False)
-        return webdriver.Chrome(service=Service(CM().install()), options=options)
+        return webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
 
     def __data_generator(self):
         print("Data Mounting... ", end="")

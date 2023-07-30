@@ -67,7 +67,7 @@ class FdaEntry:
                     "download.default_directory": download_dir, "download.extensions_to_open": "applications/pdf", 
                     'profile.default_content_setting_values.automatic_downloads': 1}
         options.add_experimental_option("prefs", profile)
-        self.__driver = webdriver.Chrome(service=Service(CM().install()), options=options)
+        self.__driver = webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
     
     def __init__(self, xlsname, sname, datearrival, pdfoutput, chrome_data) -> None:
         print("Initialated..")
