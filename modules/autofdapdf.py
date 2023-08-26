@@ -568,12 +568,12 @@ def main_tes():
     file_handler.setFormatter(logging.Formatter(file_handler_format))
     logger.addHandler(file_handler)
 
-    print('Creating Excel Backup File...', end="", flush=True)
-    fnameinput = os.path.basename(args.input)
-    pathinput = args.input[0:-len(fnameinput)]
-    backfile = "{}{}_backup{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
-    shutil.copy(args.input, backfile)
-    print('OK')
+    # print('Creating Excel Backup File...', end="", flush=True)
+    # fnameinput = os.path.basename(args.input)
+    # pathinput = args.input[0:-len(fnameinput)]
+    # backfile = "{}{}_backup{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
+    # shutil.copy(args.input, backfile)
+    # print('OK')
     print(args.input)
 
     print('Opening the Source Excel File...', end="", flush=True)
