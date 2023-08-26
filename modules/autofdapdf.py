@@ -750,8 +750,6 @@ def main_experimental():
     # shutil.copy(args.input, backfile)
     # print('OK')
     # print(args.input)
-    print(args.runindividual)
-    sys.exit()
     print('Opening the Source Excel File...', end="", flush=True)
     xlbook = xw.Book(args.input)
     print('OK')
@@ -833,28 +831,46 @@ def main_experimental():
         
         driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
         driver = browser_login(driver)
-
-        fda_entry = FdaEntry(driver=driver, datalist=xlsdata, datearrival=args.date, pdfoutput=complete_output_folder)
-        # if not first:
-        try:
-            driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
-        except:
-            pass
-        fda_entry.parse()
-        # time.sleep(2)
-        pdf_filename = pdf_rename(pdfoutput_folder=complete_output_folder)
-        if pdf_filename != "":
-            webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
+        if args.runindividual == 'no':
+            fda_entry = FdaEntry(driver=driver, datalist=xlsdata, datearrival=args.date, pdfoutput=complete_output_folder)
+            # if not first:
             try:
-                xlbook.save(args.input)
+                driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
             except:
                 pass
-            
+            fda_entry.parse()
+            # time.sleep(2)
+            pdf_filename = pdf_rename(pdfoutput_folder=complete_output_folder)
+            if pdf_filename != "":
+                webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
+                try:
+                    xlbook.save(args.input)
+                except:
+                    pass
+                
 
+            else:
+                print("file:", pdf_filename)
+                input("rename the file was failed")
         else:
-            print("file:", pdf_filename)
-            input("rename the file was failed")
-        first = False
+            for item in xlsdata:
+                fda_entry = FdaEntry(driver=driver, datalist=item, datearrival=args.date, pdfoutput=complete_output_folder)
+                try:
+                    driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
+                except:
+                    pass
+                fda_entry.parse()
+                # time.sleep(2)
+                pdf_filename = pdf_rename(pdfoutput_folder=complete_output_folder)
+                if pdf_filename != "":
+                    webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
+                    try:
+                        xlbook.save(args.input)
+                    except:
+                        pass
+                else:
+                    print("file:", pdf_filename)
+                    input("rename the file was failed")
     
     #regenerate data
     xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
