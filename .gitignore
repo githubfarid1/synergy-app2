@@ -165,3 +165,4 @@ cython_debug/
 modules/__pycache__/
 /chrome_profiles.json
 /synergy-venv
+/chromedriver
