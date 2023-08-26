@@ -854,6 +854,7 @@ def main_experimental():
                 input("rename the file was failed")
         else:
             for item in xlsdata:
+                print(item)
                 fda_entry = FdaEntry(driver=driver, datalist=item, datearrival=args.date, pdfoutput=complete_output_folder)
                 try:
                     driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
