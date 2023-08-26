@@ -444,6 +444,8 @@ def main():
                     if data[20] == 'None':
                         xlsdictwcode[idx] = xls
                         break
+            print(xlsdictwcode.values())
+            sys.exit()
             for xlsdata in xlsdictwcode.values():
                 print(xlsdata)
                 sys.exit()
