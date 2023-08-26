@@ -267,10 +267,10 @@ def xls_data_generator(xlws, maxrow):
         wcode.append(str(xlworksheet['F{}'.format(i)].value).strip())
         strdesc= ud.normalize('NFKD', str(xlworksheet['G{}'.format(i)].value).strip()).encode('ascii', 'ignore').decode('ascii')
         wdesc.append(strdesc)
-        # try:
-        wsize.append(str(int(xlworksheet['H{}'.format(i)].options(numbers=int).value)).strip())
-        # except:
-        #     wsize.append("")
+        try:
+            wsize.append(str(int(xlworksheet['H{}'.format(i)].options(numbers=int).value)).strip())
+        except:
+            wsize.append(xlworksheet['H{}'.format(i)].value.strip())
 
         wtotal.append(str(xlworksheet['I{}'.format(i)].options(numbers=int).value).strip())
         strmanufact = ud.normalize('NFKD', str(xlworksheet['K{}'.format(i)].value).strip()).encode('ascii', 'ignore').decode('ascii')
