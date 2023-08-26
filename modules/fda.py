@@ -123,7 +123,9 @@ def parse(profilename, datatable, datearrival, pdffolder):
                 'profile.default_content_setting_values.automatic_downloads': 1}
     options.add_experimental_option("prefs", profile)
 
-    driver = webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
+    # driver = webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
+    driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
+
     os.system("cls")
     first = True
     for item in datatable:

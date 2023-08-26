@@ -35,7 +35,8 @@ def parse(fileinput, profile, country):
     # options.add_argument("user-agent=" + ua.random )
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
-    driver = webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
+    # driver = webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
+    driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 
     driver.get('https://sellercentral.amazon.com/revcal?ref=RC1&')
     cookies = {}

@@ -85,7 +85,9 @@ def parse(xlsheet, profile, track_empty_only=False):
     options.add_argument("--window-size=800,600")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
-    driver = webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
+    # driver = webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
+    driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
+
     os.system('cls')
     maxrow = xlsheet.range('R' + str(xlsheet.cells.last_cell.row)).end('up').row
     for i in range(2, maxrow + 2):

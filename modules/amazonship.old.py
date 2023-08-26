@@ -69,7 +69,9 @@ class AmazonShipment:
         #             'profile.default_content_setting_values.automatic_downloads': 1}
         profile = {"download.default_directory": self.download_folder}
         options.add_experimental_option("prefs", profile)
-        self.__driver = webdriver.Chrome(service=Service(CM().install()), options=options)
+        # self.__driver = webdriver.Chrome(service=Service(CM().install()), options=options)
+        self.__driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
+
         self.__data_sanitizer()
 
     def parse(self):
