@@ -670,7 +670,6 @@ def main_tes():
         prior = FdaPdf(filename=pdf_filename, datalist=xlsdata, pdfoutput=complete_output_folder)
         prior.highlightpdf_generator()
         prior.insert_text()
-        print(prior.pnlist)
         save_to_xls(pnlist=prior.pnlist)
         try:
             xlbook.save(args.input)
