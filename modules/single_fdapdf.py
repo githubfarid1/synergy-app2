@@ -122,16 +122,16 @@ class FdaPdf:
             tmpboxes = ds[19].replace('Box','').split(',')
             for tmpbox in tmpboxes:
                 fname = "{}.pdf".format(tmpbox.strip())
-                print(fname)
+                # print(fname)
                 shutil.copy(foldername + self.file_delimeter + fname, foldername + self.file_delimeter + "tmp.pdf")
                 doc = fitz.open(foldername + self.file_delimeter + "tmp.pdf")
                 for i in range(0, doc.page_count):
-                    print(ds[2])
+                    searchtext = ds[2][:240]
                     pdfpage = doc[i]
-                    rects = pdfpage.search_for(ds[2], flags=(fitz.TEXT_PRESERVE_WHITESPACE))
+                    rects = pdfpage.search_for(searchtext, flags=(fitz.TEXT_PRESERVE_WHITESPACE))
                     
                     if rects == []:
-                        rects = self.__research_text(pdfpage, ds[2])
+                        rects = self.__research_text(pdfpage, searchtext)
                         if rects != []:
                             break
                     else:
