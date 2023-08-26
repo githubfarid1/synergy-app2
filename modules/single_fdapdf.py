@@ -126,6 +126,7 @@ class FdaPdf:
                 shutil.copy(foldername + self.file_delimeter + fname, foldername + self.file_delimeter + "tmp.pdf")
                 doc = fitz.open(foldername + self.file_delimeter + "tmp.pdf")
                 for i in range(0, doc.page_count):
+                    print(ds[2])
                     pdfpage = doc[i]
                     rects = pdfpage.search_for(ds[2], flags=(fitz.TEXT_PRESERVE_WHITESPACE))
                     
