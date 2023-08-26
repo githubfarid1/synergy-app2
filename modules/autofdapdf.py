@@ -457,110 +457,110 @@ def main():
     for i in range(1, maxrun+1):
         if i > 1:
             print("Error, Process will be reapeated - {} trying".format(i-1) )
-        try:
-            maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
-            xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
-            # input(xlsdictall)
-            xlsdictwcode = {}
-            for idx, xls in xlsdictall.items():
-                for data in xls['data']:
-                    if data[20] == 'None':
-                        xlsdictwcode[idx] = xls
-                        break
-            for xlsdata in xlsdictwcode.values():
-                try:
-                    driver.close()
-                    driver.quit()
-                except:
-                    pass
-                
-                driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
-                driver = browser_login(driver)
-
-                fda_entry = FdaEntry(driver=driver, datalist=xlsdata, datearrival=args.date, pdfoutput=complete_output_folder)
-                # if not first:
-                try:
-                    driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
-                except:
-                    pass
-                fda_entry.parse()
-                # time.sleep(2)
-                pdf_filename = pdf_rename(pdfoutput_folder=complete_output_folder)
-                if pdf_filename != "":
-                    webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
-                    try:
-                        xlbook.save(args.input)
-                    except:
-                        pass
-                    
-
-                else:
-                    print("file:", pdf_filename)
-                    input("rename the file was failed")
-                # print("sdsds")
-                first = False
+        # try:
+        maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
+        xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
+        # input(xlsdictall)
+        xlsdictwcode = {}
+        for idx, xls in xlsdictall.items():
+            for data in xls['data']:
+                if data[20] == 'None':
+                    xlsdictwcode[idx] = xls
+                    break
+        for xlsdata in xlsdictwcode.values():
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
             
-            #regenerate data
-            xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
-            
-            #Keep only submitter PDF files.
-            submitters = []
-            for xlsdata in xlsdictall.values():
-                submitters.append(format_filename(xlsdata['data'][0][14].replace(".", "")))
-            all_pdf_files = glob.glob(complete_output_folder + file_delimeter() + "*.pdf")
-            for file in all_pdf_files:
-                found = False
-                for submitter in submitters:
-                    if file.find(submitter) != -1:
-                        found = True
-                        break
-                if not found:
-                    os.remove(file)
-            dirs = [d for d in os.listdir(complete_output_folder) if os.path.isdir(os.path.join(complete_output_folder, d))]
-            for dir in dirs:
-                deltree(complete_output_folder + file_delimeter() + dir)
+            driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
+            driver = browser_login(driver)
 
-            list_of_files = glob.glob(complete_output_folder + file_delimeter() + "*.pdf")
-            if len(list_of_files) == 0:
-                print("No PDF file will be proccessed, the Script Stopped")
-                sys.exit()
-            allsavedfiles = []
-            for xlsdata in xlsdictall.values():
-                entry_id = xlsdata['data'][0][20]
-                pdf_filename = choose_pdf_file(list_of_files, entry_id)
-                print('PDF File processing: ', pdf_filename)
-                prior = FdaPdf(filename=pdf_filename, datalist=xlsdata, pdfoutput=complete_output_folder)
-                prior.highlightpdf_generator()
-                prior.insert_text()
-                save_to_xls(pnlist=prior.pnlist)
+            fda_entry = FdaEntry(driver=driver, datalist=xlsdata, datearrival=args.date, pdfoutput=complete_output_folder)
+            # if not first:
+            try:
+                driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
+            except:
+                pass
+            fda_entry.parse()
+            # time.sleep(2)
+            pdf_filename = pdf_rename(pdfoutput_folder=complete_output_folder)
+            if pdf_filename != "":
+                webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
                 try:
                     xlbook.save(args.input)
                 except:
                     pass
+                
 
-                allsavedfiles.extend(prior.savedfiles)
-            
-            setall = set(allsavedfiles)
-
-            if len(setall) != len(allsavedfiles):
-                input("Combining all pdf files Failed because there are one or more files is has the same name.")
             else:
-                del_non_annot_page(allsavedfiles, complete_output_folder)
-                join_folderpdf(allsavedfiles, complete_output_folder)
-                resultfile = lib.join_pdfs(source_folder=complete_output_folder + lib.file_delimeter() + "combined", output_folder=complete_output_folder, tag="FDA_All")
-                print(resultfile, "created")
-            break
-        except Exception as e:
-            logger.error(e)
-            print("There is an error, check logs/autofda-err.log")
+                print("file:", pdf_filename)
+                input("rename the file was failed")
+            # print("sdsds")
+            first = False
+        
+        #regenerate data
+        xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
+        
+        #Keep only submitter PDF files.
+        submitters = []
+        for xlsdata in xlsdictall.values():
+            submitters.append(format_filename(xlsdata['data'][0][14].replace(".", "")))
+        all_pdf_files = glob.glob(complete_output_folder + file_delimeter() + "*.pdf")
+        for file in all_pdf_files:
+            found = False
+            for submitter in submitters:
+                if file.find(submitter) != -1:
+                    found = True
+                    break
+            if not found:
+                os.remove(file)
+        dirs = [d for d in os.listdir(complete_output_folder) if os.path.isdir(os.path.join(complete_output_folder, d))]
+        for dir in dirs:
+            deltree(complete_output_folder + file_delimeter() + dir)
+
+        list_of_files = glob.glob(complete_output_folder + file_delimeter() + "*.pdf")
+        if len(list_of_files) == 0:
+            print("No PDF file will be proccessed, the Script Stopped")
+            sys.exit()
+        allsavedfiles = []
+        for xlsdata in xlsdictall.values():
+            entry_id = xlsdata['data'][0][20]
+            pdf_filename = choose_pdf_file(list_of_files, entry_id)
+            print('PDF File processing: ', pdf_filename)
+            prior = FdaPdf(filename=pdf_filename, datalist=xlsdata, pdfoutput=complete_output_folder)
+            prior.highlightpdf_generator()
+            prior.insert_text()
+            save_to_xls(pnlist=prior.pnlist)
             try:
                 xlbook.save(args.input)
             except:
                 pass
-            # xlbook.close()
-            if i == maxrun:
-                logger.error("Execution Limit reached, Please check the script")
-            continue
+
+            allsavedfiles.extend(prior.savedfiles)
+        
+        setall = set(allsavedfiles)
+
+        if len(setall) != len(allsavedfiles):
+            input("Combining all pdf files Failed because there are one or more files is has the same name.")
+        else:
+            del_non_annot_page(allsavedfiles, complete_output_folder)
+            join_folderpdf(allsavedfiles, complete_output_folder)
+            resultfile = lib.join_pdfs(source_folder=complete_output_folder + lib.file_delimeter() + "combined", output_folder=complete_output_folder, tag="FDA_All")
+            print(resultfile, "created")
+        # break
+        # except Exception as e:
+        # logger.error(e)
+        print("There is an error, check logs/autofda-err.log")
+        try:
+            xlbook.save(args.input)
+        except:
+            pass
+        # xlbook.close()
+        if i == maxrun:
+            logger.error("Execution Limit reached, Please check the script")
+        continue
     # Delete all file folder
     for filename in list_of_files:
         folder = filename[:-4]
