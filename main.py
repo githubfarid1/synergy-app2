@@ -903,6 +903,10 @@ class FdaEntryPdfFrame(ttk.Frame):
 		self.rowconfigure(3, weight=1)
 		self.rowconfigure(4, weight=1)
 		self.rowconfigure(5, weight=1)
+		self.rowconfigure(6, weight=1)
+		self.rowconfigure(7, weight=1)
+
+
 		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
 		# populate
 		titleLabel = TitleLabel(self, text="FDA Entry + PDF Generator")
@@ -915,7 +919,9 @@ class FdaEntryPdfFrame(ttk.Frame):
 		# sheetName = Entry(self, width=45)
 		dateArrival = DateEntry(self, width= 20, date_pattern='mm/dd/yyyy')
 		
-		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename, sheetname = sheetlist, datearrival=dateArrival, pdffolder=pdfFolder.filename))
+		runButton = ttk.Button(self, text='Run Process 1', command = lambda:self.run_process(input=xlsInputFile.filename, sheetname = sheetlist, datearrival=dateArrival, pdffolder=pdfFolder.filename))
+		runButton2 = ttk.Button(self, text='Run Process 2', command = lambda:self.run_process2(input=xlsInputFile.filename, sheetname = sheetlist, datearrival=dateArrival, pdffolder=pdfFolder.filename))
+
 		pdfFolder = FileChooserFrame(self, btype="folder", label="PDF output Folder:", filetypes=())
 
 		# layout
@@ -927,10 +933,26 @@ class FdaEntryPdfFrame(ttk.Frame):
 		dateArrival.grid(column=0, row = 4)
 		labeldate.grid(column = 0, row = 4, sticky=(W))
 		runButton.grid(column = 0, row = 5, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+		runButton2.grid(column = 0, row = 6, sticky = (E))
+
+		closeButton.grid(column = 0, row = 7, sticky = (E))
 		sheetlist.grid(column=0, row = 2, pady=10)
 		
 	def run_process(self, **kwargs):
+		if kwargs['input'] == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
+		elif kwargs['pdffolder'] == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the pdf folder')
+		elif kwargs['sheetname'].get() == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have filled the sheetname')
+		else:
+			pdffolder = kwargs['pdffolder']
+			if platform == "win32":
+				pdffolder = pdffolder.replace("/", "\\")
+			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed it.')
+			run_module(comlist=[PYLOC, "modules/autofdapdf.py", "-i", kwargs['input'], "-d", profileSelected.get(), "-s", kwargs['sheetname'].get(), "-dt", str(kwargs['datearrival'].get_date()), "-o", pdffolder])
+
+	def run_process2(self, **kwargs):
 		if kwargs['input'] == "": 
 			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
 		elif kwargs['pdffolder'] == "": 
