@@ -853,6 +853,8 @@ def main_experimental():
                 print("file:", pdf_filename)
                 input("rename the file was failed")
         else:
+            print(xlsdata)
+            sys.exit()
             for item in xlsdata:
                 print(item)
                 fda_entry = FdaEntry(driver=driver, datalist=item, datearrival=args.date, pdfoutput=complete_output_folder)
