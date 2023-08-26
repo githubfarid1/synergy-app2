@@ -444,11 +444,7 @@ def main():
                     if data[20] == 'None':
                         xlsdictwcode[idx] = xls
                         break
-            print(xlsdictwcode.values())
-            sys.exit()
             for xlsdata in xlsdictwcode.values():
-                print(xlsdata)
-                sys.exit()
                 try:
                     driver.close()
                     driver.quit()
@@ -546,8 +542,6 @@ def main():
         folder = filename[:-4]
         deltree(folder)
     input("data generating completed...")
-
-
 
 def main_tes():
     parser = argparse.ArgumentParser(description="FDA Entry + PDF Extractor")
@@ -716,5 +710,211 @@ def main_tes():
     input("data generating completed...")
 
 
+def main_experimental():
+    parser = argparse.ArgumentParser(description="FDA Entry + PDF Extractor")
+    parser.add_argument('-i', '--input', type=str,help="File Input")
+    parser.add_argument('-s', '--sheet', type=str,help="Sheet Name")
+    parser.add_argument('-dt', '--date', type=str,help="Arrival Date")
+    parser.add_argument('-d', '--chromedata', type=str,help="Chrome User Data Directory")
+    parser.add_argument('-o', '--output', type=str,help="PDF output folder")
+    parser.add_argument('-ri', '--runindividual', type=str,help="Run Individual")
+    
+    args = parser.parse_args()
+    if not (args.input[-5:] == '.xlsx' or args.input[-5:] == '.xlsm'):
+        input('input the right XLSX or XLSM file')
+        sys.exit()
+    isExist = os.path.exists(args.input)
+    if isExist == False :
+        input('Please check XLSX or XLSM file')
+        sys.exit()
+    if len(args.date) != 10:
+        input('Date Arrival is wrong')
+        sys.exit()
+
+    isExist = os.path.exists(args.output)
+    if isExist == False :
+        input('Please make sure PDF folder is exist')
+        sys.exit()
+
+    clear_screan()
+    file_handler = logging.FileHandler('logs/autofda-err.log')
+    file_handler.setLevel(logging.ERROR)
+    file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
+    file_handler.setFormatter(logging.Formatter(file_handler_format))
+    logger.addHandler(file_handler)
+
+    # print('Creating Excel Backup File...', end="", flush=True)
+    # fnameinput = os.path.basename(args.input)
+    # pathinput = args.input[0:-len(fnameinput)]
+    # backfile = "{}{}_backup{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
+    # shutil.copy(args.input, backfile)
+    # print('OK')
+    # print(args.input)
+    print(args.runindividual)
+    sys.exit()
+    print('Opening the Source Excel File...', end="", flush=True)
+    xlbook = xw.Book(args.input)
+    print('OK')
+    # input(json.dumps(xlsdictwcode))
+    # exit()
+    strdate = str(date.today())
+    foldernamepn =  os.path.join(args.output, 'prior_notice_{}'.format(strdate))
+
+    isExist = os.path.exists(foldernamepn)
+    if not isExist:
+        os.makedirs(foldernamepn)
+    
+    xlsfilename = os.path.basename(args.input)
+    foldername = format_filename("{}_{}_{}".format(xlsfilename.replace(".xlsx", "").replace(".xlsm", ""), args.sheet, strdate) )
+    
+    complete_output_folder = os.path.join(foldernamepn, foldername)
+
+    isExist = os.path.exists(complete_output_folder)
+    if not isExist:
+        os.makedirs(complete_output_folder)
+    xlsheet = xlbook.sheets[args.sheet]
+
+    strnow = datetime.now().strftime("%Y-%m-%d-%H%M%S")
+    
+    filename = "fda-excel-report-{}.log".format(strnow)
+    pathname = os.path.join(args.output, filename)
+
+    if os.path.exists(pathname):
+        os.remove(pathname)
+    file_handler = logging.FileHandler(pathname)
+    file_handler.setLevel(logging.CRITICAL)
+    
+    file_handler_format = '%(message)s'
+    file_handler.setFormatter(logging.Formatter(file_handler_format))
+    logger.addHandler(file_handler)
+    logger.critical("###### Start ######")
+    logger.critical("Filename: {}".format(args.input))
+    logger.critical("Sheet Name:{}".format(args.sheet))
+
+
+    maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
+    xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
+   							 							 
+    colchecks = {(21, '"SKU"'), (1, '"Code"'), (2, '"Description"'), (3, '"Size (grams)"'), (4, '"Total Quantitiy"'), (5, '"Manufacturer"'), (6, '"Manufacturer address"'), (7, '"Manufacturer City/postal code"'), (8, '"Consignee"'), (9, '"Consignee Address"'), (10, '"Consignee City"'),(11, '"Consignee Postal"'),(12, '"State Actual"'),(13, '"State"'),(14 , '"Shipper/Exporter"'), (15, '"Address"'),(16, '"City/State/Zip Code"'),(17, '"Country"')}
+    errors = []
+    for idx, xls in xlsdictall.items():
+        for data in xls['data']:
+            for col in colchecks:
+                if data[col[0]] == 'None' or data[col[0]] == '0' or data[col[0]].strip() == '':
+                    errors.append((col[1], data[22]))
+    
+    logger.critical("")
+    if len(errors) == 0:
+        logger.critical("No Error found in the Excel file")
+
+    else:
+        print("Error Found in the excel file. Please check file {}".format(pathname))
+        for er in errors:
+            logger.critical("Empty or zero value found in column {}, row number {}".format(er[0], er[1]) )
+
+        sys.exit()
+
+
+    maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
+    xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
+    # input(xlsdictall)
+    xlsdictwcode = {}
+    for idx, xls in xlsdictall.items():
+        for data in xls['data']:
+            if data[20] == 'None':
+                xlsdictwcode[idx] = xls
+                break
+    for xlsdata in xlsdictwcode.values():
+        try:
+            driver.close()
+            driver.quit()
+        except:
+            pass
+        
+        driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
+        driver = browser_login(driver)
+
+        fda_entry = FdaEntry(driver=driver, datalist=xlsdata, datearrival=args.date, pdfoutput=complete_output_folder)
+        # if not first:
+        try:
+            driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
+        except:
+            pass
+        fda_entry.parse()
+        # time.sleep(2)
+        pdf_filename = pdf_rename(pdfoutput_folder=complete_output_folder)
+        if pdf_filename != "":
+            webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
+            try:
+                xlbook.save(args.input)
+            except:
+                pass
+            
+
+        else:
+            print("file:", pdf_filename)
+            input("rename the file was failed")
+        first = False
+    
+    #regenerate data
+    xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
+    #Keep only submitter PDF files.
+    submitters = []
+    for xlsdata in xlsdictall.values():
+        submitters.append(format_filename(xlsdata['data'][0][14].replace(".", "")))
+    all_pdf_files = glob.glob(complete_output_folder + file_delimeter() + "*.pdf")
+    for file in all_pdf_files:
+        found = False
+        for submitter in submitters:
+            if file.find(submitter) != -1:
+                found = True
+                break
+        if not found:
+            os.remove(file)
+    dirs = [d for d in os.listdir(complete_output_folder) if os.path.isdir(os.path.join(complete_output_folder, d))]
+    for dir in dirs:
+        deltree(complete_output_folder + file_delimeter() + dir)
+
+    list_of_files = glob.glob(complete_output_folder + file_delimeter() + "*.pdf")
+    if len(list_of_files) == 0:
+        print("No PDF file will be proccessed, the Script Stopped")
+        sys.exit()
+    allsavedfiles = []
+    for xlsdata in xlsdictall.values():
+        entry_id = xlsdata['data'][0][20]
+        pdf_filename = choose_pdf_file(list_of_files, entry_id)
+        print('PDF File processing: ', pdf_filename)
+        prior = FdaPdf(filename=pdf_filename, datalist=xlsdata, pdfoutput=complete_output_folder)
+        prior.highlightpdf_generator()
+        prior.insert_text()
+        save_to_xls(pnlist=prior.pnlist)
+        try:
+            xlbook.save(args.input)
+        except:
+            pass
+
+        allsavedfiles.extend(prior.savedfiles)
+    
+    setall = set(allsavedfiles)
+
+    if len(setall) != len(allsavedfiles):
+        input("Combining all pdf files Failed because there are one or more files is has the same name.")
+    else:
+        del_non_annot_page(allsavedfiles, complete_output_folder)
+        join_folderpdf(allsavedfiles, complete_output_folder)
+        resultfile = lib.join_pdfs(source_folder=complete_output_folder + lib.file_delimeter() + "combined", output_folder=complete_output_folder, tag="FDA_All")
+        print(resultfile, "created")
+        
+        try:
+            xlbook.save(args.input)
+        except:
+            pass
+
+    # Delete all file folder
+    for filename in list_of_files:
+        folder = filename[:-4]
+        deltree(folder)
+    input("data generating completed...")
+
 if __name__ == '__main__':
-    main()
+    main_experimental()
