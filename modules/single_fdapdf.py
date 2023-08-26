@@ -122,6 +122,7 @@ class FdaPdf:
             tmpboxes = ds[19].replace('Box','').split(',')
             for tmpbox in tmpboxes:
                 fname = "{}.pdf".format(tmpbox.strip())
+                print(fname)
                 shutil.copy(foldername + self.file_delimeter + fname, foldername + self.file_delimeter + "tmp.pdf")
                 doc = fitz.open(foldername + self.file_delimeter + "tmp.pdf")
                 for i in range(0, doc.page_count):
