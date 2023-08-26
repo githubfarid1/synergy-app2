@@ -638,8 +638,8 @@ def main_tes():
 
     #regenerate data
     xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
-    print(xlsdictall)
-    exit()
+    # print(xlsdictall)
+    # exit()
     #Keep only submitter PDF files.
     submitters = []
     for xlsdata in xlsdictall.values():
