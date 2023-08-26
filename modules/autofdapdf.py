@@ -654,6 +654,7 @@ def main_tes():
         if not found:
             os.remove(file)
     dirs = [d for d in os.listdir(complete_output_folder) if os.path.isdir(os.path.join(complete_output_folder, d))]
+    print(dirs)
     for dir in dirs:
         deltree(complete_output_folder + file_delimeter() + dir)
 
