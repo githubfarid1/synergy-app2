@@ -64,6 +64,8 @@ def pdf_rename(pdfoutput_folder):
     delimeter = file_delimeter()
     # print("Renaming Files started")
     list_of_files = glob.glob(pdffolder + delimeter + "*.pdf" )
+    list_of_files = glob.glob(pdffolder + delimeter + "*.pdf" )
+
     exceptedfiles = []
     for file in list_of_files:
         if file.find("filename") != -1:
@@ -328,6 +330,7 @@ def main():
     parser.add_argument('-dt', '--date', type=str,help="Arrival Date")
     parser.add_argument('-d', '--chromedata', type=str,help="Chrome User Data Directory")
     parser.add_argument('-o', '--output', type=str,help="PDF output folder")
+    parser.add_argument('-ri', '--runindividual', type=str,help="Run Individual")
     
     args = parser.parse_args()
     if not (args.input[-5:] == '.xlsx' or args.input[-5:] == '.xlsm'):
@@ -367,7 +370,9 @@ def main():
     # input(json.dumps(xlsdictwcode))
     # exit()
     strdate = str(date.today())
-    foldernamepn = "{}{}_{}".format(args.output + lib.file_delimeter(), 'prior_notice', strdate) 
+    # foldernamepn = "{}{}_{}".format(args.output + lib.file_delimeter(), 'prior_notice', strdate) 
+    foldernamepn =  os.path.join(args.output, 'prior_notice_{}'.format(strdate))
+
     isExist = os.path.exists(foldernamepn)
     if not isExist:
         os.makedirs(foldernamepn)
@@ -375,7 +380,9 @@ def main():
     xlsfilename = os.path.basename(args.input)
     foldername = format_filename("{}_{}_{}".format(xlsfilename.replace(".xlsx", "").replace(".xlsm", ""), args.sheet, strdate) )
     
-    complete_output_folder = foldernamepn + file_delimeter() + foldername
+    # complete_output_folder = foldernamepn + file_delimeter() + foldername
+    complete_output_folder = os.path.join(foldernamepn, foldername)
+
     isExist = os.path.exists(complete_output_folder)
     if not isExist:
         os.makedirs(complete_output_folder)
@@ -384,7 +391,9 @@ def main():
     strnow = datetime.now().strftime("%Y-%m-%d-%H%M%S")
     
     filename = "fda-excel-report-{}.log".format(strnow)
-    pathname = args.output + file_delimeter() + filename
+    # pathname = args.output + file_delimeter() + filename
+    pathname = os.path.join(args.output, filename)
+
     if os.path.exists(pathname):
         os.remove(pathname)
     file_handler = logging.FileHandler(pathname)
@@ -436,6 +445,8 @@ def main():
                         xlsdictwcode[idx] = xls
                         break
             for xlsdata in xlsdictwcode.values():
+                print(xlsdata)
+                sys.exit()
                 try:
                     driver.close()
                     driver.quit()
