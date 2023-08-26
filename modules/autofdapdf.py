@@ -270,7 +270,7 @@ def xls_data_generator(xlws, maxrow):
         try:
             wsize.append(str(int(xlworksheet['H{}'.format(i)].options(numbers=int).value)).strip())
         except:
-            wsize.append(xlworksheet['H{}'.format(i)].value.strip())
+            wsize.append(None)
 
         wtotal.append(str(xlworksheet['I{}'.format(i)].options(numbers=int).value).strip())
         strmanufact = ud.normalize('NFKD', str(xlworksheet['K{}'.format(i)].value).strip()).encode('ascii', 'ignore').decode('ascii')
