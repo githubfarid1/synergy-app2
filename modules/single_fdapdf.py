@@ -204,6 +204,7 @@ class FdaPdf:
                         locs = pdfpage.get_text("blocks", clip=(POSX1LOC, rd[0][1]-10, POSX2LOC, rd[0][3]+10))
                         dates = pdfpage.get_text("blocks", clip=(POSX1DATE, rd[0][1]-10, POSX2DATE, rd[0][3]+10))
                         # print(pncode2s[0][4])
+                        print(pncode2s)
                         if pncode2s[0][4].strip() in code2set:
                             continue
                         else:
