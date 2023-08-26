@@ -230,7 +230,7 @@ class FdaPdf:
                     locs = pdfpage.get_text("blocks", clip=(POSX1LOC, rdata[0][0][1]-10, POSX2LOC, rdata[0][0][3]+10))
                     dates = pdfpage.get_text("blocks", clip=(POSX1DATE, rdata[0][0][1]-10, POSX2DATE, rdata[0][0][3]+10))
                     pnnumber = pncode2s[0][4].strip()
-                    print(pnnumber)
+                    print(pncode2s)
                     r = fitz.Rect(pncode2s[0][0], pncode2s[0][1], pncode2s[0][2], pncode2s[0][3])
                     pdfpage.add_highlight_annot(r)
                     r = fitz.Rect(pncode1s[0][0], pncode1s[0][1], pncode1s[0][2], pncode1s[0][3])
