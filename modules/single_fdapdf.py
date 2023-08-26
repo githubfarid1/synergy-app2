@@ -203,13 +203,13 @@ class FdaPdf:
                         pncode2s = pdfpage.get_text("blocks", clip=(POSX1CODE2, rd[0][1]-10, POSX2CODE2, rd[0][3]+10))
                         locs = pdfpage.get_text("blocks", clip=(POSX1LOC, rd[0][1]-10, POSX2LOC, rd[0][3]+10))
                         dates = pdfpage.get_text("blocks", clip=(POSX1DATE, rd[0][1]-10, POSX2DATE, rd[0][3]+10))
-                        # print(pncode2s[0][4])
-                        if pncode2s[0][4].strip() in code2set:
+                        # print(pncode2s[-1][4])
+                        if pncode2s[-1][4].strip() in code2set:
                             continue
                         else:
-                            code2set.add(pncode2s[0][4].strip())
-                            pnnumber = pncode2s[0][4].strip()
-                            r = fitz.Rect(pncode2s[0][0], pncode2s[0][1], pncode2s[0][2], pncode2s[0][3])
+                            code2set.add(pncode2s[-1][4].strip())
+                            pnnumber = pncode2s[-1][4].strip()
+                            r = fitz.Rect(pncode2s[-1][0], pncode2s[-1][1], pncode2s[-1][2], pncode2s[-1][3])
                             pdfpage.add_highlight_annot(r)
                             r = fitz.Rect(pncode1s[0][0], pncode1s[0][1], pncode1s[0][2], pncode1s[0][3])
                             pdfpage.add_highlight_annot(r)
@@ -229,9 +229,9 @@ class FdaPdf:
                     pncode2s = pdfpage.get_text("blocks", clip=(POSX1CODE2, rdata[0][0][1]-10, POSX2CODE2, rdata[0][0][3]+10))
                     locs = pdfpage.get_text("blocks", clip=(POSX1LOC, rdata[0][0][1]-10, POSX2LOC, rdata[0][0][3]+10))
                     dates = pdfpage.get_text("blocks", clip=(POSX1DATE, rdata[0][0][1]-10, POSX2DATE, rdata[0][0][3]+10))
-                    pnnumber = pncode2s[0][4].strip()
-                    print(pncode2s)
-                    r = fitz.Rect(pncode2s[0][0], pncode2s[0][1], pncode2s[0][2], pncode2s[0][3])
+                    pnnumber = pncode2s[-1][4].strip()
+                    # print(pncode2s)
+                    r = fitz.Rect(pncode2s[-1][0], pncode2s[-1][1], pncode2s[-1][2], pncode2s[-1][3])
                     pdfpage.add_highlight_annot(r)
                     r = fitz.Rect(pncode1s[0][0], pncode1s[0][1], pncode1s[0][2], pncode1s[0][3])
                     pdfpage.add_highlight_annot(r)
