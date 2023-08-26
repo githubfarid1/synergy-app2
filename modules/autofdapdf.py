@@ -704,4 +704,4 @@ def main_tes():
 
 
 if __name__ == '__main__':
-    main_tes()
+    main()
