@@ -281,7 +281,7 @@ def xls_data_generator(xlws, maxrow):
         wconsignee.append(str(xlworksheet['N{}'.format(i)].value).strip())
         wconsignee_addr.append(str(xlworksheet['O{}'.format(i)].value).strip())
         wconsignee_city.append(str(xlworksheet['P{}'.format(i)].value).strip())
-        wconsignee_postal.append(str(xlworksheet['Q{}'.format(i)].options(numbers=int).value).strip())
+        wconsignee_postal.append(str(xlworksheet['Q{}'.format(i)].value).strip())
         wconsignee_state.append(str(xlworksheet['R{}'.format(i)].value).strip())
         wconsignee_stact.append(str(xlworksheet['S{}'.format(i)].value).strip())
         wsubmitter.append(str(xlworksheet['T{}'.format(i)].value).strip())
