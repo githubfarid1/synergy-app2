@@ -469,7 +469,7 @@ def main():
             
             #regenerate data
             xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
-            
+            print(xlsdictall)
             #Keep only submitter PDF files.
             submitters = []
             for xlsdata in xlsdictall.values():
