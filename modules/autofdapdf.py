@@ -26,6 +26,8 @@ import amazon_lib as lib
 import xlwings as xw
 import logging
 
+POSX1CODE2 = 514.3499755859375
+POSX2CODE2 = 594.415771484375
 
 warnings.filterwarnings("ignore", category=Warning)
 logger = logging.getLogger()
@@ -148,7 +150,7 @@ def webentry_update(pdffile,  pdffolder):
     print(submitter, "Updated")
     time.sleep(1)
 
-def webentry_update_individual(pdffile,  pdffolder):
+def webentry_update_individual(pdffile,  pdffolder, item):
     print("Update Web Entry Identification Started..")
     time.sleep(1)
     delimeter = file_delimeter()
@@ -156,12 +158,18 @@ def webentry_update_individual(pdffile,  pdffolder):
     page = doc[0]
     submitter = page.get_text("block", clip=[100.6500015258789, 271.04034423828125, 185.60845947265625, 283.09893798828125]).strip()
     entry_id = page.get_text("block", clip=(152.7100067138672, 202.04034423828125, 230.7493438720703, 214.09893798828125)).strip()
+    # pncode2s = page.get_text("blocks", clip=(POSX1CODE2, rd[0][1]-10, POSX2CODE2, rd[0][3]+10))
 
     # print(submitter, entry_id)
+    searchtext = item[2][:240]
+    rects = page.search_for(searchtext, flags=(fitz.TEXT_PRESERVE_WHITESPACE))
+    print(rects)
+    sys.exit()
     for i in range(2, MAXROW+2):
         if xlworksheet['B{}'.format(i)].value == None:
             break
-        if xlworksheet['T{}'.format(i)].value.strip() == submitter:
+        
+        if xlworksheet['T{}'.format(i)].value.strip() == submitter and xlworksheet['G{}'.format(i)].value.strip() == searchtext:
             xlworksheet['A{}'.format(i)].value = entry_id
     # workbook.save(xlsfilename)
     print(submitter, "Updated")
@@ -885,14 +893,12 @@ def main_experimental():
         driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
         driver = browser_login(driver)
         if args.runindividual == 'no':
-            fda_entry = FdaEntry(driver=driver, datalist=xlsdata, datearrival=args.date, pdfoutput=complete_output_folder)
-            # if not first:
-            try:
-                driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
-            except:
-                pass
-            fda_entry.parse()
-            # time.sleep(2)
+            # fda_entry = FdaEntry(driver=driver, datalist=xlsdata, datearrival=args.date, pdfoutput=complete_output_folder)
+            # try:
+            #     driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
+            # except:
+            #     pass
+            # fda_entry.parse()
             pdf_filename = pdf_rename(pdfoutput_folder=complete_output_folder)
             if pdf_filename != "":
                 webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
@@ -910,8 +916,6 @@ def main_experimental():
                 dl = {}
                 dl['data'] = [item]
                 dl['count'] = 1
-                print(dl)
-                sys.exit()
                 # fda_entry = FdaEntry(driver=driver, datalist=dl, datearrival=args.date, pdfoutput=complete_output_folder)
                 # try:
                 #     driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
@@ -920,7 +924,7 @@ def main_experimental():
                 # fda_entry.parse()
                 pdf_filename = pdf_rename_individual(pdfoutput_folder=complete_output_folder, consignee=item[8])
                 if pdf_filename != "":
-                    webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
+                    webentry_update_individual(pdffile=pdf_filename, pdffolder=complete_output_folder, item=item)
                 else:
                     print("file:", pdf_filename)
                     input("rename the file was failed")
