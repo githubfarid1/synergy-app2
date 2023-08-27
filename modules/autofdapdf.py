@@ -160,10 +160,12 @@ def research_text(pdfpage, text):
     return pdfpage.search_for(textsearch,flags=(fitz.TEXT_PRESERVE_WHITESPACE))
 
 def webentry_update_individual(pdffile,  pdffolder, item):
-    print("Update Web Entry Identification Started..")
+    # print("Update Web Entry Identification Started..")
     time.sleep(1)
     doc = fitz.open(pdffile)
     page = doc[0]
+    red = fitz.utils.getColor("red")
+
     submitter = page.get_text("block", clip=[100.6500015258789, 271.04034423828125, 185.60845947265625, 283.09893798828125]).strip()
     entry_id = page.get_text("block", clip=(152.7100067138672, 202.04034423828125, 230.7493438720703, 214.09893798828125)).strip()
     searchtext = item[2][:240]
@@ -186,7 +188,15 @@ def webentry_update_individual(pdffile,  pdffolder, item):
             xlworksheet['X{}'.format(i)].value = "'" + pncode2s[0][4].strip()
 
     # workbook.save(xlsfilename)
-    print(submitter, "Updated")
+    # doc.close()
+    # shutil.copy(pdffile, os.path.join(pdffolder, "tmp.pdf"))
+    # doc = fitz.open(os.path.join(pdffolder, "tmp.pdf"))
+    # page = doc[0]
+    page.insert_text((520.2469787597656, 803.38037109375), item[8], color=red)
+    doc.save(pdffile)
+    doc.close()    
+    print(item[8] + ".pdf" , "Updated")
+
     time.sleep(1)
 
 def browser_init(profilename, pdfoutput_folder):
