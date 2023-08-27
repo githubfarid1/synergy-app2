@@ -97,8 +97,18 @@ def pdf_rename(pdfoutput_folder):
 def pdf_rename_individual(pdfoutput_folder, consignee):
     pdffolder = pdfoutput_folder
     list_of_files = glob.glob(os.path.join(pdffolder, "filename*.pdf") )
-    print(list_of_files)
-    sys.exit()
+    if len(list_of_files) == 0:
+        return ""
+    
+    # isExist = os.path.exists(os.path.join(pdffolder, consignee + ".pdf"))
+    # if not isExist:
+    #     os.rename(list_of_files[0], os.path.join(pdffolder, consignee + ".pdf"))
+    # else:
+    #     ts = str(time.time())
+    #     os.rename(list_of_files[0], os.path.join(pdffolder, consignee + "_" + str(ts) + ".pdf"))
+
+    # print(list_of_files)
+    # sys.exit()
     exceptedfiles = []
     for file in list_of_files:
         if file.find("filename") != -1:
@@ -108,25 +118,16 @@ def pdf_rename_individual(pdfoutput_folder, consignee):
      
     latest_file = max(exceptedfiles, key=os.path.getctime)
     filename = latest_file
-    if platform == "win32":
-        filename = filename.split("\\")[-1]
-    else:
-        filename = filename.split("/")[-1]
-           
-    doc = fitz.open(pdffolder + delimeter + filename)
-    page = doc[0]
-    search = page.get_text("blocks", clip=[100.6500015258789, 271.04034423828125, 185.60845947265625, 283.09893798828125])
-    tmpname = search[0][4].replace(".", "")
-    strdate = str(date.today())
-    pdfsubmitter = format_filename("{}_{}.{}".format(tmpname, strdate, "pdf"))
-    doc.close()
-    isExist = os.path.exists(pdffolder + delimeter + pdfsubmitter)
+    rfilename = os.path.join(pdffolder, consignee + ".pdf")
+    isExist = os.path.exists(rfilename)
+    
     if isExist:
-        os.remove(pdffolder + delimeter + pdfsubmitter)
+        ts = str(time.time())
+        rfilename = os.path.join(pdffolder, consignee + "_" + str(ts) + ".pdf")
 
-    print("rename", pdffolder + delimeter + filename)
-    os.rename(pdffolder + delimeter + filename, pdffolder + delimeter + pdfsubmitter)
-    return pdfsubmitter
+    os.rename(latest_file, rfilename)
+
+    return rfilename
 
 def webentry_update(pdffile,  pdffolder):
     print("Update Web Entry Identification Started..")
@@ -897,6 +898,7 @@ def main_experimental():
                 #     pass
                 # fda_entry.parse()
                 pdf_filename = pdf_rename_individual(pdfoutput_folder=complete_output_folder, consignee=item[9])
+                sys.exit()
                 if pdf_filename != "":
                     webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
                     try:
