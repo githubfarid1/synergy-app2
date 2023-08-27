@@ -856,7 +856,7 @@ def main_experimental():
             for item in xlsdata['data']:
                 # print(item)
                 # sys.exit()
-                dl = []
+                dl = {}
                 dl['data'] = item
                 dl['count'] = 1
                 fda_entry = FdaEntry(driver=driver, datalist=dl, datearrival=args.date, pdfoutput=complete_output_folder)
