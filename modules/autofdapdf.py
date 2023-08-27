@@ -148,6 +148,25 @@ def webentry_update(pdffile,  pdffolder):
     print(submitter, "Updated")
     time.sleep(1)
 
+def webentry_update_individual(pdffile,  pdffolder):
+    print("Update Web Entry Identification Started..")
+    time.sleep(1)
+    delimeter = file_delimeter()
+    doc = fitz.open(pdffolder + delimeter + pdffile)
+    page = doc[0]
+    submitter = page.get_text("block", clip=[100.6500015258789, 271.04034423828125, 185.60845947265625, 283.09893798828125]).strip()
+    entry_id = page.get_text("block", clip=(152.7100067138672, 202.04034423828125, 230.7493438720703, 214.09893798828125)).strip()
+
+    # print(submitter, entry_id)
+    for i in range(2, MAXROW+2):
+        if xlworksheet['B{}'.format(i)].value == None:
+            break
+        if xlworksheet['T{}'.format(i)].value.strip() == submitter:
+            xlworksheet['A{}'.format(i)].value = entry_id
+    # workbook.save(xlsfilename)
+    print(submitter, "Updated")
+    time.sleep(1)
+
 def browser_init(profilename, pdfoutput_folder):
     warnings.filterwarnings("ignore", category=UserWarning)
     config = getConfig()
@@ -891,6 +910,8 @@ def main_experimental():
                 dl = {}
                 dl['data'] = [item]
                 dl['count'] = 1
+                print(dl)
+                sys.exit()
                 # fda_entry = FdaEntry(driver=driver, datalist=dl, datearrival=args.date, pdfoutput=complete_output_folder)
                 # try:
                 #     driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
@@ -898,13 +919,8 @@ def main_experimental():
                 #     pass
                 # fda_entry.parse()
                 pdf_filename = pdf_rename_individual(pdfoutput_folder=complete_output_folder, consignee=item[8])
-                sys.exit()
                 if pdf_filename != "":
                     webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
-                    try:
-                        xlbook.save(args.input)
-                    except:
-                        pass
                 else:
                     print("file:", pdf_filename)
                     input("rename the file was failed")
