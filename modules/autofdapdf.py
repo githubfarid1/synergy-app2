@@ -64,8 +64,41 @@ def pdf_rename(pdfoutput_folder):
     delimeter = file_delimeter()
     # print("Renaming Files started")
     list_of_files = glob.glob(pdffolder + delimeter + "*.pdf" )
-    list_of_files = glob.glob(pdffolder + delimeter + "*.pdf" )
 
+    exceptedfiles = []
+    for file in list_of_files:
+        if file.find("filename") != -1:
+            exceptedfiles.append(file)
+    if len(exceptedfiles) == 0:
+        return ""
+     
+    latest_file = max(exceptedfiles, key=os.path.getctime)
+    filename = latest_file
+    if platform == "win32":
+        filename = filename.split("\\")[-1]
+    else:
+        filename = filename.split("/")[-1]
+           
+    doc = fitz.open(pdffolder + delimeter + filename)
+    page = doc[0]
+    search = page.get_text("blocks", clip=[100.6500015258789, 271.04034423828125, 185.60845947265625, 283.09893798828125])
+    tmpname = search[0][4].replace(".", "")
+    strdate = str(date.today())
+    pdfsubmitter = format_filename("{}_{}.{}".format(tmpname, strdate, "pdf"))
+    doc.close()
+    isExist = os.path.exists(pdffolder + delimeter + pdfsubmitter)
+    if isExist:
+        os.remove(pdffolder + delimeter + pdfsubmitter)
+
+    print("rename", pdffolder + delimeter + filename)
+    os.rename(pdffolder + delimeter + filename, pdffolder + delimeter + pdfsubmitter)
+    return pdfsubmitter
+
+def pdf_rename_individual(pdfoutput_folder, consignee):
+    pdffolder = pdfoutput_folder
+    list_of_files = glob.glob(os.path.join(pdffolder, "filename*.pdf") )
+    print(list_of_files)
+    sys.exit()
     exceptedfiles = []
     for file in list_of_files:
         if file.find("filename") != -1:
@@ -857,15 +890,13 @@ def main_experimental():
                 dl = {}
                 dl['data'] = [item]
                 dl['count'] = 1
-                fda_entry = FdaEntry(driver=driver, datalist=dl, datearrival=args.date, pdfoutput=complete_output_folder)
-                try:
-                    driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
-                except:
-                    pass
-                fda_entry.parse()
-                # time.sleep(2)
-                sys.exit()
-                pdf_filename = pdf_rename(pdfoutput_folder=complete_output_folder)
+                # fda_entry = FdaEntry(driver=driver, datalist=dl, datearrival=args.date, pdfoutput=complete_output_folder)
+                # try:
+                #     driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
+                # except:
+                #     pass
+                # fda_entry.parse()
+                pdf_filename = pdf_rename_individual(pdfoutput_folder=complete_output_folder, consignee=item[9])
                 if pdf_filename != "":
                     webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
                     try:
@@ -875,66 +906,65 @@ def main_experimental():
                 else:
                     print("file:", pdf_filename)
                     input("rename the file was failed")
-    
-    #regenerate data
-    xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
-    #Keep only submitter PDF files.
-    submitters = []
-    for xlsdata in xlsdictall.values():
-        submitters.append(format_filename(xlsdata['data'][0][14].replace(".", "")))
-    all_pdf_files = glob.glob(complete_output_folder + file_delimeter() + "*.pdf")
-    for file in all_pdf_files:
-        found = False
-        for submitter in submitters:
-            if file.find(submitter) != -1:
-                found = True
-                break
-        if not found:
-            os.remove(file)
-    dirs = [d for d in os.listdir(complete_output_folder) if os.path.isdir(os.path.join(complete_output_folder, d))]
-    for dir in dirs:
-        deltree(complete_output_folder + file_delimeter() + dir)
+    if args.runindividual == 'no':
+        #regenerate data
+        xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
+        #Keep only submitter PDF files.
+        submitters = []
+        for xlsdata in xlsdictall.values():
+            submitters.append(format_filename(xlsdata['data'][0][14].replace(".", "")))
+        all_pdf_files = glob.glob(complete_output_folder + file_delimeter() + "*.pdf")
+        for file in all_pdf_files:
+            found = False
+            for submitter in submitters:
+                if file.find(submitter) != -1:
+                    found = True
+                    break
+            if not found:
+                os.remove(file)
+        dirs = [d for d in os.listdir(complete_output_folder) if os.path.isdir(os.path.join(complete_output_folder, d))]
+        for dir in dirs:
+            deltree(complete_output_folder + file_delimeter() + dir)
 
-    list_of_files = glob.glob(complete_output_folder + file_delimeter() + "*.pdf")
-    if len(list_of_files) == 0:
-        print("No PDF file will be proccessed, the Script Stopped")
-        sys.exit()
-    allsavedfiles = []
-    for xlsdata in xlsdictall.values():
-        entry_id = xlsdata['data'][0][20]
-        pdf_filename = choose_pdf_file(list_of_files, entry_id)
-        print('PDF File processing: ', pdf_filename)
-        prior = FdaPdf(filename=pdf_filename, datalist=xlsdata, pdfoutput=complete_output_folder)
-        prior.highlightpdf_generator()
-        prior.insert_text()
-        save_to_xls(pnlist=prior.pnlist)
-        try:
-            xlbook.save(args.input)
-        except:
-            pass
+        list_of_files = glob.glob(complete_output_folder + file_delimeter() + "*.pdf")
+        if len(list_of_files) == 0:
+            print("No PDF file will be proccessed, the Script Stopped")
+            sys.exit()
+        allsavedfiles = []
+        for xlsdata in xlsdictall.values():
+            entry_id = xlsdata['data'][0][20]
+            pdf_filename = choose_pdf_file(list_of_files, entry_id)
+            print('PDF File processing: ', pdf_filename)
+            prior = FdaPdf(filename=pdf_filename, datalist=xlsdata, pdfoutput=complete_output_folder)
+            prior.highlightpdf_generator()
+            prior.insert_text()
+            save_to_xls(pnlist=prior.pnlist)
+            # try:
+            #     xlbook.save(args.input)
+            # except:
+            #     pass
 
-        allsavedfiles.extend(prior.savedfiles)
-    
-    setall = set(allsavedfiles)
-
-    if len(setall) != len(allsavedfiles):
-        input("Combining all pdf files Failed because there are one or more files is has the same name.")
-    else:
-        del_non_annot_page(allsavedfiles, complete_output_folder)
-        join_folderpdf(allsavedfiles, complete_output_folder)
-        resultfile = lib.join_pdfs(source_folder=complete_output_folder + lib.file_delimeter() + "combined", output_folder=complete_output_folder, tag="FDA_All")
-        print(resultfile, "created")
+            allsavedfiles.extend(prior.savedfiles)
         
-        try:
-            xlbook.save(args.input)
-        except:
-            pass
+        setall = set(allsavedfiles)
 
-    # Delete all file folder
-    for filename in list_of_files:
-        folder = filename[:-4]
-        deltree(folder)
-    input("data generating completed...")
+        if len(setall) != len(allsavedfiles):
+            input("Combining all pdf files Failed because there are one or more files is has the same name.")
+        else:
+            del_non_annot_page(allsavedfiles, complete_output_folder)
+            join_folderpdf(allsavedfiles, complete_output_folder)
+            resultfile = lib.join_pdfs(source_folder=complete_output_folder + lib.file_delimeter() + "combined", output_folder=complete_output_folder, tag="FDA_All")
+            print(resultfile, "created")
+            # try:
+            #     xlbook.save(args.input)
+            # except:
+            #     pass
+
+        # Delete all file folder
+        for filename in list_of_files:
+            folder = filename[:-4]
+            deltree(folder)
+        input("data generating completed...")
 
 if __name__ == '__main__':
     main_experimental()
