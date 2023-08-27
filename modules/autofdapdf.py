@@ -162,20 +162,14 @@ def research_text(pdfpage, text):
 def webentry_update_individual(pdffile,  pdffolder, item):
     print("Update Web Entry Identification Started..")
     time.sleep(1)
-    delimeter = file_delimeter()
     doc = fitz.open(pdffile)
     page = doc[0]
     submitter = page.get_text("block", clip=[100.6500015258789, 271.04034423828125, 185.60845947265625, 283.09893798828125]).strip()
     entry_id = page.get_text("block", clip=(152.7100067138672, 202.04034423828125, 230.7493438720703, 214.09893798828125)).strip()
-    # POSX1CODE2 = 514.3499755859375
-    # POSX2CODE2 = 594.415771484375
-    
-    # print(submitter, entry_id)
     searchtext = item[2][:240]
     rects = page.search_for(searchtext, flags=(fitz.TEXT_PRESERVE_WHITESPACE))
     if rects == []:
         rects = research_text(page, searchtext)
-    
     if rects == []:
         input("Item not found, Report to administrator")
         sys.exit()
@@ -189,7 +183,7 @@ def webentry_update_individual(pdffile,  pdffolder, item):
         
         if xlworksheet['T{}'.format(i)].value.strip() == submitter and xlworksheet['G{}'.format(i)].value.strip() == searchtext:
             xlworksheet['A{}'.format(i)].value = entry_id
-            xlworksheet['X{}'.format(i)].value = pncode2s[0][4].strip()
+            xlworksheet['X{}'.format(i)].value = "'" + pncode2s[0][4].strip()
 
     # workbook.save(xlsfilename)
     print(submitter, "Updated")
