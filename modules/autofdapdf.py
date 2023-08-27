@@ -915,7 +915,7 @@ def main_experimental():
             pass
         
         driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
-        # driver = browser_login(driver)
+        driver = browser_login(driver)
         if args.runindividual == 'no':
             fda_entry = FdaEntry(driver=driver, datalist=xlsdata, datearrival=args.date, pdfoutput=complete_output_folder)
             try:
@@ -940,12 +940,12 @@ def main_experimental():
                 dl = {}
                 dl['data'] = [item]
                 dl['count'] = 1
-                # fda_entry = FdaEntry(driver=driver, datalist=dl, datearrival=args.date, pdfoutput=complete_output_folder)
-                # try:
-                #     driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
-                # except:
-                #     pass
-                # fda_entry.parse()
+                fda_entry = FdaEntry(driver=driver, datalist=dl, datearrival=args.date, pdfoutput=complete_output_folder)
+                try:
+                    driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
+                except:
+                    pass
+                fda_entry.parse()
                 pdf_filename = pdf_rename_individual(pdfoutput_folder=complete_output_folder, consignee=item[8])
                 if pdf_filename != "":
                     time.sleep(2)
