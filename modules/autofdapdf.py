@@ -188,10 +188,10 @@ def webentry_update_individual(pdffile,  pdffolder, item):
             xlworksheet['X{}'.format(i)].value = "'" + pncode2s[0][4].strip()
 
     # workbook.save(xlsfilename)
-    # doc.close()
-    # shutil.copy(pdffile, os.path.join(pdffolder, "tmp.pdf"))
-    # doc = fitz.open(os.path.join(pdffolder, "tmp.pdf"))
-    # page = doc[0]
+    doc.close()
+    shutil.copy(pdffile, os.path.join(pdffolder, "tmp.pdf"))
+    doc = fitz.open(os.path.join(pdffolder, "tmp.pdf"))
+    page = doc[0]
     page.insert_text((520.2469787597656, 803.38037109375), item[8], color=red)
     doc.save(pdffile)
     doc.close()    
