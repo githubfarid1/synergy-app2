@@ -183,7 +183,7 @@ def webentry_update_individual(pdffile,  pdffolder, item):
         if xlworksheet['B{}'.format(i)].value == None:
             break
         
-        if xlworksheet['T{}'.format(i)].value.strip() == submitter and xlworksheet['G{}'.format(i)].value.strip() == searchtext:
+        if xlworksheet['T{}'.format(i)].value.strip() == submitter and xlworksheet['G{}'.format(i)].value.strip()[:240] == searchtext:
             xlworksheet['A{}'.format(i)].value = entry_id
             xlworksheet['X{}'.format(i)].value = "'" + pncode2s[0][4].strip()
 
