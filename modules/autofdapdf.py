@@ -149,6 +149,15 @@ def webentry_update(pdffile,  pdffolder):
     # workbook.save(xlsfilename)
     print(submitter, "Updated")
     time.sleep(1)
+def research_text(pdfpage, text):
+    for i in range(0, len(text)+1):
+        rect = pdfpage.search_for(text[0:i],flags=(fitz.TEXT_PRESERVE_WHITESPACE))
+        if rect == []:
+            break
+    lastfound = text[0:i-1]
+    tail = text.replace(lastfound, "")
+    textsearch = lastfound + " " + tail
+    return pdfpage.search_for(textsearch,flags=(fitz.TEXT_PRESERVE_WHITESPACE))
 
 def webentry_update_individual(pdffile,  pdffolder, item):
     print("Update Web Entry Identification Started..")
@@ -164,16 +173,24 @@ def webentry_update_individual(pdffile,  pdffolder, item):
     # print(submitter, entry_id)
     searchtext = item[2][:240]
     rects = page.search_for(searchtext, flags=(fitz.TEXT_PRESERVE_WHITESPACE))
+    if rects == []:
+        rects = research_text(page, searchtext)
+    
+    if rects == []:
+        input("Item not found, Report to administrator")
+        sys.exit()
     pncode2s = page.get_text("blocks", clip=(POSX1CODE2, rects[0][1]-10, POSX2CODE2, rects[0][3]+10))
 
-    print(pncode2s)
-    sys.exit()
+    # print(pncode2s)
+    # sys.exit()
     for i in range(2, MAXROW+2):
         if xlworksheet['B{}'.format(i)].value == None:
             break
         
         if xlworksheet['T{}'.format(i)].value.strip() == submitter and xlworksheet['G{}'.format(i)].value.strip() == searchtext:
             xlworksheet['A{}'.format(i)].value = entry_id
+            xlworksheet['X{}'.format(i)].value = pncode2s[4]
+
     # workbook.save(xlsfilename)
     print(submitter, "Updated")
     time.sleep(1)
