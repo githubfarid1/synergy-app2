@@ -189,7 +189,7 @@ def webentry_update_individual(pdffile,  pdffolder, item):
         
         if xlworksheet['T{}'.format(i)].value.strip() == submitter and xlworksheet['G{}'.format(i)].value.strip() == searchtext:
             xlworksheet['A{}'.format(i)].value = entry_id
-            xlworksheet['X{}'.format(i)].value = pncode2s[0][4]
+            xlworksheet['X{}'.format(i)].value = pncode2s[0][4].strip()
 
     # workbook.save(xlsfilename)
     print(submitter, "Updated")
