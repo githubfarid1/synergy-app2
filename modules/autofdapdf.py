@@ -897,7 +897,7 @@ def main_experimental():
                 # except:
                 #     pass
                 # fda_entry.parse()
-                pdf_filename = pdf_rename_individual(pdfoutput_folder=complete_output_folder, consignee=item[9])
+                pdf_filename = pdf_rename_individual(pdfoutput_folder=complete_output_folder, consignee=item[8])
                 sys.exit()
                 if pdf_filename != "":
                     webentry_update(pdffile=pdf_filename, pdffolder=complete_output_folder)
