@@ -158,12 +158,15 @@ def webentry_update_individual(pdffile,  pdffolder, item):
     page = doc[0]
     submitter = page.get_text("block", clip=[100.6500015258789, 271.04034423828125, 185.60845947265625, 283.09893798828125]).strip()
     entry_id = page.get_text("block", clip=(152.7100067138672, 202.04034423828125, 230.7493438720703, 214.09893798828125)).strip()
-    # pncode2s = page.get_text("blocks", clip=(POSX1CODE2, rd[0][1]-10, POSX2CODE2, rd[0][3]+10))
-
+    # POSX1CODE2 = 514.3499755859375
+    # POSX2CODE2 = 594.415771484375
+    
     # print(submitter, entry_id)
     searchtext = item[2][:240]
     rects = page.search_for(searchtext, flags=(fitz.TEXT_PRESERVE_WHITESPACE))
-    print(rects)
+    pncode2s = page.get_text("blocks", clip=(POSX1CODE2, rects[0][1]-10, POSX2CODE2, rects[0][3]+10))
+
+    print(pncode2s)
     sys.exit()
     for i in range(2, MAXROW+2):
         if xlworksheet['B{}'.format(i)].value == None:
