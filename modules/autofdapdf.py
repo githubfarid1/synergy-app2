@@ -859,6 +859,8 @@ def main_experimental():
                 dl = {}
                 dl['data'] = item
                 dl['count'] = 1
+                print(dl)
+                sys.exit()
                 fda_entry = FdaEntry(driver=driver, datalist=dl, datearrival=args.date, pdfoutput=complete_output_folder)
                 try:
                     driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
