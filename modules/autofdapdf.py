@@ -857,7 +857,7 @@ def main_experimental():
                 # print(item)
                 # sys.exit()
                 dl = {}
-                dl['data'] = item
+                dl['data'] = [item]
                 dl['count'] = 1
                 print(dl)
                 sys.exit()
