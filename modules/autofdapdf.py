@@ -937,8 +937,8 @@ def main_experimental():
                 input("rename the file was failed")
         else:
             for item in xlsdata['data']:
-                print(item)
-                sys.exit()
+                input(item)
+                continue
                 dl = {}
                 dl['data'] = [item]
                 dl['count'] = 1
