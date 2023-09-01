@@ -908,8 +908,6 @@ def main_experimental():
                 xlsdictwcode[idx] = xls
                 break
     for xlsdata in xlsdictwcode.values():
-        print(xlsdata)
-        sys.exit()
         # try:
         #     driver.close()
         #     driver.quit()
@@ -939,6 +937,8 @@ def main_experimental():
                 input("rename the file was failed")
         else:
             for item in xlsdata['data']:
+                print(item)
+                sys.exit()
                 dl = {}
                 dl['data'] = [item]
                 dl['count'] = 1
