@@ -11,7 +11,7 @@ from random import randint
 import string
 from sys import platform
 import numpy as np
-
+import glob
 '''PROBLEM:
  RUNNING THE SCRIPT ON WINDOWS TERMINAL MAKE PAUSE SUDDENLY
  SOLUTION: DISABLE QUICK EDIT MODE IN TERMINAL
@@ -321,12 +321,17 @@ class FdaEntry:
             explicit_wait()
             driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
             button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "img[alt='Next Button']")))
-            button.click()            
-            time.sleep(5)
-
-            button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "img[alt='Print Summary Button']")))
-            button.click()            
-            time.sleep(5)
+            button.click()
+            while True:
+                explicit_wait()
+                button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "img[alt='Print Summary Button']")))
+                button.click()
+                time.sleep(5)
+                list_of_files = glob.glob(os.path.join(self.pdfoutput_folder, "filename*.pdf") )
+                if len(list_of_files) == 0:
+                    continue
+                break
+            
             print("PN Web Entry", datatable['data'][0][14], "End.")
         except:
             input("Error found")
