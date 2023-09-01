@@ -176,16 +176,19 @@ def webentry_update_individual(pdffile,  pdffolder, item):
         input("Item not found, Report to administrator")
         sys.exit()
     pncode2s = page.get_text("blocks", clip=(POSX1CODE2, rects[0][1]-10, POSX2CODE2, rects[0][3]+10))
+    
+    xlworksheet['A{}'.format(item[-1])].value = entry_id
+    xlworksheet['X{}'.format(item[-1])].value = "'" + pncode2s[0][4].strip()
 
     # print(pncode2s)
     # sys.exit()
-    for i in range(2, MAXROW+2):
-        if xlworksheet['B{}'.format(i)].value == None:
-            break
+    # for i in range(2, MAXROW+2):
+    #     if xlworksheet['B{}'.format(i)].value == None:
+    #         break
         
-        if xlworksheet['T{}'.format(i)].value.strip() == submitter and xlworksheet['G{}'.format(i)].value.strip()[:240] == searchtext:
-            xlworksheet['A{}'.format(i)].value = entry_id
-            xlworksheet['X{}'.format(i)].value = "'" + pncode2s[0][4].strip()
+    #     if xlworksheet['T{}'.format(i)].value.strip() == submitter and xlworksheet['G{}'.format(i)].value.strip()[:240] == searchtext:
+    #         xlworksheet['A{}'.format(i)].value = entry_id
+    #         xlworksheet['X{}'.format(i)].value = "'" + pncode2s[0][4].strip()
 
     # workbook.save(xlsfilename)
     doc.close()
@@ -908,14 +911,14 @@ def main_experimental():
                 xlsdictwcode[idx] = xls
                 break
     for xlsdata in xlsdictwcode.values():
-        # try:
-        #     driver.close()
-        #     driver.quit()
-        # except:
-        #     pass
+        try:
+            driver.close()
+            driver.quit()
+        except:
+            pass
         
-        # driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
-        # driver = browser_login(driver)
+        driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
+        driver = browser_login(driver)
         if args.runindividual == 'no':
             fda_entry = FdaEntry(driver=driver, datalist=xlsdata, datearrival=args.date, pdfoutput=complete_output_folder)
             try:
@@ -937,8 +940,8 @@ def main_experimental():
                 input("rename the file was failed")
         else:
             for item in xlsdata['data']:
-                input(item)
-                continue
+                # input(item)
+                # continue
                 dl = {}
                 dl['data'] = [item]
                 dl['count'] = 1
