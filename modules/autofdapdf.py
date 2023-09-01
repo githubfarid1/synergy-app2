@@ -908,14 +908,16 @@ def main_experimental():
                 xlsdictwcode[idx] = xls
                 break
     for xlsdata in xlsdictwcode.values():
-        try:
-            driver.close()
-            driver.quit()
-        except:
-            pass
+        print(xlsdata)
+        sys.exit()
+        # try:
+        #     driver.close()
+        #     driver.quit()
+        # except:
+        #     pass
         
-        driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
-        driver = browser_login(driver)
+        # driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
+        # driver = browser_login(driver)
         if args.runindividual == 'no':
             fda_entry = FdaEntry(driver=driver, datalist=xlsdata, datearrival=args.date, pdfoutput=complete_output_folder)
             try:
