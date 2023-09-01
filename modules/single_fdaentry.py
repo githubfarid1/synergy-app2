@@ -322,7 +322,8 @@ class FdaEntry:
             driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
             button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "img[alt='Next Button']")))
             button.click()            
-            time.sleep(np.random.randint(2, 4))
+            time.sleep(5)
+
             button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "img[alt='Print Summary Button']")))
             button.click()            
             time.sleep(5)
