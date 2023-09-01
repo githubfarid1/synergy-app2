@@ -25,6 +25,7 @@ import json
 import amazon_lib as lib
 import xlwings as xw
 import logging
+from pathvalidate import sanitize_filename
 
 POSX1CODE2 = 514.3499755859375
 POSX2CODE2 = 594.415771484375
@@ -120,12 +121,12 @@ def pdf_rename_individual(pdfoutput_folder, consignee):
      
     latest_file = max(exceptedfiles, key=os.path.getctime)
     filename = latest_file
-    rfilename = os.path.join(pdffolder, consignee + ".pdf")
+    rfilename = os.path.join(pdffolder, sanitize_filename(consignee) + ".pdf")
     isExist = os.path.exists(rfilename)
     
     if isExist:
         ts = str(time.time())
-        rfilename = os.path.join(pdffolder, consignee + "_" + str(ts) + ".pdf")
+        rfilename = os.path.join(pdffolder, sanitize_filename(consignee) + "_" + str(ts) + ".pdf")
 
     os.rename(latest_file, rfilename)
 
@@ -942,6 +943,7 @@ def main_experimental():
             for item in xlsdata['data']:
                 # input(item)
                 # continue
+                print('Procesing for consignee: ', item[8])
                 dl = {}
                 dl['data'] = [item]
                 dl['count'] = 1
@@ -958,6 +960,7 @@ def main_experimental():
                 else:
                     print("file:", pdf_filename)
                     input("rename the file was failed")
+                print("------------------------------------")
     if args.runindividual == 'no':
         #regenerate data
         xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
