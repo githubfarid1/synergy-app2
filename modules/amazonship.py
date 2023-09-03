@@ -1058,6 +1058,7 @@ def main_experimental():
     # input(shipment.datalist)
     if len(shipment.datalist) != 0:
         shipment.parse()
+        shipment.data_generator()
     # except Exception as e:
     #     logger.error(e)
     #     print("There is an error, check logs/amazonship-err.log")
@@ -1072,7 +1073,7 @@ def main_experimental():
     #     shipment.parse()
     # --------------
 
-        shipment.data_generator()
+        
     # input(json.dumps(shipment.datareadylist))
     print("Extract PDF..", end=" ", flush=True)
     for rlist in shipment.datareadylist:
