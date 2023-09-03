@@ -1072,7 +1072,7 @@ def main_experimental():
     #     shipment.parse()
     # --------------
 
-    shipment.data_generator()
+        shipment.data_generator()
     # input(json.dumps(shipment.datareadylist))
     print("Extract PDF..", end=" ", flush=True)
     for rlist in shipment.datareadylist:
