@@ -126,7 +126,7 @@ def generate_xls_from_pdf(fileinput, addressfile):
     addressdict = pd.read_csv(addressfile, usecols=['Consignee', 'Address']).to_dict('index')
     pdfFileObject = open(fileinput, 'rb')
     pdfReader = PdfReader(pdfFileObject)
-    ocrreader = easyocr.Reader(['en'], gpu=False, verbose=True)
+    ocrreader = easyocr.Reader(['en'], gpu=False, verbose=False)
     # print(" No. Of Pages :", pdfReader.numPages)
     filepath = fileinput[:-4] + ".xlsx"
     wb = Workbook()
@@ -151,10 +151,10 @@ def generate_xls_from_pdf(fileinput, addressfile):
             pdfWriter.write(output_file)
         images = convert_from_path(Path('pdftmp.pdf'))
         imgcrop = images[0].crop(box = (180,750,750,900))
-        imgcrop.save(Path("pdftmp.png"))
+        # imgcrop.save(Path("pdftmp.png"))
         # breakpoint()
-        # res = ocrreader.readtext(numpy.array(imgcrop)  , detail = 0)
-        res = ocrreader.readtext(Path("pdftmp.png")  , detail = 0)
+        res = ocrreader.readtext(numpy.array(imgcrop)  , detail = 0)
+        # res = ocrreader.readtext(Path("pdftmp.png")  , detail = 0)
 
         tracking_id = res[1].strip().replace('TRACKING #','').replace(' ','').replace(":","")
         # print(tracking_id, fileinput, i)
