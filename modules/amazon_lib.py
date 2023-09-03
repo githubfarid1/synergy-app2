@@ -140,7 +140,7 @@ def generate_xls_from_pdf(fileinput, addressfile):
     ws['G1'].value = 'Shipment ID'
     ws['H1'].value = 'Consignee Check'
 
-    for i in range(0, pdfReader.pages):
+    for i in range(0, len(pdfReader.pages)):
         if os.path.exists(Path("pdftmp.pdf")):
             os.remove(Path("pdftmp.pdf"))
         pdfWriter = PdfWriter()
