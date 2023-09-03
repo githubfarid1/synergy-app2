@@ -1043,16 +1043,16 @@ def main_experimental():
 
     logger2.info("###### Start ######")
     logger2.info("Filename: {}\nSheet Name:{}\nPDF Output Folder:{}".format(args.xlsinput, args.sheetname, folderamazonship))
-    try:    
-        shipment = AmazonShipment(xlsfile=args.xlsinput, sname=args.sheetname, chrome_data=args.chromedata, download_folder=folderamazonship, xlworksheet=xlsheet)
-        shipment.data_generator()
-        input(shipment.datalist)
-        if len(shipment.datalist) != 0:
-            shipment.parse()
-    except Exception as e:
-        logger.error(e)
-        print("There is an error, check logs/amazonship-err.log")
-        sys.exit()    
+    # try:    
+    shipment = AmazonShipment(xlsfile=args.xlsinput, sname=args.sheetname, chrome_data=args.chromedata, download_folder=folderamazonship, xlworksheet=xlsheet)
+    shipment.data_generator()
+    # input(shipment.datalist)
+    if len(shipment.datalist) != 0:
+        shipment.parse()
+    # except Exception as e:
+    #     logger.error(e)
+    #     print("There is an error, check logs/amazonship-err.log")
+    #     sys.exit()    
 
     # --------------
     # shipment = AmazonShipment(xlsfile=args.xlsinput, sname=args.sheetname, chrome_data=args.chromedata, download_folder=folderamazonship, xlworksheet=xlsheet)
