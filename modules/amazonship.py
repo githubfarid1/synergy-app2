@@ -455,15 +455,10 @@ class AmazonShipment:
             explicit_wait()
             todays_date = date.today()
             todays_str = "{}/{}/{}".format(str(todays_date.month), str(todays_date.day), str(todays_date.year))
-            while True:
-                try:
-                    dateinput = self.driver.find_element(By.CSS_SELECTOR, "kat-date-picker[id='sendByDatePicker'] input").find_element(By.CSS_SELECTOR, "input")
-                    dateinput.clear()
-                    break
-                except:
-                    print("data input waiting for 2 seconds..")
-                    time.sleep(2)
-                    continue
+            
+            dateinput = self.driver.find_element(By.CSS_SELECTOR, "kat-date-picker[id='sendByDatePicker'] input").find_element(By.CSS_SELECTOR, "input")
+            breakpoint()
+            dateinput.clear()
 
             dateinput.send_keys(todays_str)
             explicit_wait()
