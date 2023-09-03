@@ -145,7 +145,7 @@ def generate_xls_from_pdf(fileinput, addressfile):
             os.remove(Path("pdftmp.pdf"))
         pdfWriter = PdfWriter()
         pdf = pdfReader.pages[i]
-        pdfWriter.addPage(pdf)
+        pdfWriter.add_page(pdf)
         with Path("pdftmp.pdf").open(mode="wb") as output_file:
             pdfWriter.write(output_file)
         images = convert_from_path(Path('pdftmp.pdf'))
