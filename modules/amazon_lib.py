@@ -2,7 +2,7 @@ import fitz
 import os
 from openpyxl import Workbook, load_workbook
 import sys
-from PyPDF2 import PdfMerger, PdfFileReader, PdfFileWriter, PdfReader
+from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 from sys import platform
 from datetime import date, datetime, timedelta
 import time
@@ -143,7 +143,7 @@ def generate_xls_from_pdf(fileinput, addressfile):
     for i in range(0, pdfReader.numPages):
         if os.path.exists(Path("pdftmp.pdf")):
             os.remove(Path("pdftmp.pdf"))
-        pdfWriter = PdfFileWriter()
+        pdfWriter = PdfWriter()
         pdf = pdfReader.getPage(i)
         pdfWriter.addPage(pdf)
         with Path("pdftmp.pdf").open(mode="wb") as output_file:
