@@ -2,7 +2,7 @@ import fitz
 import os
 from openpyxl import Workbook, load_workbook
 import sys
-from PyPDF2 import PdfMerger, PdfFileReader, PdfFileWriter
+from PyPDF2 import PdfMerger, PdfFileReader, PdfFileWriter, PdfReader
 from sys import platform
 from datetime import date, datetime, timedelta
 import time
@@ -124,7 +124,7 @@ def generate_xls_from_pdf(fileinput, addressfile):
     print("Generate new XLS file from PDF File...", end=" ", flush=True)
     addressdict = pd.read_csv(addressfile, usecols=['Consignee', 'Address']).to_dict('index')
     pdfFileObject = open(fileinput, 'rb')
-    pdfReader = PdfFileReader(pdfFileObject)
+    pdfReader = PdfReader(pdfFileObject)
     reader = easyocr.Reader(['en'], gpu=False, verbose=False)
     # print(" No. Of Pages :", pdfReader.numPages)
     filepath = fileinput[:-4] + ".xlsx"
