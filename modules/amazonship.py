@@ -989,5 +989,100 @@ def main():
 
     input("End Process..")    
 
+
+def main_experimental():
+    clear_screan()
+    parser = argparse.ArgumentParser(description="Amazon Shipment")
+    parser.add_argument('-xls', '--xlsinput', type=str,help="XLSX File Input")
+    parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
+    parser.add_argument('-output', '--pdfoutput', type=str,help="PDF output folder")
+    parser.add_argument('-cdata', '--chromedata', type=str,help="Chrome User Data Directory")
+    args = parser.parse_args()
+    if not (args.xlsinput[-5:] == '.xlsx' or args.xlsinput[-5:] == '.xlsm'):
+        input('2nd File input have to XLSX or XLSM file')
+        sys.exit()
+    isExist = os.path.exists(args.xlsinput)
+    if not isExist:
+        input(args.xlsinput + " does not exist")
+        sys.exit()
+    isExist = os.path.exists(args.pdfoutput)
+    if not isExist:
+        input(args.pdfoutput + " folder does not exist")
+        sys.exit()
+    strdate = str(date.today())
+    folderamazonship = "{}{}_{}".format(args.pdfoutput + lib.file_delimeter(), 'shipment_creation', strdate) 
+    isExist = os.path.exists(folderamazonship)
+    if not isExist:
+        os.makedirs(folderamazonship)
+    
+    print('Creating Excel Backup File...', end="", flush=True)
+    fnameinput = os.path.basename(args.xlsinput)
+    pathinput = args.xlsinput[0:-len(fnameinput)]
+    backfile = "{}{}_backup{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
+    shutil.copy(args.xlsinput, backfile)
+
+    print('OK')
+    print('Opening the Source Excel File...', end="", flush=True)
+    xlbook = xw.Book(args.xlsinput)
+    xlsheet = xlbook.sheets[args.sheetname]
+    
+    print('OK')
+    # the second handler is a file handler
+    file_handler = logging.FileHandler('logs/amazonship-err.log')
+    file_handler.setLevel(logging.ERROR)
+    file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
+    file_handler.setFormatter(logging.Formatter(file_handler_format))
+    logger.addHandler(file_handler)
+
+    file_handler2 = logging.FileHandler('logs/amazonship-info.log')
+    file_handler2.setLevel(logging.INFO)
+    # file_handler2_format = '%(asctime)s | %(levelname)s: %(message)s'
+    file_handler2_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
+    file_handler2.setFormatter(logging.Formatter(file_handler2_format))
+    logger2.addHandler(file_handler2)
+
+    logger2.info("###### Start ######")
+    logger2.info("Filename: {}\nSheet Name:{}\nPDF Output Folder:{}".format(args.xlsinput, args.sheetname, folderamazonship))
+    try:    
+        shipment = AmazonShipment(xlsfile=args.xlsinput, sname=args.sheetname, chrome_data=args.chromedata, download_folder=folderamazonship, xlworksheet=xlsheet)
+        shipment.data_generator()
+        if len(shipment.datalist) != 0:
+            shipment.parse()
+    except Exception as e:
+        logger.error(e)
+        print("There is an error, check logs/amazonship-err.log")
+        sys.exit()    
+
+    # --------------
+    # shipment = AmazonShipment(xlsfile=args.xlsinput, sname=args.sheetname, chrome_data=args.chromedata, download_folder=folderamazonship, xlworksheet=xlsheet)
+    # shipment.data_generator()
+    # if len(shipment.datalist) == 0:
+    #     print("empty")
+    # else:
+    #     shipment.parse()
+    # --------------
+
+    shipment.data_generator()
+    # input(json.dumps(shipment.datareadylist))
+    print("Extract PDF..", end=" ", flush=True)
+    for rlist in shipment.datareadylist:
+        if rlist['shipid'] != None:
+            ret = extract_pdf(download_folder=folderamazonship, box=rlist['boxname'], shipment_id=rlist['shipid'][0:12], label=rlist['shipid'] )
+            # print(ret)
+    print("Finished")
+    addressfile = Path("address.csv")
+    resultfile = lib.join_pdfs(source_folder=folderamazonship + lib.file_delimeter() + "combined" , output_folder = folderamazonship, tag='Labels')
+    if resultfile != "":
+        lib.add_page_numbers(resultfile)
+        lib.generate_xls_from_pdf(resultfile, addressfile)
+    lib.copysheet(destination=args.xlsinput, source=resultfile[:-4] + ".xlsx", cols=('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'), sheetsource="Sheet", sheetdestination="Shipment labels summary", tracksheet="dyk_manifest_template", xlbook=xlbook)
+    try:
+        xlbook.save(args.xlsinput)
+    except:
+        pass
+
+    input("End Process..")    
+
+
 if __name__ == '__main__':
-    main()
+    main_experimental()
