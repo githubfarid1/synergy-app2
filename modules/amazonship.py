@@ -461,7 +461,9 @@ class AmazonShipment:
                     dateinput.clear()
                     break
                 except:
-                    pass
+                    print("data input waiting for 2 seconds..")
+                    time.sleep(2)
+                    continue
 
             dateinput.send_keys(todays_str)
             explicit_wait()
