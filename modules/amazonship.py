@@ -456,6 +456,8 @@ class AmazonShipment:
             todays_date = date.today()
             todays_str = "{}/{}/{}".format(str(todays_date.month), str(todays_date.day), str(todays_date.year))
             dateinput = self.driver.find_element(By.CSS_SELECTOR, "kat-date-picker[id='sendByDatePicker']").find_element(By.CSS_SELECTOR, "input")
+            if not dateinput:
+                input("pause")
             dateinput.clear()
             dateinput.send_keys(todays_str)
             explicit_wait()
