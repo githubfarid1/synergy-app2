@@ -1015,13 +1015,13 @@ def main_experimental():
     if not isExist:
         os.makedirs(folderamazonship)
     
-    print('Creating Excel Backup File...', end="", flush=True)
-    fnameinput = os.path.basename(args.xlsinput)
-    pathinput = args.xlsinput[0:-len(fnameinput)]
-    backfile = "{}{}_backup{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
-    shutil.copy(args.xlsinput, backfile)
+    # print('Creating Excel Backup File...', end="", flush=True)
+    # fnameinput = os.path.basename(args.xlsinput)
+    # pathinput = args.xlsinput[0:-len(fnameinput)]
+    # backfile = "{}{}_backup{}".format(pathinput, os.path.splitext(fnameinput)[0], os.path.splitext(fnameinput)[1])
+    # shutil.copy(args.xlsinput, backfile)
 
-    print('OK')
+    # print('OK')
     print('Opening the Source Excel File...', end="", flush=True)
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
