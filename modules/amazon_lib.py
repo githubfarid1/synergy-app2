@@ -122,7 +122,7 @@ def add_page_numbers(pdffile):
 
 def generate_xls_from_pdf(fileinput, addressfile):
     print("Generate new XLS file from PDF File...", end=" ", flush=True)
-    breakpoint()
+    # breakpoint()
     addressdict = pd.read_csv(addressfile, usecols=['Consignee', 'Address']).to_dict('index')
     pdfFileObject = open(fileinput, 'rb')
     pdfReader = PdfReader(pdfFileObject)
@@ -151,6 +151,8 @@ def generate_xls_from_pdf(fileinput, addressfile):
             pdfWriter.write(output_file)
         images = convert_from_path(Path('pdftmp.pdf'))
         imgcrop = images[0].crop(box = (180,750,750,900))
+        imgcrop.save(Path("pdftmp.png"))
+        breakpoint()
         res = ocrreader.readtext(numpy.array(imgcrop)  , detail = 0)
         tracking_id = res[1].strip().replace('TRACKING #','').replace(' ','').replace(":","")
         # print(tracking_id, fileinput, i)
