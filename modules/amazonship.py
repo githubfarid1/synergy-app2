@@ -1046,6 +1046,7 @@ def main_experimental():
     try:    
         shipment = AmazonShipment(xlsfile=args.xlsinput, sname=args.sheetname, chrome_data=args.chromedata, download_folder=folderamazonship, xlworksheet=xlsheet)
         shipment.data_generator()
+        input(shipment.datalist)
         if len(shipment.datalist) != 0:
             shipment.parse()
     except Exception as e:
