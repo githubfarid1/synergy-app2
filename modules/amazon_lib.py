@@ -123,6 +123,7 @@ def add_page_numbers(pdffile):
 
 def generate_xls_from_pdf(fileinput, addressfile):
     path_to_tesseract = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    pytesseract.tesseract_cmd = path_to_tesseract
     print("Generate new XLS file from PDF File...", end=" ", flush=True)
     # breakpoint()
     addressdict = pd.read_csv(addressfile, usecols=['Consignee', 'Address']).to_dict('index')
