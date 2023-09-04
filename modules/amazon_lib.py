@@ -164,6 +164,7 @@ def generate_xls_from_pdf(fileinput, addressfile):
         # tracking_id = res[1].strip().replace('TRACKING #','').replace(' ','').replace(":","")
         # print(tracking_id, fileinput, i)
         lines = pdf.extract_text(space_width=200).split("\n")
+        breakpoint()
         # print(lines)
         if platform == "win32":
             weight = lines[1].split('-')[1].strip().split("lb")[0]
