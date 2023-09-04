@@ -5,6 +5,7 @@
 - add C:\Program Files\Common Files\System\poppler-0.68.0\bin to environtment variables "Path"
 - set terminal to quick mode disabled
 - install git to your windows
+- download tesseract from https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-5.3.1.20230401.exe and install it. 
 - git clone https://github.com/githubfarid1/synergy-app2.git
 - go to the folder
 - pip install -r requirements.txt
