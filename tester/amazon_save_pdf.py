@@ -20,4 +20,11 @@ options.add_experimental_option('useAutomationExtension', False)
 driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 
 driver.get("https://www.amazon.com/dp/B076NVVDQZ")
-input("")
+pdf = driver.execute_cdp_cmd("Page.printToPDF", {
+  "printBackground": True
+})
+
+import base64
+
+with open("file.pdf", "wb") as f:
+  f.write(base64.b64decode(pdf['data']))
