@@ -35,7 +35,7 @@ pdf = driver.execute_cdp_cmd("Page.printToPDF", {
 
 import base64
 
-with open(r"C:/file.pdf", "wb") as f:
+with open(r"C:\synergy-app2\logs\file.pdf", "wb") as f:
   f.write(base64.b64decode(pdf['data']))
 
 input("")
