@@ -30,7 +30,7 @@ driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd
 
 driver.get("https://www.amazon.com/dp/B076NVVDQZ")
 pdf = driver.execute_cdp_cmd("Page.printToPDF", {
-  "printBackground": True
+  "printBackground": False
 })
 
 import base64
