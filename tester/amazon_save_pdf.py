@@ -6,8 +6,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager as CM
 import os
-# from Screenshot import Screenshot
-
+from Screenshot import Screenshot
+ob = Screenshot.Screenshot()
 options = webdriver.ChromeOptions()
 # options.add_argument("--headless")
 # options.add_experimental_option('debuggerAddress', 'localhost:9251')
@@ -39,5 +39,8 @@ driver.get("https://www.amazon.com/dp/B076NVVDQZ")
 
 # with open(r"C:\synergy-app2\logs\file2.pdf", "wb") as f:
 #   f.write(base64.b64decode(pdf['data']))
-driver.save_screenshot(r"C:\synergy-app2\logs\file2.png")
+# driver.save_screenshot(r"C:\synergy-app2\logs\file2.png")
+element = driver.find_element(By.ID, "ppd")
+img_url = ob.get_element(driver, element, save_path=r'r"C:\synergy-app2\logs', image_name='paypal.png')
+print(img_url)
 input("")
