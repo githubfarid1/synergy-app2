@@ -6,6 +6,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager as CM
 import os
+from Screenshot import Screenshot_clipping
+
 options = webdriver.ChromeOptions()
 # options.add_argument("--headless")
 # options.add_experimental_option('debuggerAddress', 'localhost:9251')
@@ -28,14 +30,14 @@ options.add_experimental_option("prefs", profile)
 # driver = webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
 driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 driver.maximize_window()
-driver.get("https://www.amazon.com/dp/B076NVVDQZ")
-pdf = driver.execute_cdp_cmd("Page.printToPDF", {
-  "printBackground": False
-})
+# driver.get("https://www.amazon.com/dp/B076NVVDQZ")
+# pdf = driver.execute_cdp_cmd("Page.printToPDF", {
+#   "printBackground": False
+# })
 
-import base64
+# import base64
 
-with open(r"C:\synergy-app2\logs\file2.pdf", "wb") as f:
-  f.write(base64.b64decode(pdf['data']))
-
+# with open(r"C:\synergy-app2\logs\file2.pdf", "wb") as f:
+#   f.write(base64.b64decode(pdf['data']))
+driver.save_screenshot(r"C:\synergy-app2\logs\file2.png")
 input("")
