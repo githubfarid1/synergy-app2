@@ -30,7 +30,7 @@ options.add_experimental_option("prefs", profile)
 # driver = webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
 driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 driver.maximize_window()
-# driver.get("https://www.amazon.com/dp/B076NVVDQZ")
+driver.get("https://www.amazon.com/dp/B076NVVDQZ")
 # pdf = driver.execute_cdp_cmd("Page.printToPDF", {
 #   "printBackground": False
 # })
