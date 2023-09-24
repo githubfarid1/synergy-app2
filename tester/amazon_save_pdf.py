@@ -40,7 +40,7 @@ driver.get("https://www.amazon.com/dp/B076NVVDQZ")
 # with open(r"C:\synergy-app2\logs\file2.pdf", "wb") as f:
 #   f.write(base64.b64decode(pdf['data']))
 # driver.save_screenshot(r"C:\synergy-app2\logs\file2.png")
-element = driver.find_element(By.ID, "ppd")
+element = driver.find_element(By.CSS_SELECTOR, "#ppd")
 img_url = ob.get_element(driver, element, save_path=r'r"C:\synergy-app2\logs', image_name='paypal.png')
 print(img_url)
 input("")
