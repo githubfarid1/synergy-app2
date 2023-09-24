@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager as CM
 import os
 options = webdriver.ChromeOptions()
-# options.add_argument("--headless")
+options.add_argument("--headless")
 # options.add_experimental_option('debuggerAddress', 'localhost:9251')
 options.add_argument("user-data-dir={}".format(r'C:/Users/User/AppData/Local/Google/Chrome/User Data8'))
 options.add_argument("profile-directory={}".format('Default'))
