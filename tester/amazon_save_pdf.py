@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager as CM
 import os
-from Screenshot import Screenshot_clipping
+# from Screenshot import Screenshot
 
 options = webdriver.ChromeOptions()
 # options.add_argument("--headless")
