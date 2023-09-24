@@ -38,4 +38,4 @@ import base64
 with open(r"C:\synergy-app2\logs\file2.pdf", "wb") as f:
   f.write(base64.b64decode(pdf['data']))
 
-# input("")
+input("")
