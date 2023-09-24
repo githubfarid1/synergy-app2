@@ -16,6 +16,15 @@ options.add_argument("--log-level=3")
 options.add_argument("--window-size=800,600")
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option('useAutomationExtension', False)
+profile = {"plugins.plugins_list": [{"enabled": False, "name": "Chrome PDF Viewer"}], # Disable Chrome's PDF Viewer
+            "download.default_directory": r'C:\synergy-app2\logs', # disable karena kadang gak jalan di PC lain. Jadi downloadnya tetap ke folder download default
+            "download.extensions_to_open": "applications/pdf",
+            "download.prompt_for_download": False,
+            'profile.default_content_setting_values.automatic_downloads': 1,
+            "download.directory_upgrade": True,
+            "plugins.always_open_pdf_externally": True #It will not show PDF directly in chrome                    
+            }
+options.add_experimental_option("prefs", profile)
 # driver = webdriver.Chrome(service=Service(CM(version="114.0.5735.90").install()), options=options)
 driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 
