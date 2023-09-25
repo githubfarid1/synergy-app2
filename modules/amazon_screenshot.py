@@ -67,7 +67,7 @@ def screenshot(list, chrome_data, filepath):
                 # page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
                 input(r"" + filepathsave)
                 element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
-                img_url = ob.get_element(driver, element, save_path=filepathsave)
+                img_url = ob.get_element(driver, element, save_path=r"" + filepathsave)
                 print(img_url)
                 page.insert_image(fitz.Rect(50,50,820,500),filename=img_url)
                 
