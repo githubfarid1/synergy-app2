@@ -366,6 +366,7 @@ class MainFrame(ttk.Frame):
 		wholesaleButton = FrameButton(self, window, text="Wholesale Club Scraper", class_frame=WholesaleFrame)
 		amazonpdfButton = FrameButton(self, window, text="Amazon PDF Extractor", class_frame=AmazonPdfFrame)
 		scrapeBySellerImagesButton = FrameButton(self, window, text="Amazon By Seller with Images", class_frame=ScrapeBySellerAmazonImagesFrame)
+		amazonScreenShot = FrameButton(self, window, text="Amazon ScreenShot", class_frame=AmazonScreenShotFrame)
 
 
 		# layout
@@ -394,6 +395,9 @@ class MainFrame(ttk.Frame):
 		wholesaleButton.grid(column = 0, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
 		amazonpdfButton.grid(column = 1, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
 		scrapeBySellerImagesButton.grid(column = 2, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
+		amazonScreenShot.grid(column = 0, row = 8, sticky=(W, E, N, S), padx=15, pady=5)
+
+
 class PdfConvertFrame(ttk.Frame):
 	def __init__(self, window) -> None:
 		super().__init__(window)
@@ -1402,6 +1406,58 @@ class ScrapeBySellerAmazonImagesFrame(ttk.Frame):
 		else:
 			run_module(comlist=[PYLOC, "modules/scrape_image_byseller_new.py", "-i", kwargs['input'], "-d", kwargs['output'], "-w", kwargs['website'], "-p", kwargs['postal'] ])
 
+class AmazonScreenShotFrame(ttk.Frame):
+	def __init__(self, window) -> None:
+		super().__init__(window)
+		# configure
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
+
+		self.columnconfigure(0, weight=1)
+		self.rowconfigure(0, weight=1)
+		self.rowconfigure(1, weight=1)
+		self.rowconfigure(2, weight=1)
+		self.rowconfigure(3, weight=1)
+		self.rowconfigure(4, weight=1)
+		self.rowconfigure(5, weight=1)
+		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		
+		# populate
+		titleLabel = TitleLabel(self, text="Amazon ScreenShot")
+		closeButton = CloseButton(self)
+		xlsInputFile = FileChooserFrame(self, btype="file", label="Select Input Excel File:", filetypes=(("Excel files", "*.xlsx *.xlsm"),("all files", "*.*")), sheetlist=sheetlist)
+
+		outputfolder = FileChooserFrame(self, btype="folder", label="Output PDF Folder:", filetypes=())
+
+		labelsname = Label(self, text="Sheet Name:")
+		
+		# sheetName = Entry(self, width=45)
+		
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(xlsinput=xlsInputFile.filename, sname=sheetlist, pdfoutput=outputfolder.filename))
+		
+		# layout
+		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
+		xlsInputFile.grid(column = 0, row = 2, sticky = (W,E))
+		labelsname.grid(column = 0, row = 3, sticky=(W))
+		# sheetName.grid(column = 0, row = 3, pady=10)
+		outputfolder.grid(column = 0, row = 4, sticky = (W,E))
+		runButton.grid(column = 0, row = 5, sticky = (E))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+		sheetlist.grid(column=0, row = 3, pady=10)
+
+		# self.runButton.state(['disabled'])
+
+	def run_process(self, **kwargs):
+		if kwargs['xlsinput'] == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
+		else:
+			pdffolder = kwargs['pdfoutput']
+			if platform == "win32":
+				pdffolder = pdffolder.replace("/", "\\")
+
+			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
+			run_module(comlist=[PYLOC, "modules/amazon_screenshot.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-output", pdffolder, "-cdata",  profileSelected.get()])
+
 
 class CloseButton(ttk.Button):
 	def __init__(self, parent):
@@ -1426,8 +1482,8 @@ if __name__ == "__main__":
 	if platform == "linux" or platform == "linux2":
 		PYLOC = "python"
 	elif platform == "win32":
-		# PYLOC = "python.exe"
-		PYLOC = "C:\synergy-app2\synergy-venv\Scripts\python.exe"
+		PYLOC = "python.exe"
+		# PYLOC = "C:\synergy-app2\synergy-venv\Scripts\python.exe"
 
 	
 	isExist = os.path.exists("setting.json")
