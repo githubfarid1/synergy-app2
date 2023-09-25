@@ -57,11 +57,8 @@ def screenshot(list, chrome_data):
 
     for item in list.keys():
         for values in list[item]:
-                print(values)
-                for v in values:
-                    print(v)             
-                    # driver.get("https://www.amazon.com/dp/{}".format(v['asin']))
-                    # input("")
+                driver.get("https://www.amazon.com/dp/{}".format(values['asin']))
+                input("")
 def main():
     # clear_screan()
     parser = argparse.ArgumentParser(description="Amazon Shipment")
