@@ -42,7 +42,7 @@ def data_generator(xlsheet):
             grouped_box[box] = [p]
     return grouped_box        
 
-def screenshot(list, chrome_data):
+def screenshot(list, chrome_data, path):
     ob = Screenshot.Screenshot()
     options = webdriver.ChromeOptions()
     options.add_argument("user-data-dir={}".format(getProfiles()[chrome_data]['chrome_user_data']))
@@ -56,9 +56,12 @@ def screenshot(list, chrome_data):
     driver.maximize_window()
 
     for item in list.keys():
-        for values in list[item]:
+        for idx, values in enumerate(list[item]):
                 driver.get("https://www.amazon.com/dp/{}".format(values['asin']))
-                input("")
+                element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
+                img_url = ob.get_element(driver, element, save_path=r"".join(path), image_name='{}.png'.format(str(idx+1)) )
+                print(img_url)
+
 def main():
     # clear_screan()
     parser = argparse.ArgumentParser(description="Amazon Shipment")
