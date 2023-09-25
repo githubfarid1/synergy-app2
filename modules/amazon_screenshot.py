@@ -55,23 +55,19 @@ def screenshot(list, chrome_data, path):
     options.add_experimental_option('useAutomationExtension', False)
     driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
     driver.maximize_window()
+    
     for item in list.keys():
         pdf = fitz.open()
-        # pno = -1
         for idx, values in enumerate(list[item]):
                 page = pdf.new_page(pno=idx-1, width=842, height=595)
                 driver.get("https://www.amazon.com/dp/{}".format(values['asin']))
-                element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
-                img_url = ob.get_element(driver, element, save_path=r"".join(path), image_name='{}_{}.png'.format(values['box'], str(idx+1)) )
-                print(img_url)
-                page.insert_image(fitz.Rect(50,50,820,500),filename=img_url)
-                # pno += 1
+                filepath = r"".join(path).join('{}_{}.png'.format(values['box'], str(idx+1)))
+                driver.save_screenshot(filename=filepath)
+                # element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
+                # img_url = ob.get_element(driver, element, save_path=r"".join(path), image_name='{}_{}.png'.format(values['box'], str(idx+1)) )
+                print(filepath)
+                page.insert_image(fitz.Rect(50,50,820,500),filename=filepath)
         pdf.save("{}.pdf".format(item)) 
-# pdf = fitz.open()
-# page = pdf.new_page(pno=-1, width=842, height=595)
-# page.insert_image(fitz.Rect(50,50,820,500),filename=imfile)
-# page = pdf.new_page(pno=0, width=842, height=595)
-# page.insert_image(fitz.Rect(50,50,820,500),filename=imfile)
 
 def main():
     # clear_screan()
