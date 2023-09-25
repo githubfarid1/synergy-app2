@@ -86,7 +86,7 @@ def main():
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
     box_grouped = data_generator(xlsheet=xlsheet)
-    screenshot(box_grouped, args.chromedata)
+    screenshot(box_grouped, args.chromedata, args.pdfoutput)
     input("End Process..")    
 
 
