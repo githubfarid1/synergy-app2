@@ -57,7 +57,8 @@ def screenshot(list, chrome_data):
 
     for item in list.keys():
         for values in list[item]:
-                for v in values:             
+                for v in values:
+                    print(v)             
                     driver.get("https://www.amazon.com/dp/{}".format(v['asin']))
                     input("")
 def main():
