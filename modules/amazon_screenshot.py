@@ -63,6 +63,7 @@ def screenshot(list, chrome_data, filepath):
                 page = pdf.new_page(pno=idx-1, width=842, height=595)
                 driver.get("https://www.amazon.com/dp/{}".format(values['asin']))
                 filepathsave = os.path.join(filepath, '{}_{}.png'.format(values['box'], str(idx+1)))
+                input(re.escape(filepathsave))
                 # driver.save_screenshot(filename=filepathsave)
                 # print(filepathsave)
                 # page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
