@@ -59,7 +59,7 @@ def screenshot(list, chrome_data, path):
         for idx, values in enumerate(list[item]):
                 driver.get("https://www.amazon.com/dp/{}".format(values['asin']))
                 element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
-                img_url = ob.get_element(driver, element, save_path=r"".join(path), image_name='{}.png'.format(str(idx+1)) )
+                img_url = ob.get_element(driver, element, save_path=r"".join(path), image_name='{}_{}.png'.format(values['box'], str(idx+1)) )
                 print(img_url)
 
 def main():
