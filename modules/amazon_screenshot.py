@@ -43,7 +43,7 @@ def data_generator(xlsheet):
             grouped_box[box] = [p]
     return grouped_box        
 
-def screenshot(list, chrome_data, path):
+def screenshot(list, chrome_data, filepath):
     ob = Screenshot.Screenshot()
     options = webdriver.ChromeOptions()
     options.add_argument("user-data-dir={}".format(getProfiles()[chrome_data]['chrome_user_data']))
@@ -61,12 +61,12 @@ def screenshot(list, chrome_data, path):
         for idx, values in enumerate(list[item]):
                 page = pdf.new_page(pno=idx-1, width=842, height=595)
                 driver.get("https://www.amazon.com/dp/{}".format(values['asin']))
-                filepath = r"".join(path).join('{}_{}.png'.format(values['box'], str(idx+1)))
-                driver.save_screenshot(filename=filepath)
+                filepathsave = os.path.join(filepath, '{}_{}.png'.format(values['box'], str(idx+1)))
+                driver.save_screenshot(filename=filepathsave)
                 # element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
                 # img_url = ob.get_element(driver, element, save_path=r"".join(path), image_name='{}_{}.png'.format(values['box'], str(idx+1)) )
-                print(filepath)
-                page.insert_image(fitz.Rect(50,50,820,500),filename=filepath)
+                print(filepathsave)
+                page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
         pdf.save("{}.pdf".format(item)) 
 
 def main():
