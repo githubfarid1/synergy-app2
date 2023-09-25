@@ -63,12 +63,14 @@ def screenshot(list, chrome_data, filepath):
                 driver.get("https://www.amazon.com/dp/{}".format(values['asin']))
                 filepathsave = os.path.join(filepath, '{}_{}.png'.format(values['box'], str(idx+1)))
                 # driver.save_screenshot(filename=filepathsave)
+                # print(filepathsave)
+                # page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
                 
                 element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
-                filepathsave = ob.get_element(driver, element, save_path=filepathsave)
+                img_url = ob.get_element(driver, element, save_path=filepathsave)
+                print(img_url)
+                page.insert_image(fitz.Rect(50,50,820,500),filename=img_url)
                 
-                print(filepathsave)
-                page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
         pdf.save("{}.pdf".format(item)) 
 
 def main():
