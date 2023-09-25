@@ -55,10 +55,11 @@ def screenshot(list, chrome_data):
     driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
     driver.maximize_window()
 
-    for item in list:
-        for val in item.values():            
-            driver.get("https://www.amazon.com/dp/{}".format(val['asin']))
-            input("")
+    for item in list.keys():
+        for values in list[item]:
+                for v in values:             
+                    driver.get("https://www.amazon.com/dp/{}".format(v['asin']))
+                    input("")
 def main():
     # clear_screan()
     parser = argparse.ArgumentParser(description="Amazon Shipment")
