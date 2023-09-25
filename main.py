@@ -1482,8 +1482,8 @@ if __name__ == "__main__":
 	if platform == "linux" or platform == "linux2":
 		PYLOC = "python"
 	elif platform == "win32":
-		PYLOC = "python.exe"
-		# PYLOC = "C:\synergy-app2\synergy-venv\Scripts\python.exe"
+		# PYLOC = "python.exe"
+		PYLOC = "C:\synergy-app2\synergy-venv\Scripts\python.exe"
 
 	
 	isExist = os.path.exists("setting.json")
