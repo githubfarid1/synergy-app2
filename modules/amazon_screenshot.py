@@ -62,15 +62,16 @@ def screenshot(list, chrome_data, filepath):
         for idx, values in enumerate(list[item]):
                 page = pdf.new_page(pno=idx-1, width=842, height=595)
                 driver.get("https://www.amazon.com/dp/{}".format(values['asin']))
-                filepathsave = os.path.join(filepath, '{}_{}.png'.format(values['box'], str(idx+1)))
-                input(re.escape(filepathsave))
+                filename = '{}_{}.png'.format(values['box'], str(idx+1))
+                
+                # filepathsave = os.path.join(filepath, filename)
                 # driver.save_screenshot(filename=filepathsave)
                 # print(filepathsave)
                 # page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
 
                 
                 element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
-                img_url = ob.get_element(driver, element, save_path=re.escape(filepathsave))
+                img_url = ob.get_element(driver, element, save_path=r"".join(filepath, filepath))
                 print(img_url)
                 page.insert_image(fitz.Rect(50,50,820,500),filename=img_url)
                 
