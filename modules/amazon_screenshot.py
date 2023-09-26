@@ -62,35 +62,35 @@ def screenshot(list, chrome_data, filepath):
         pno = -1
         for idx, value in enumerate(list[item]):
                 print(idx)
-                try:
-                    driver.get("https://www.amazon.com/dp/{}".format(value['asin']))
-                    filename = '{}_{}.png'.format(value['box'], str(idx+1))
-                    # page = pdf.new_page(pno=idx-1, width=842, height=595)
+                # try:
+                driver.get("https://www.amazon.com/dp/{}".format(value['asin']))
+                filename = '{}_{}.png'.format(value['box'], str(idx+1))
+                # page = pdf.new_page(pno=idx-1, width=842, height=595)
 
-                    # if (idx+1 % 2) == 1:
-                    #     page = pdf.new_page(pno=pno, width=595, height=842)
-                    #     pno += 1
+                # if (idx+1 % 2) == 1:
+                #     page = pdf.new_page(pno=pno, width=595, height=842)
+                #     pno += 1
 
-                    # METHOD 1: screenshoot directly                
-                    # filepathsave = os.path.join(filepath, filename)
-                    # driver.save_screenshot(filename=filepathsave)
+                # METHOD 1: screenshoot directly                
+                # filepathsave = os.path.join(filepath, filename)
+                # driver.save_screenshot(filename=filepathsave)
 
-                    # METHOD 2: screenshoot by element                
-                    element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
-                    filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
+                # METHOD 2: screenshoot by element                
+                element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
+                filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 
 
-                    # print(filepathsave)
-                    # page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
-                    if (idx+1 % 2) == 1:
-                        page = pdf.new_page(pno=pno, width=595, height=842)
-                        page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
-                        pno += 1
-                    else:
-                        page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
+                # print(filepathsave)
+                # page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
+                if (idx+1 % 2) == 1:
+                    page = pdf.new_page(pno=pno, width=595, height=842)
+                    page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
+                    pno += 1
+                else:
+                    page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
 
-                except:
-                    print(value['asin'], "failed")
+                # except:
+                #     print(value['asin'], "failed")
 
         pdf.save(os.path.join(filepath, "{}.pdf".format(item))) 
         print("OK")
