@@ -48,7 +48,7 @@ def createpdf(list, filepath):
     for item in list.keys():
         pdf = fitz.open()
         pages = math.ceil(len(list[item])/2)
-        for page in pages:
+        for i in range(0, pages):
             pdf.new_page(pno=-1, width=595, height=842)
         pdf.save(os.path.join(filepath, "{}.pdf".format(item))) 
         
