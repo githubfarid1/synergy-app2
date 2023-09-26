@@ -98,8 +98,10 @@ def screenshot(list, chrome_data, filepath):
                     # page = pdf.new_page(pno=-1, width=595, height=842)
                     # page = pdf[idx]
                     page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
+                    page.insert_text((520.2469787597656, 803.38037109375), item, color=fitz.utils.getColor("red"))
                 else:
                     page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
+                    page.insert_text((520.2469787597656, 803.38037109375), item, color=fitz.utils.getColor("red"))
 
                 # except:
                 #     print(value['asin'], "failed")
