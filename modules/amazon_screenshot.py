@@ -50,7 +50,7 @@ def createpdf(list, filepath):
         pages = math.ceil(len(list[item])/2)
         for i in range(0, pages):
             pdf.new_page(pno=-1, width=595, height=842)
-        pdf.save(os.path.join(filepath, "{}.pdf".format(item))) 
+        pdf.save(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp"))) 
         
 
 def screenshot(list, chrome_data, filepath):
@@ -68,7 +68,7 @@ def screenshot(list, chrome_data, filepath):
     
     for item in list.keys():
         print("Processing box {}...".format(item) , end=" ", flush=True)
-        pdf = fitz.open()
+        pdf = fitz.open(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp")))
         # pno = -2
         for idx, value in enumerate(list[item]):
                 # print(idx)
@@ -92,9 +92,11 @@ def screenshot(list, chrome_data, filepath):
 
                 # print(filepathsave)
                 # page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
+                page = pdf[math.floor(idx/2)]
                 if (idx+1 % 2) == 1:
                     # pno += 1
-                    page = pdf.new_page(pno=-1, width=595, height=842)
+                    # page = pdf.new_page(pno=-1, width=595, height=842)
+                    # page = pdf[idx]
                     page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
                 else:
                     page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
@@ -103,6 +105,8 @@ def screenshot(list, chrome_data, filepath):
                 #     print(value['asin'], "failed")
 
         pdf.save(os.path.join(filepath, "{}.pdf".format(item))) 
+        pdf.close()
+        os.remove(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp")))
         print("OK")
     # [os.remove(os.path.join(filepath, file)) for file in os.listdir(filepath) if file.endswith('.png')]
 
@@ -131,7 +135,7 @@ def main():
     xlsheet = xlbook.sheets[args.sheetname]
     box_grouped = data_generator(xlsheet=xlsheet)
     createpdf(box_grouped, args.pdfoutput)
-    # screenshot(box_grouped, args.chromedata, args.pdfoutput)
+    screenshot(box_grouped, args.chromedata, args.pdfoutput)
     input("End Process..")    
 
 
