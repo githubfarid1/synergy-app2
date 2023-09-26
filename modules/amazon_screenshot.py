@@ -69,17 +69,11 @@ def screenshot(list, chrome_data, filepath):
     for item in list.keys():
         print("Processing box {}...".format(item) , end=" ", flush=True)
         pdf = fitz.open(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp")))
-        # pno = -2
         for idx, value in enumerate(list[item]):
                 # print(idx)
                 # try:
                 driver.get("https://www.amazon.com/dp/{}".format(value['asin']))
                 filename = '{}_{}.png'.format(value['box'], str(idx+1))
-                # page = pdf.new_page(pno=idx-1, width=842, height=595)
-
-                # if (idx+1 % 2) == 1:
-                #     page = pdf.new_page(pno=pno, width=595, height=842)
-                #     pno += 1
 
                 # METHOD 1: screenshoot directly                
                 # filepathsave = os.path.join(filepath, filename)
@@ -90,18 +84,13 @@ def screenshot(list, chrome_data, filepath):
                 filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 
 
-                # print(filepathsave)
-                # page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
                 page = pdf[math.floor(idx/2)]
                 if (idx % 2) == 0:
-                    # pno += 1
-                    # page = pdf.new_page(pno=-1, width=595, height=842)
-                    # page = pdf[idx]
                     page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
-                    page.insert_text((520.2469787597656, 803.38037109375), item, color=fitz.utils.getColor("red"))
+                    page.insert_text((520.2469787597656, 803.38037109375), str(item), color=fitz.utils.getColor("red"))
                 else:
                     page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
-                    page.insert_text((520.2469787597656, 803.38037109375), item, color=fitz.utils.getColor("red"))
+                    page.insert_text((520.2469787597656, 803.38037109375), str(item), color=fitz.utils.getColor("red"))
 
                 # except:
                 #     print(value['asin'], "failed")
