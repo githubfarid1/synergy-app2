@@ -93,7 +93,7 @@ def screenshot(list, chrome_data, filepath):
                 # print(filepathsave)
                 # page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
                 page = pdf[math.floor(idx/2)]
-                if (idx+1 % 2) == 1:
+                if (idx % 2) == 0:
                     # pno += 1
                     # page = pdf.new_page(pno=-1, width=595, height=842)
                     # page = pdf[idx]
