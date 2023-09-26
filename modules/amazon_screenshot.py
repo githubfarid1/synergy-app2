@@ -61,7 +61,7 @@ def screenshot(list, chrome_data, filepath):
         pdf = fitz.open()
         # pno = -2
         for idx, value in enumerate(list[item]):
-                print(idx)
+                # print(idx)
                 # try:
                 driver.get("https://www.amazon.com/dp/{}".format(value['asin']))
                 filename = '{}_{}.png'.format(value['box'], str(idx+1))
