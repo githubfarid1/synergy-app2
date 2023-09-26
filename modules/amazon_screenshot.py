@@ -66,12 +66,12 @@ def screenshot(list, chrome_data, filepath):
                     driver.get("https://www.amazon.com/dp/{}".format(value['asin']))
                     filename = '{}_{}.png'.format(value['box'], str(idx+1))
                     # METHOD 1: screenshoot directly                
-                    filepathsave = os.path.join(filepath, filename)
-                    driver.save_screenshot(filename=filepathsave)
+                    # filepathsave = os.path.join(filepath, filename)
+                    # driver.save_screenshot(filename=filepathsave)
 
                     # METHOD 2: screenshoot by element                
-                    # element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
-                    # filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
+                    element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
+                    filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 
 
                     # print(filepathsave)
