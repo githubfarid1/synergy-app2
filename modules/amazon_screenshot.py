@@ -59,7 +59,7 @@ def screenshot(list, chrome_data, filepath):
     for item in list.keys():
         print("Processing box {}...".format(item) , end=" ", flush=True)
         pdf = fitz.open()
-        pno = -2
+        # pno = -2
         for idx, value in enumerate(list[item]):
                 print(idx)
                 # try:
@@ -83,8 +83,8 @@ def screenshot(list, chrome_data, filepath):
                 # print(filepathsave)
                 # page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
                 if (idx+1 % 2) == 1:
-                    pno += 1
-                    page = pdf.new_page(pno=pno, width=595, height=842)
+                    # pno += 1
+                    page = pdf.new_page(pno=-1, width=595, height=842)
                     page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
                 else:
                     page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
