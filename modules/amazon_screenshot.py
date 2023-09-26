@@ -60,25 +60,28 @@ def screenshot(list, chrome_data, filepath):
     for item in list.keys():
         print("Processing box {}...".format(item) , end=" ", flush=True)
         pdf = fitz.open()
-        for idx, values in enumerate(list[item]):
-                page = pdf.new_page(pno=idx-1, width=842, height=595)
-                driver.get("https://www.amazon.com/dp/{}".format(values['asin']))
-                filename = '{}_{}.png'.format(values['box'], str(idx+1))
-                # METHOD 1: screenshoot directly                
-                filepathsave = os.path.join(filepath, filename)
-                driver.save_screenshot(filename=filepathsave)
+        for idx, value in enumerate(list[item]):
+                try:
+                    page = pdf.new_page(pno=idx-1, width=842, height=595)
+                    driver.get("https://www.amazon.com/dp/{}".format(value['asin']))
+                    filename = '{}_{}.png'.format(value['box'], str(idx+1))
+                    # METHOD 1: screenshoot directly                
+                    filepathsave = os.path.join(filepath, filename)
+                    driver.save_screenshot(filename=filepathsave)
 
-                # METHOD 2: screenshoot by element                
-                # element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
-                # filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
+                    # METHOD 2: screenshoot by element                
+                    # element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
+                    # filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 
 
-                # print(filepathsave)
-                page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
-                
+                    # print(filepathsave)
+                    page.insert_image(fitz.Rect(50,50,820,500),filename=filepathsave)
+                except:
+                     print(value['asin'], "failed")                
         pdf.save(os.path.join(filepath, "{}.pdf".format(item))) 
         print("OK")
-    (os.remove(file) for file in os.listdir(filepath) if file.endswith('.png'))
+    [os.remove(os.path.join(filepath, file)) for file in os.listdir(filepath) if file.endswith('.png')]
+
 def main():
     # clear_screan()
     parser = argparse.ArgumentParser(description="Amazon Shipment")
