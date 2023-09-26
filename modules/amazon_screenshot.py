@@ -17,6 +17,9 @@ from webdriver_manager.chrome import ChromeDriverManager as CM
 import json
 import fitz
 import math
+from PyPDF2 import PdfMerger, PdfReader, PdfWriter
+import time
+import glob
 
 logger = logging.getLogger()
 logger.setLevel(logging.NOTSET)
@@ -101,6 +104,37 @@ def screenshot(list, chrome_data, filepath):
         print("OK")
     [os.remove(os.path.join(filepath, file)) for file in os.listdir(filepath) if file.endswith('.png')]
 
+def join_pdfs(filepath):
+    merger = PdfMerger()
+    print("Merging PDF files in one PDF File..", end=" ", flush=True)
+    time.sleep(1)
+    now = datetime.now()
+    fname = "{}_{}.pdf".format(now.strftime("%B %d"), "amazon_ss")
+    # pdfoutput_folder_combined = pdfoutput_folder # + file_delimeter + "combined"
+    # tmpname = "{}{}{}.pdf".format(source_folder, file_delimeter, "tmp")
+    # isExist = os.path.exists(tmpname)
+    # if isExist:
+    #     os.remove(tmpname)
+    resultfile = os.path.join(filepath, fname) 
+    pdffiles = glob.glob(r"".join(filepath) + "\\" + "*.pdf")
+    if len(pdffiles) != 0:
+        dictfiles = {}
+        for pdffile in pdffiles:
+            try:
+                basefilename = os.path.basename(pdffile)
+                dictfiles[int(basefilename.replace(".pdf",""))] = pdffile
+            except:
+                continue
+        sortedfiles = dict(sorted(dictfiles.items()))
+        for file in sortedfiles:
+            merger.append(sortedfiles[file])
+        merger.write(resultfile)
+        print("Finished")
+        return resultfile
+    else:
+        print("No pdf files was found:", filepath)
+        return ""
+
 def main():
     # clear_screan()
     parser = argparse.ArgumentParser(description="Amazon Shipment")
@@ -127,6 +161,7 @@ def main():
     box_grouped = data_generator(xlsheet=xlsheet)
     createpdf(box_grouped, args.pdfoutput)
     screenshot(box_grouped, args.chromedata, args.pdfoutput)
+    join_pdfs(args.pdfoutput)
     input("End Process..")    
 
 
