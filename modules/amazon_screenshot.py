@@ -16,6 +16,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager as CM
 import json
 import fitz
+import math
 
 logger = logging.getLogger()
 logger.setLevel(logging.NOTSET)
@@ -42,6 +43,15 @@ def data_generator(xlsheet):
         else:
             grouped_box[box] = [p]
     return grouped_box        
+
+def createpdf(list, filepath):
+    for item in list.keys():
+        pdf = fitz.open()
+        pages = math.ceil(len(list[item])/2)
+        for page in pages:
+            pdf.new_page(pno=-1, width=595, height=842)
+        pdf.save(os.path.join(filepath, "{}.pdf".format(item))) 
+        
 
 def screenshot(list, chrome_data, filepath):
     ob = Screenshot.Screenshot()
@@ -120,7 +130,8 @@ def main():
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
     box_grouped = data_generator(xlsheet=xlsheet)
-    screenshot(box_grouped, args.chromedata, args.pdfoutput)
+    createpdf(box_grouped, args.pdfoutput)
+    # screenshot(box_grouped, args.chromedata, args.pdfoutput)
     input("End Process..")    
 
 
