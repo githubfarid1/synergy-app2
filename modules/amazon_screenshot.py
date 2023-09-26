@@ -108,7 +108,7 @@ def screenshot(list, chrome_data, filepath):
         pdf.close()
         os.remove(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp")))
         print("OK")
-    # [os.remove(os.path.join(filepath, file)) for file in os.listdir(filepath) if file.endswith('.png')]
+    [os.remove(os.path.join(filepath, file)) for file in os.listdir(filepath) if file.endswith('.png')]
 
 def main():
     # clear_screan()
