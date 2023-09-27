@@ -94,10 +94,10 @@ def screenshot(list, chrome_data, filepath):
                 if (idx % 2) == 0:
                     page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
                     page.insert_text((520.2469787597656, 803.38037109375), str(item), color=fitz.utils.getColor("red"))
-                    page.insert_text((50, 30), url, color=fitz.utils.getColor("red"))
+                    page.insert_text((50, 30), url, color=fitz.utils.getColor("blue"))
                 else:
                     page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
-                    page.insert_text((50, 390), url, color=fitz.utils.getColor("red"))
+                    page.insert_text((50, 390), url, color=fitz.utils.getColor("blue"))
 
 
                 
@@ -143,11 +143,11 @@ def join_pdfs(filepath):
         ilovepdf = ILovePdf(ilovepdf_public_key, verify_ssl=True)
         task = ilovepdf.new_task('compress')
         task.add_file(resultfile)
-        task.set_output_folder(filepath)
+        # task.set_output_folder(filepath)
         task.execute()
         task.download()
         
-        input("Compressed PDF File Download Done")
+        # input("Compressed PDF File Download Done")
         task.delete_current_task()
         # compressPdfDocument = ap.Document(os.path.join(filepath, "tmp.pdf"))
 
