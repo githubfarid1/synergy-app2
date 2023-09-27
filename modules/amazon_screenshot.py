@@ -77,7 +77,8 @@ def screenshot(list, chrome_data, filepath):
         for idx, value in enumerate(list[item]):
                 # print(idx)
                 # try:
-                driver.get("https://www.amazon.com/dp/{}".format(value['asin']))
+                url = "https://www.amazon.com/dp/{}".format(value['asin'])
+                driver.get(url)
                 filename = '{}_{}.png'.format(value['box'], str(idx+1))
 
                 # METHOD 1: screenshoot directly                
@@ -92,10 +93,14 @@ def screenshot(list, chrome_data, filepath):
                 page = pdf[math.floor(idx/2)]
                 if (idx % 2) == 0:
                     page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
+                    page.insert_text((520.2469787597656, 803.38037109375), str(item), color=fitz.utils.getColor("red"))
+                    page.insert_text((50, 30), url, color=fitz.utils.getColor("red"))
                 else:
                     page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
+                    page.insert_text((50, 390), url, color=fitz.utils.getColor("red"))
 
-                page.insert_text((520.2469787597656, 803.38037109375), str(item), color=fitz.utils.getColor("red"))
+
+                
                 # except:
                 #     print(value['asin'], "failed")
 
@@ -138,7 +143,7 @@ def join_pdfs(filepath):
         ilovepdf = ILovePdf(ilovepdf_public_key, verify_ssl=True)
         task = ilovepdf.new_task('compress')
         task.add_file(resultfile)
-        task.set_output_folder(".")
+        task.set_output_folder(filepath)
         task.execute()
         task.download()
         task.delete_current_task()
