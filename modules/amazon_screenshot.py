@@ -144,12 +144,12 @@ def join_pdfs(filepath):
         print("No pdf files was found:", filepath)
         return ""
 
-def pdf_compress(filepath):
+def pdf_compress(filepath, outputfolder):
         print("Compressing PDF File..", end=" ", flush=True)
         ilovepdf = ILovePdf(ilovepdf_public_key, verify_ssl=True)
         task = ilovepdf.new_task('compress')
-        task.set_output_folder("compressed")
         task.add_file(filepath)
+        task.set_output_folder(outputfolder)
         task.execute()
         time.sleep(2)
         task.download()
@@ -185,7 +185,7 @@ def main():
     screenshot(box_grouped, args.chromedata, args.pdfoutput)
     fileresult = join_pdfs(args.pdfoutput)
     if fileresult:
-        pdf_compress(filepath=fileresult)
+        pdf_compress(filepath=fileresult, outputfolder=args.pdfoutput)
     
     input("End Process..")    
 
