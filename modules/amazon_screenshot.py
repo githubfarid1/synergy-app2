@@ -20,6 +20,8 @@ import math
 from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 import time
 import glob
+from pylovepdf.ilovepdf import ILovePdf
+ilovepdf_public_key = "project_public_07fb2f104eed13a200b081a9aa6c3e9e_iB33k4a15e8ff325cc90217ab98feb961721d"
 
 logger = logging.getLogger()
 logger.setLevel(logging.NOTSET)
@@ -90,11 +92,10 @@ def screenshot(list, chrome_data, filepath):
                 page = pdf[math.floor(idx/2)]
                 if (idx % 2) == 0:
                     page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
-                    page.insert_text((520.2469787597656, 803.38037109375), str(item), color=fitz.utils.getColor("red"))
                 else:
                     page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
-                    page.insert_text((520.2469787597656, 803.38037109375), str(item), color=fitz.utils.getColor("red"))
 
+                page.insert_text((520.2469787597656, 803.38037109375), str(item), color=fitz.utils.getColor("red"))
                 # except:
                 #     print(value['asin'], "failed")
 
@@ -104,12 +105,15 @@ def screenshot(list, chrome_data, filepath):
         print("OK")
     [os.remove(os.path.join(filepath, file)) for file in os.listdir(filepath) if file.endswith('.png')]
 
+
 def join_pdfs(filepath):
     merger = PdfMerger()
     print("Merging PDF files in one PDF File..", end=" ", flush=True)
     time.sleep(1)
-    now = datetime.now()
-    fname = "{}_{}.pdf".format(now.strftime("%B %d"), "amazon_ss")
+    # now = datetime.now()
+    # fname = "{}_{}.pdf".format(now.strftime("%B %d"), "amazon_ss")
+    fname = "{}.pdf".format("amazon_ss")
+
     # pdfoutput_folder_combined = pdfoutput_folder # + file_delimeter + "combined"
     # tmpname = "{}{}{}.pdf".format(source_folder, file_delimeter, "tmp")
     # isExist = os.path.exists(tmpname)
@@ -130,6 +134,18 @@ def join_pdfs(filepath):
             merger.append(sortedfiles[file])
         merger.write(resultfile)
         print("Finished")
+        print("Compressing PDF File..", end=" ", flush=True)
+        ilovepdf = ILovePdf(ilovepdf_public_key, verify_ssl=True)
+        task = ilovepdf.new_task('compress')
+        task.add_file(resultfile)
+        task.set_output_folder(".")
+        task.execute()
+        task.download()
+        task.delete_current_task()
+        print("Compressed PDF File Download Done")
+
+        # compressPdfDocument = ap.Document(os.path.join(filepath, "tmp.pdf"))
+
         return resultfile
     else:
         print("No pdf files was found:", filepath)
