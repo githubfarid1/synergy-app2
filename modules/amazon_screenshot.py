@@ -150,6 +150,7 @@ def pdf_compress(filepath):
         task = ilovepdf.new_task('compress')
         task.set_output_folder(r"".join(filepath))
         task.execute()
+        time.sleep(2)
         task.download()
         time.sleep(2)
         task.delete_current_task()
