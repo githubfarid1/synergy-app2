@@ -1,7 +1,7 @@
 import os
 import argparse
 import sys
-from datetime import date, datetime, timedelta
+# from datetime import date, datetime, timedelta
 import logging
 import xlwings as xw
 from pathlib import Path
@@ -19,7 +19,7 @@ import math
 from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 import time
 import glob
-from pylovepdf.ilovepdf import ILovePdf
+from pylovepdf import ILovePdf
 ilovepdf_public_key = "project_public_07fb2f104eed13a200b081a9aa6c3e9e_iB33k4a15e8ff325cc90217ab98feb961721d"
 
 logger = logging.getLogger()
@@ -145,17 +145,17 @@ def join_pdfs(filepath):
         return ""
 
 def pdf_compress(filepath, outputfolder):
-        print("Compressing PDF File..", end=" ", flush=True)
-        ilovepdf = ILovePdf(ilovepdf_public_key, verify_ssl=True)
-        task = ilovepdf.new_task('compress')
-        task.add_file(filepath)
-        task.set_output_folder(outputfolder)
-        task.execute()
-        time.sleep(2)
-        task.download()
-        time.sleep(2)
-        task.delete_current_task()
-        print("Compressed PDF File Download Done")
+    print("Compressing PDF File..", end=" ", flush=True)
+    ilovepdf = ILovePdf(ilovepdf_public_key, verify_ssl=True)
+    task = ilovepdf.new_task('compress')
+    task.add_file(filepath)
+    task.set_output_folder(outputfolder)
+    task.execute()
+    task.download()
+    task.delete_current_task()
+    pdffiles = glob.glob(os.path.join(outputfolder, "*.pdf"))
+    os.rename(pdffiles[0], os.path.join(outputfolder, "pdf_compressed.pdf"))    
+    print("Compressed PDF File Download Done")
 
 def main():
     # clear_screan()
@@ -185,7 +185,7 @@ def main():
     screenshot(box_grouped, args.chromedata, args.pdfoutput)
     fileresult = join_pdfs(args.pdfoutput)
     if fileresult:
-        pdf_compress(filepath=fileresult, outputfolder=args.pdfoutput)
+        pdf_compress(filepath=fileresult, outputfolder= os.path.join(args.pdfoutput, "compressed"))
     
     input("End Process..")    
 
