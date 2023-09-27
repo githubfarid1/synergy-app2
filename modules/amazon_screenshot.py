@@ -146,9 +146,9 @@ def join_pdfs(filepath):
         task.set_output_folder(filepath)
         task.execute()
         task.download()
+        
+        input("Compressed PDF File Download Done")
         task.delete_current_task()
-        print("Compressed PDF File Download Done")
-
         # compressPdfDocument = ap.Document(os.path.join(filepath, "tmp.pdf"))
 
         return resultfile
