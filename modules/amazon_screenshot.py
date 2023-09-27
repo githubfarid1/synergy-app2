@@ -148,9 +148,10 @@ def pdf_compress(filepath):
         print("Compressing PDF File..", end=" ", flush=True)
         ilovepdf = ILovePdf(ilovepdf_public_key, verify_ssl=True)
         task = ilovepdf.new_task('compress')
-        task.set_output_folder('compressed')
+        task.set_output_folder(r"".join(filepath))
         task.execute()
         task.download()
+        time.sleep(2)
         task.delete_current_task()
         print("Compressed PDF File Download Done")
 
