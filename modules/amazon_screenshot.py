@@ -2,7 +2,6 @@ import os
 import argparse
 import sys
 from datetime import date, datetime, timedelta
-# import amazon_lib as lib
 import logging
 import xlwings as xw
 from pathlib import Path
@@ -76,33 +75,30 @@ def screenshot(list, chrome_data, filepath):
         pdf = fitz.open(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp")))
         for idx, value in enumerate(list[item]):
                 # print(idx)
-                # try:
-                url = "https://www.amazon.com/dp/{}".format(value['asin'])
-                driver.get(url)
-                filename = '{}_{}.png'.format(value['box'], str(idx+1))
+                try:
+                    url = "https://www.amazon.com/dp/{}".format(value['asin'])
+                    driver.get(url)
+                    filename = '{}_{}.png'.format(value['box'], str(idx+1))
 
-                # METHOD 1: screenshoot directly                
-                # filepathsave = os.path.join(filepath, filename)
-                # driver.save_screenshot(filename=filepathsave)
+                    # METHOD 1: screenshoot directly                
+                    # filepathsave = os.path.join(filepath, filename)
+                    # driver.save_screenshot(filename=filepathsave)
 
-                # METHOD 2: screenshoot by element                
-                element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
-                filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
-
-
-                page = pdf[math.floor(idx/2)]
-                if (idx % 2) == 0:
-                    page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
-                    page.insert_text((520.2469787597656, 803.38037109375), str(item), color=fitz.utils.getColor("red"))
-                    page.insert_text((50, 30), url, color=fitz.utils.getColor("blue"))
-                else:
-                    page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
-                    page.insert_text((50, 390), url, color=fitz.utils.getColor("blue"))
+                    # METHOD 2: screenshoot by element                
+                    element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
+                    filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 
 
-                
-                # except:
-                #     print(value['asin'], "failed")
+                    page = pdf[math.floor(idx/2)]
+                    if (idx % 2) == 0:
+                        page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
+                        page.insert_text((520.2469787597656, 803.38037109375), str(item), color=fitz.utils.getColor("red"))
+                        page.insert_text((50, 30), url, color=fitz.utils.getColor("blue"))
+                    else:
+                        page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
+                        page.insert_text((50, 390), url, color=fitz.utils.getColor("blue"))
+                except:
+                    print(value['asin'], "failed")
 
         pdf.save(os.path.join(filepath, "{}.pdf".format(item))) 
         pdf.close()
@@ -115,15 +111,8 @@ def join_pdfs(filepath):
     merger = PdfMerger()
     print("Merging PDF files in one PDF File..", end=" ", flush=True)
     time.sleep(1)
-    # now = datetime.now()
-    # fname = "{}_{}.pdf".format(now.strftime("%B %d"), "amazon_ss")
     fname = "{}.pdf".format("amazon_ss")
 
-    # pdfoutput_folder_combined = pdfoutput_folder # + file_delimeter + "combined"
-    # tmpname = "{}{}{}.pdf".format(source_folder, file_delimeter, "tmp")
-    # isExist = os.path.exists(tmpname)
-    # if isExist:
-    #     os.remove(tmpname)
     resultfile = os.path.join(filepath, fname) 
     pdffiles = glob.glob(r"".join(filepath) + "\\" + "*.pdf")
     if len(pdffiles) != 0:
@@ -139,22 +128,31 @@ def join_pdfs(filepath):
             merger.append(sortedfiles[file])
         merger.write(resultfile)
         print("Finished")
-        print("Compressing PDF File..", end=" ", flush=True)
-        ilovepdf = ILovePdf(ilovepdf_public_key, verify_ssl=True)
-        task = ilovepdf.new_task('compress')
-        task.add_file(resultfile)
+        # print("Compressing PDF File..", end=" ", flush=True)
+        # ilovepdf = ILovePdf(ilovepdf_public_key, verify_ssl=True)
+        # task = ilovepdf.new_task('compress')
+        # task.add_file(resultfile)
         # task.set_output_folder(filepath)
-        task.execute()
-        task.download()
+        # task.execute()
+        # task.download()
         
         # input("Compressed PDF File Download Done")
-        task.delete_current_task()
-        # compressPdfDocument = ap.Document(os.path.join(filepath, "tmp.pdf"))
+        # task.delete_current_task()
 
         return resultfile
     else:
         print("No pdf files was found:", filepath)
         return ""
+
+def pdf_compress(filepath):
+        print("Compressing PDF File..", end=" ", flush=True)
+        ilovepdf = ILovePdf(ilovepdf_public_key, verify_ssl=True)
+        task = ilovepdf.new_task('compress')
+        task.set_output_folder('compressed')
+        task.execute()
+        task.download()
+        task.delete_current_task()
+        print("Compressed PDF File Download Done")
 
 def main():
     # clear_screan()
@@ -182,7 +180,10 @@ def main():
     box_grouped = data_generator(xlsheet=xlsheet)
     createpdf(box_grouped, args.pdfoutput)
     screenshot(box_grouped, args.chromedata, args.pdfoutput)
-    join_pdfs(args.pdfoutput)
+    fileresult = join_pdfs(args.pdfoutput)
+    if fileresult:
+        pdf_compress(filepath=fileresult)
+    
     input("End Process..")    
 
 
