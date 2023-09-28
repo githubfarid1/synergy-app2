@@ -1,7 +1,6 @@
 import os
 import argparse
 import sys
-# from datetime import date, datetime, timedelta
 import logging
 import xlwings as xw
 from pathlib import Path
@@ -46,7 +45,7 @@ def data_generator(xlsheet):
             grouped_box[box].append(p)
         else:
             grouped_box[box] = [p]
-    return grouped_box        
+    return grouped_box
 
 def createpdf(list, filepath):
     for item in list.keys():
@@ -128,17 +127,6 @@ def join_pdfs(filepath):
             merger.append(sortedfiles[file])
         merger.write(resultfile)
         print("Finished")
-        # print("Compressing PDF File..", end=" ", flush=True)
-        # ilovepdf = ILovePdf(ilovepdf_public_key, verify_ssl=True)
-        # task = ilovepdf.new_task('compress')
-        # task.add_file(resultfile)
-        # task.set_output_folder(filepath)
-        # task.execute()
-        # task.download()
-        
-        # input("Compressed PDF File Download Done")
-        # task.delete_current_task()
-
         return resultfile
     else:
         print("No pdf files was found:", filepath)
