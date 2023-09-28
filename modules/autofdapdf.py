@@ -904,7 +904,7 @@ def main_experimental():
 
     maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
     xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
-    input(xlsdictall)
+    input(json.dumps(xlsdictall))
     xlsdictwcode = {}
     for idx, xls in xlsdictall.items():
         for data in xls['data']:
