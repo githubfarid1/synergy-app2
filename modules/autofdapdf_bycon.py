@@ -121,7 +121,7 @@ def webentry_update_individual(pdffile,  pdffolder, items):
         if rects == []:
             input("Item not found, Report to administrator")
             sys.exit()
-        pncode2s = page.get_text("blocks", clip=(POSX1CODE2, rects[0][1]-10, POSX2CODE2, rects[0][3]+10))
+        pncode2s = page.get_text("blocks", clip=(POSX1CODE2, rects[0][1]+10, POSX2CODE2, rects[0][3]+10))
         xlworksheet['A{}'.format(item[-1])].value = entry_id
         xlworksheet['X{}'.format(item[-1])].value = "'" + pncode2s[0][4].strip()
 
