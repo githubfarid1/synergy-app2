@@ -165,7 +165,7 @@ def browser_login(driver):
     loginurl = "https://www.access.fda.gov/oaa/logonFlow.htm?execution=e1s1"
     # driver = self.__driver
     driver.get(loginurl)
-    WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input[id='understand']")))
+    WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input[id='understand']")))
     driver.find_element(By.CSS_SELECTOR, "input[id='understand']").click()
     explicit_wait()
     driver.find_element(By.CSS_SELECTOR, "a[id='login']").click()
