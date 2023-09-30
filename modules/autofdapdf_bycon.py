@@ -388,7 +388,7 @@ def main():
             dl = {}
             dl['data'] = grouped_cons[item]
             dl['count'] = len(dl['data'])
-            input(json.dumps(dl))
+            # input(json.dumps(dl))
             fda_entry = FdaEntry(driver=driver, datalist=dl, datearrival=args.date, pdfoutput=complete_output_folder)
             try:
                 driver.find_element(By.CSS_SELECTOR, "img[alt='Create WebEntry Button']").click()
