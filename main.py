@@ -367,6 +367,7 @@ class MainFrame(ttk.Frame):
 		amazonpdfButton = FrameButton(self, window, text="Amazon PDF Extractor", class_frame=AmazonPdfFrame)
 		scrapeBySellerImagesButton = FrameButton(self, window, text="Amazon By Seller with Images", class_frame=ScrapeBySellerAmazonImagesFrame)
 		amazonScreenShot = FrameButton(self, window, text="Amazon ScreenShot", class_frame=AmazonScreenShotFrame)
+		fdaByConButton = FrameButton(self, window, text="FDA By Consignee", class_frame=FdaByConFrame)
 
 
 		# layout
@@ -396,7 +397,7 @@ class MainFrame(ttk.Frame):
 		amazonpdfButton.grid(column = 1, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
 		scrapeBySellerImagesButton.grid(column = 2, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
 		amazonScreenShot.grid(column = 0, row = 8, sticky=(W, E, N, S), padx=15, pady=5)
-
+		fdaByConButton.grid(column = 1, row = 8, sticky=(W, E, N, S), padx=15, pady=5)
 
 class PdfConvertFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -1458,6 +1459,65 @@ class AmazonScreenShotFrame(ttk.Frame):
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
 			run_module(comlist=[PYLOC, "modules/amazon_screenshot.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-output", pdffolder, "-cdata",  profileSelected.get()])
 
+class FdaByConFrame(ttk.Frame):
+	def __init__(self, window) -> None:
+		super().__init__(window)
+		# configure
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
+
+		self.columnconfigure(0, weight=1)
+		self.rowconfigure(0, weight=1)
+		self.rowconfigure(1, weight=1)
+		self.rowconfigure(2, weight=1)
+		self.rowconfigure(3, weight=1)
+		self.rowconfigure(4, weight=1)
+		self.rowconfigure(5, weight=1)
+		self.rowconfigure(6, weight=1)
+		self.rowconfigure(7, weight=1)
+
+
+		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		# populate
+		titleLabel = TitleLabel(self, text="FDA Entry By Consignee + PDF Generator")
+		closeButton = CloseButton(self)
+	
+		xlsInputFile = FileChooserFrame(self, btype="file", label="Select Input Excel File:", filetypes=(("Excel files", "*.xlsx *.xlsm"),("all files", "*.*")), sheetlist=sheetlist)
+
+		labeldate = Label(self, text="Anticipated Date Arrival:")
+		labelsname = Label(self, text="Sheet Name:")
+		# sheetName = Entry(self, width=45)
+		dateArrival = DateEntry(self, width= 20, date_pattern='mm/dd/yyyy')
+		
+		pdfFolder = FileChooserFrame(self, btype="folder", label="PDF output Folder:", filetypes=())
+		isrunindiviualvar = StringVar(value="yes")
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(input=xlsInputFile.filename, sheetname = sheetlist, datearrival=dateArrival, pdffolder=pdfFolder.filename, isrunindiviual=isrunindiviualvar.get()))
+
+		# layout
+		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
+		xlsInputFile.grid(column = 0, row = 1, sticky = (W,E))
+		labelsname.grid(column = 0, row = 2, sticky=(W))
+		# sheetName.grid(column = 0, row = 2, pady=10)
+		pdfFolder.grid(column = 0, row = 3, sticky = (W,E))
+		dateArrival.grid(column=0, row = 4)
+		labeldate.grid(column = 0, row = 4, sticky=(W))
+		runButton.grid(column = 0, row = 6, sticky = (E))
+		closeButton.grid(column = 0, row = 7, sticky = (E))
+		sheetlist.grid(column=0, row = 2, pady=10)
+		
+	def run_process(self, **kwargs):
+		if kwargs['input'] == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
+		elif kwargs['pdffolder'] == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the pdf folder')
+		elif kwargs['sheetname'].get() == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have filled the sheetname')
+		else:
+			pdffolder = kwargs['pdffolder']
+			if platform == "win32":
+				pdffolder = pdffolder.replace("/", "\\")
+			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed it.')
+			run_module(comlist=[PYLOC, "modules/autofdapdf_bycon.py", "-i", kwargs['input'], "-d", profileSelected.get(), "-s", kwargs['sheetname'].get(), "-dt", str(kwargs['datearrival'].get_date()), "-o", pdffolder])
 
 class CloseButton(ttk.Button):
 	def __init__(self, parent):
@@ -1479,11 +1539,12 @@ class TitleLabel(ttk.Label):
 		self.config(text=text, font=font_tuple, anchor="center")
 
 if __name__ == "__main__":
+	config = getConfig()
 	if platform == "linux" or platform == "linux2":
 		PYLOC = "python"
 	elif platform == "win32":
 		# PYLOC = "python.exe"
-		PYLOC = "C:\synergy-app2\synergy-venv\Scripts\python.exe"
+		PYLOC = config['python_location']
 
 	
 	isExist = os.path.exists("setting.json")
