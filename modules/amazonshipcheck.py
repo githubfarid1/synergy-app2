@@ -360,9 +360,6 @@ class AmazonShipmentCheck:
                 shadow_root = shadow_host.shadow_root
                 xlssku = item['id'].upper()
                 shadow_root.find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
-                breakpoint()
-
-                # self.driver.find_element(By.CSS_SELECTOR, "a[data-testid='search-input-link']")
                 searchinput = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
 
                 # self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").clear()
@@ -407,6 +404,7 @@ class AmazonShipmentCheck:
                 if individual.text.find('Individual units') == -1:
                     individual.click()
                     explicit_wait()
+                    breakpoint()
                     individual.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-name='Individual units']").click()
 
                 if cols[0].find_element(By.CSS_SELECTOR, "div[data-testid='sku-action-info'").text.find('Prep not required') == -1:
