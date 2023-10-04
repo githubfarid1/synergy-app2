@@ -322,11 +322,12 @@ class AmazonShipmentCheck:
                         # shadow_root = shadow_host.shadow_root
                         # shadow_root.find_element(By.CSS_SELECTOR, "kat-option[tabindex='-1'").click()
                         # input("p1")
-                        breakpoint()
-                        shadow_host = sel.find_element(By.CSS_SELECTOR, "kat-button.tile-selection-button")
-                        shadow_root = shadow_host.shadow_root
                         # breakpoint()
-                        shadow_root.find_element(By.CSS_SELECTOR, "button.button").click()
+                        shadow_host = sel.find_element(By.CSS_SELECTOR, "kat-button.tile-selection-button")
+                        shadow_host.click()
+                        # shadow_root = shadow_host.shadow_root
+                        # breakpoint()
+                        # shadow_root.find_element(By.CSS_SELECTOR, "button.button").click()
                         address_found = True
                         break
 
