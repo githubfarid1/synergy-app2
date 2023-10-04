@@ -312,7 +312,11 @@ class AmazonShipmentCheck:
                 for sel  in selects:
                     txt = sel.find_element(By.CSS_SELECTOR, "div[class='tile-address']").text
                     if txt.find(submitter) != -1 and txt.find(address) != -1:
-                        input("p1")
+                        input(txt.find(submitter))
+                        # shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")
+                        # shadow_root = shadow_host.shadow_root
+                        # shadow_root.find_element(By.CSS_SELECTOR, "kat-option[tabindex='-1'").click()
+
                         sel.find_element(By.CSS_SELECTOR, "button[class='secondary']").click()
                         address_found = True
                         break
