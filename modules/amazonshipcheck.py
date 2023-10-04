@@ -265,10 +265,12 @@ class AmazonShipmentCheck:
 
         explicit_wait()
         print('Checking Excel Data..')
-        button = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")))
-
+        #before
         # self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").click()
+        # after
+        button = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")))
         button.click()
+
         explicit_wait()
         # input("pause2")
         shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")
@@ -319,7 +321,7 @@ class AmazonShipmentCheck:
                         # shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")
                         # shadow_root = shadow_host.shadow_root
                         # shadow_root.find_element(By.CSS_SELECTOR, "kat-option[tabindex='-1'").click()
-
+                        input("p1")
                         sel.find_element(By.CSS_SELECTOR, "button[variant='secondary']").click()
                         address_found = True
                         break
