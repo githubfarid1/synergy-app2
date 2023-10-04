@@ -356,11 +356,12 @@ class AmazonShipmentCheck:
                 errorlist.append(errmsg)
 
             for idx2, item in enumerate(dlist['items']):
-                # breakpoint()
                 shadow_host = self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']")
                 shadow_root = shadow_host.shadow_root
                 xlssku = item['id'].upper()
                 shadow_root.find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
+                breakpoint()
+
                 searchinput = WebDriverWait(shadow_root, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
 
                 # self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").clear()
