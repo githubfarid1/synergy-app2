@@ -271,7 +271,7 @@ class AmazonShipmentCheck:
         input("pause2")
         shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")
         shadow_root = shadow_host.shadow_root
-        shadow_content = shadow_root.find_element(By.CSS_SELECTOR, "kat-option[tabindex='-1'")
+        shadow_root.find_element(By.CSS_SELECTOR, "kat-option[tabindex='-1'").click()
 
         # self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown'] kat-option[tabindex='-1' value='MSKU']")
         input("pause3")
