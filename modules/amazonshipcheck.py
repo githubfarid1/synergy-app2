@@ -269,8 +269,13 @@ class AmazonShipmentCheck:
         self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").click()
         explicit_wait()
         input("pause2")
-        self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown'] div[class='select-options']")
+        shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")
+        shadow_root = shadow_host.shadow_root
+        shadow_content = shadow_root.find_element(By.CSS_SELECTOR, "kat-option[tabindex='-1'")
+
+        # self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown'] kat-option[tabindex='-1' value='MSKU']")
         input("pause3")
+        # self.driver
 
         # self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-value='MSKU']").click()
         explicit_wait()
