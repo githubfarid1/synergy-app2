@@ -439,10 +439,16 @@ class AmazonShipmentCheck:
                         self.driver.find_element(By.CSS_SELECTOR, "kat-modal-footer[data-testid='modal-footer']").find_element(By.CSS_SELECTOR, "kat-button[data-testid='packing-template-save-button']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
                     except:
                         try:
-                            self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='prep-category-update-btn']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
+                            # self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='prep-category-update-btn']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
+                            shadow_host = self.driver.find_element(By.CSS_SELECTOR,"kat-button[data-testid='prep-category-update-btn']")
+                            shadow_root = shadow_host.shadow_root
+                            shadow_root.find_element(By.CSS_SELECTOR,"button.button").click()
                             explicit_wait()
-                            self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='packing-template-save-button']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
 
+                            # self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='packing-template-save-button']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
+                            shadow_host = self.driver.find_element(By.CSS_SELECTOR,"kat-button[data-testid='packing-template-save-button']")
+                            shadow_root = shadow_host.shadow_root
+                            shadow_root.find_element(By.CSS_SELECTOR,"button.button").click()
                         except:                        
                             pass
                 try:
