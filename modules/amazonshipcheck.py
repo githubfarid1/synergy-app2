@@ -265,9 +265,10 @@ class AmazonShipmentCheck:
 
         explicit_wait()
         print('Checking Excel Data..')
-        self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").click()
         input("pause")
+        self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").click()
         explicit_wait()
+        input("pause2")
         self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-value='MSKU']").click()
         explicit_wait()
         idxdel = []
