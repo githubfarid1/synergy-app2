@@ -362,7 +362,8 @@ class AmazonShipmentCheck:
                 shadow_root.find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
                 breakpoint()
 
-                searchinput = WebDriverWait(shadow_root, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
+                # self.driver.find_element(By.CSS_SELECTOR, "a[data-testid='search-input-link']")
+                searchinput = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
 
                 # self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").clear()
                 # xlssku = item['id'].upper()
