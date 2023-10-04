@@ -317,7 +317,7 @@ class AmazonShipmentCheck:
                         # shadow_root = shadow_host.shadow_root
                         # shadow_root.find_element(By.CSS_SELECTOR, "kat-option[tabindex='-1'").click()
 
-                        sel.find_element(By.CSS_SELECTOR, "button[class='secondary']").click()
+                        sel.find_element(By.CSS_SELECTOR, "button[variant='secondary']").click()
                         address_found = True
                         break
 
