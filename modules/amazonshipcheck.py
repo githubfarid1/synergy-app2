@@ -357,11 +357,19 @@ class AmazonShipmentCheck:
 
             for idx2, item in enumerate(dlist['items']):
                 breakpoint()
-                self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").clear()
+                shadow_host = self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']")
+                shadow_root = shadow_host.shadow_root
                 xlssku = item['id'].upper()
-                self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
+                shadow_root.find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
+                searchinput = WebDriverWait(shadow_root, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
+
+                # self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").clear()
+                # xlssku = item['id'].upper()
+                # self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
                 # explicit_wait()
-                searchinput = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
+                # searchinput = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
+
+
                 searchinput.click()
                 explicit_wait()
                 cols = self.driver.find_elements(By.CSS_SELECTOR, "div[data-testid='sku-row-information-details']")
