@@ -313,7 +313,7 @@ class AmazonShipmentCheck:
                 selects = self.driver.find_elements(By.CSS_SELECTOR, "div[class='address-tile']")
                 explicit_wait()
                 address_found = False
-                breakpoint()
+                # breakpoint()
                 for idx, sel  in enumerate(selects):
                     txt = sel.find_element(By.CSS_SELECTOR, "div[class='tile-address']").text
                     if txt.find(submitter) != -1 and txt.find(address) != -1:
