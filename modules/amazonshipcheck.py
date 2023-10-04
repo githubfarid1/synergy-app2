@@ -421,7 +421,7 @@ class AmazonShipmentCheck:
                 # breakpoint()
                 # input("pause")
                 if cols[0].find_element(By.CSS_SELECTOR, "div[data-testid='sku-action-info'").text.find('Prep not required') == -1:
-                    breakpoint()
+                    # breakpoint()
                     try:
                         try:
                             infoprep = cols[0].find_element(By.CSS_SELECTOR, "kat-link[data-testid='sku-action-info-prep-missing-link']")
