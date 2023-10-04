@@ -356,6 +356,7 @@ class AmazonShipmentCheck:
                 errorlist.append(errmsg)
 
             for idx2, item in enumerate(dlist['items']):
+                breakpoint()
                 self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").clear()
                 xlssku = item['id'].upper()
                 self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
