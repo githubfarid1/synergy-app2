@@ -369,7 +369,7 @@ class AmazonShipmentCheck:
                 # explicit_wait()
                 # searchinput = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
 
-
+                breakpoint()
                 searchinput.click()
                 explicit_wait()
                 cols = self.driver.find_elements(By.CSS_SELECTOR, "div[data-testid='sku-row-information-details']")
