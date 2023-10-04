@@ -314,7 +314,7 @@ class AmazonShipmentCheck:
                 explicit_wait()
                 address_found = False
                 breakpoint()
-                for sel  in selects:
+                for idx, sel  in enumerate(selects):
                     txt = sel.find_element(By.CSS_SELECTOR, "div[class='tile-address']").text
                     if txt.find(submitter) != -1 and txt.find(address) != -1:
                         # shadow_host = self.driver.find_element(By.
@@ -322,7 +322,7 @@ class AmazonShipmentCheck:
                         # shadow_root = shadow_host.shadow_root
                         # shadow_root.find_element(By.CSS_SELECTOR, "kat-option[tabindex='-1'").click()
                         # input("p1")
-                        # breakpoint()
+                        breakpoint()
                         shadow_host = sel.find_element(By.CSS_SELECTOR, "kat-modal[data-testid='modal-overlay']")
                         shadow_root = shadow_host.shadow_root
                         shadow_root.find_element(By.CSS_SELECTOR, "button[class='button' content").click()
