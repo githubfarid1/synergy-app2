@@ -605,27 +605,27 @@ def main():
     logger2.critical("###### Start ######")
     logger2.critical("Filename: {}".format(args.xlsinput))
     logger2.critical("Sheet Name:{}".format(args.sheetname))
-    maxrun = 10
-    for i in range(1, maxrun+1):
-        if i > 1:
-            print("Process will be reapeated")
-        try:    
-            shipment = AmazonShipmentCheck(xlsfile=args.xlsinput, sname=args.sheetname, profile=args.profile)
-            # print(shipment.datajson)
-            # raise
-            if len(shipment.datalist) == 0:
-                break
-            shipment.data_sanitizer()
+    # maxrun = 10
+    # for i in range(1, maxrun+1):
+    #     if i > 1:
+    #         print("Process will be reapeated")
+    #     try:    
+    shipment = AmazonShipmentCheck(xlsfile=args.xlsinput, sname=args.sheetname, profile=args.profile)
+    # print(shipment.datajson)
+    # raise
+    # if len(shipment.datalist) == 0:
+    #     break
+    shipment.data_sanitizer()
             
-        except Exception as e:
-            # exit()
-            logger.error(e)
-            print("There is an error, check logs/amazonship-err.log")
-            if i == maxrun:
-                logger.error("Execution Limit reached, Please check the script")
-            continue
+        # except Exception as e:
+        #     # exit()
+        #     logger.error(e)
+        #     print("There is an error, check logs/amazonship-err.log")
+        #     if i == maxrun:
+        #         logger.error("Execution Limit reached, Please check the script")
+        #     continue
         
-        break
+        # break
     # killAllChrome()
     print("Report File generated: {}".format (reportfilename))
     input("End Process..")    

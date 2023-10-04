@@ -265,6 +265,8 @@ def xls_data_generator(xlws, maxrow):
         wrow.append(i)
     return allData
 
+
+# TODO: SELALU REPLACE DATA. SEHARUSNYA HANYA YG BELUM SAJA 
 def main():
     parser = argparse.ArgumentParser(description="FDA Entry + PDF Extractor")
     parser.add_argument('-i', '--input', type=str,help="File Input")
