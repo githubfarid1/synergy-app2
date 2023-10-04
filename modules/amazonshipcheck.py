@@ -402,11 +402,13 @@ class AmazonShipmentCheck:
                     input(xlssku + " Not Found or internet error. Please check the SKU and run the script again!")
                     sys.exit()
 
-                breakpoint()
+                # breakpoint()
                 # if individual.text.find('Individual units') == -1:
                 # input("pause")
                 # if individual.find_element(By.CSS_SELECTOR, "kat-option[value='1']").get_attribute("aria-selected") == "false":
-                if individual.find_element(By.CSS_SELECTOR, "div.kat-select-container").get_attribute("title") != "Individual units":
+                shadow_host = self.driver.find_element(By.CSS_SELECTOR,"kat-dropdown[data-testid='packing-template-dropdown']")
+                shadow_root = shadow_host.shadow_root
+                if shadow_root.find_element(By.CSS_SELECTOR, "div.kat-select-container").get_attribute("title") != "Individual units":
                 
                     individual.click()
                     explicit_wait()
