@@ -359,6 +359,7 @@ class AmazonShipmentCheck:
                 shadow_host = self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']")
                 shadow_root = shadow_host.shadow_root
                 xlssku = item['id'].upper()
+                shadow_root.find_element(By.CSS_SELECTOR, "input").clear()
                 shadow_root.find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
                 searchinput = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
 
@@ -407,7 +408,6 @@ class AmazonShipmentCheck:
                     explicit_wait()
 
                     # shadow_root = individual.shadow_root
-                    input("p")
                     self.driver.find_element(By.CSS_SELECTOR, "kat-option[value='1']").click()
                     
                     # individual.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-name='Individual units']").click()
