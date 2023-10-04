@@ -407,6 +407,7 @@ class AmazonShipmentCheck:
                     explicit_wait()
 
                     # shadow_root = individual.shadow_root
+                    input("p")
                     self.driver.find_element(By.CSS_SELECTOR, "kat-option[value='1']").click()
                     
                     # individual.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-name='Individual units']").click()
