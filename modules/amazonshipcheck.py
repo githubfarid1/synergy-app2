@@ -405,13 +405,15 @@ class AmazonShipmentCheck:
                 # breakpoint()
                 # if individual.text.find('Individual units') == -1:
                 input("pause")
-                if individual.find_element(By.CSS_SELECTOR, "kat-option[value='1']").get_attribute("aria-selected") == "false":
+                # if individual.find_element(By.CSS_SELECTOR, "kat-option[value='1']").get_attribute("aria-selected") == "false":
+                if individual.find_element(By.CSS_SELECTOR, "div.kat-select-container").get_attribute("title") != "Individual units":
+                
                     individual.click()
                     explicit_wait()
 
                     # shadow_root = individual.shadow_root
                     
-                    individual.find_element(By.CSS_SELECTOR, "kat-option[value='1']").click()
+                    individual.find_element(By.CSS_SELECTOR, "kat-option[data-testid='packing-template-Individual-units']").click()
                     
                     # individual.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-name='Individual units']").click()
                 # breakpoint()
