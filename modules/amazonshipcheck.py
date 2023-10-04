@@ -265,17 +265,12 @@ class AmazonShipmentCheck:
 
         explicit_wait()
         print('Checking Excel Data..')
-        # input("pause")
         self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").click()
         explicit_wait()
         # input("pause2")
         shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")
         shadow_root = shadow_host.shadow_root
         shadow_root.find_element(By.CSS_SELECTOR, "kat-option[tabindex='-1'").click()
-
-        # self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown'] kat-option[tabindex='-1' value='MSKU']")
-        # input("pause3")
-        # self.driver
 
         # self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-value='MSKU']").click()
         explicit_wait()
@@ -317,7 +312,7 @@ class AmazonShipmentCheck:
                 for sel  in selects:
                     txt = sel.find_element(By.CSS_SELECTOR, "div[class='tile-address']").text
                     if txt.find(submitter) != -1 and txt.find(address) != -1:
-                        
+                        input("p1")
                         sel.find_element(By.CSS_SELECTOR, "button[class='secondary']").click()
                         address_found = True
                         break
