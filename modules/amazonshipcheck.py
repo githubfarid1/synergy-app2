@@ -413,7 +413,7 @@ class AmazonShipmentCheck:
                     individual.find_element(By.CSS_SELECTOR, "kat-option[value='1']").click()
                     
                     # individual.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-name='Individual units']").click()
-                breakpoint()
+                # breakpoint()
                 if cols[0].find_element(By.CSS_SELECTOR, "div[data-testid='sku-action-info'").text.find('Prep not required') == -1:
                     try:
                         try:
@@ -498,6 +498,7 @@ class AmazonShipmentCheck:
                     expiry = strexpiry
 
                 try:
+                    breakpoint()
                     inputexpiry = cols[0].find_element(By.CSS_SELECTOR, "kat-date-picker[id='expirationDatePicker']").find_element(By.CSS_SELECTOR, "input")
                     if inputexpiry.is_enabled():
                         inputexpiry.send_keys(expiry)
