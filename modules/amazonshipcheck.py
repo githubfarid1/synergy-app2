@@ -401,11 +401,15 @@ class AmazonShipmentCheck:
                     input(xlssku + " Not Found or internet error. Please check the SKU and run the script again!")
                     sys.exit()
 
-                breakpoint()
+                # breakpoint()
                 if individual.text.find('Individual units') == -1:
                     individual.click()
                     explicit_wait()
-                    individual.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-name='Individual units']").click()
+
+                    # shadow_root = individual.shadow_root
+                    self.driver.find_element(By.CSS_SELECTOR, "kat-option[value='1']").click()
+                    
+                    # individual.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-name='Individual units']").click()
 
                 if cols[0].find_element(By.CSS_SELECTOR, "div[data-testid='sku-action-info'").text.find('Prep not required') == -1:
                     try:
