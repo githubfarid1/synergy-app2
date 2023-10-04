@@ -265,7 +265,10 @@ class AmazonShipmentCheck:
 
         explicit_wait()
         print('Checking Excel Data..')
-        self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").click()
+        button = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")))
+
+        # self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").click()
+        button.click()
         explicit_wait()
         # input("pause2")
         shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")
