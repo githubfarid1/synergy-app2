@@ -369,7 +369,7 @@ class AmazonShipmentCheck:
                 # explicit_wait()
                 # searchinput = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
 
-                breakpoint()
+                # breakpoint()
                 searchinput.click()
                 explicit_wait()
                 cols = self.driver.find_elements(By.CSS_SELECTOR, "div[data-testid='sku-row-information-details']")
@@ -419,6 +419,7 @@ class AmazonShipmentCheck:
                     
                     # individual.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-name='Individual units']").click()
                 # breakpoint()
+                input("pause")
                 if cols[0].find_element(By.CSS_SELECTOR, "div[data-testid='sku-action-info'").text.find('Prep not required') == -1:
                     try:
                         try:
