@@ -402,7 +402,7 @@ class AmazonShipmentCheck:
                     input(xlssku + " Not Found or internet error. Please check the SKU and run the script again!")
                     sys.exit()
 
-                # breakpoint()
+                breakpoint()
                 if individual.text.find('Individual units') == -1:
                     individual.click()
                     explicit_wait()
