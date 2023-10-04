@@ -498,8 +498,8 @@ class AmazonShipmentCheck:
                     expiry = strexpiry
 
                 try:
-                    breakpoint()
-                    inputexpiry = cols[0].find_element(By.CSS_SELECTOR, "kat-date-picker[id='expirationDatePicker']").find_element(By.CSS_SELECTOR, "input")
+                    # breakpoint()
+                    inputexpiry = cols[0].find_element(By.CSS_SELECTOR, "kat-date-picker[id='expirationDatePicker']")
                     if inputexpiry.is_enabled():
                         inputexpiry.send_keys(expiry)
                         inputexpiry.send_keys(Keys.TAB)
