@@ -354,8 +354,8 @@ class AmazonShipment:
 
                 try:
                     # expiry = "{}/{}/{}".format(item['expiry'][5:7], item['expiry'][8:10],item['expiry'][0:4])
-                    breakpoint()
-                    inputexpiry = cols[0].find_element(By.CSS_SELECTOR, "kat-date-picker[id='expirationDatePicker']").find_element(By.CSS_SELECTOR, "input")
+                    # breakpoint()
+                    inputexpiry = cols[0].find_element(By.CSS_SELECTOR, "kat-date-picker[id='expirationDatePicker']")
                     if inputexpiry.is_enabled():
                         print(xlssku, "Input the date expired")
                         inputexpiry.send_keys(expiry)
