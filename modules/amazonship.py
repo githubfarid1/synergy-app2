@@ -315,8 +315,8 @@ class AmazonShipment:
 
                 explicit_wait()
                 print(xlssku, "Input the unit number")
-                breakpoint()
-                numunit = cols[0].find_element(By.CSS_SELECTOR, "kat-input[data-testid='sku-readiness-number-of-units-input']").find_element(By.CSS_SELECTOR, "input[name='numOfUnits']")
+                # breakpoint()
+                numunit = cols[0].find_element(By.CSS_SELECTOR, "kat-input[data-testid='sku-readiness-number-of-units-input']")
                 numunit.send_keys(item['total'])
 
                 explicit_wait()
