@@ -496,11 +496,12 @@ class AmazonShipment:
 
                 WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[id='skudetails']")))
                 explicit_wait()
-            breakpoint()
-            WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "kat-button[data-testid='confirm-and-continue'] button.primary")))
+            # breakpoint()
+            confirmwait = WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "kat-button[data-testid='confirm-and-continue']")))
             explicit_wait()
-            confirm = self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='confirm-and-continue'] button.primary")
-            confirm.click()
+            confirmwait.click()
+            # confirm = self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='confirm-and-continue'] button.primary")
+            # confirm.click()
             WebDriverWait(self.driver, 120).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='confirm-spd-shipping']")))
 
             print("input Send By Date, Shipping mode..")
@@ -511,8 +512,13 @@ class AmazonShipment:
             # breakpoint()
             while True:
                 try:
-                    dateinput = self.driver.find_element(By.CSS_SELECTOR, "kat-date-picker[id='sendByDatePicker']").find_element(By.CSS_SELECTOR, "input")
-                    dateinput.clear()
+                    # shadow_root.find_element(By.CSS_SELECTOR, "kat-option[tabindex='-1'").click()
+
+                    shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-date-picker[id='sendByDatePicker']")
+                    shadow_root = shadow_host.shadow_root
+
+                    dateinput = shadow_root.find_element(By.CSS_SELECTOR, "kat-input")
+                    # dateinput.clear()
                     break
                 except:
                     print("waiting elements ready..")
@@ -528,7 +534,7 @@ class AmazonShipment:
             explicit_wait()
             self.driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
             print(dlist['name'], 'Saving the Shipping data')
-            element = WebDriverWait(self.driver, 120).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "kat-button[data-testid='confirm-spd-shipping'] button.primary")))
+            element = WebDriverWait(self.driver, 120).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "kat-button[data-testid='confirm-spd-shipping']")))
             explicit_wait()
             element.click()
             print("Downloading PDF File to", self.download_folder)
