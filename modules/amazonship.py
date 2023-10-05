@@ -563,6 +563,7 @@ class AmazonShipment:
                 explicit_wait()
                 label.click()
                 explicit_wait()
+                breakpoint()
                 pdf.find_element(By.CSS_SELECTOR, "div[data-value='PackageLabel_Letter_2']").click()
                 time.sleep(1)
                 pdf.find_element(By.CSS_SELECTOR, "kat-button[data-testid='print-box-labels-button']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
