@@ -262,12 +262,22 @@ class AmazonShipment:
             # explicit_wait()
             for item in dlist['items']:
                 skutxtsearch = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-input[data-testid='search-input']")))
-                skutxtsearch.find_element(By.CSS_SELECTOR, "input").clear()
+                #new
+                shadow_host = self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']")
+                shadow_root = shadow_host.shadow_root
                 xlssku = item['id'].upper()
+                shadow_root.find_element(By.CSS_SELECTOR, "input").clear()
                 print('searching', xlssku, '..')
-                skutxtsearch.find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
-                explicit_wait()
-                self.driver.find_element(By.CSS_SELECTOR, "a[data-testid='search-input-link']").click()
+                shadow_root.find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
+                searchinput = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
+                searchinput.click()
+                #old
+                # skutxtsearch.find_element(By.CSS_SELECTOR, "input").clear()
+                # xlssku = item['id'].upper()
+                # print('searching', xlssku, '..')
+                # skutxtsearch.find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
+                # explicit_wait()
+                # self.driver.find_element(By.CSS_SELECTOR, "a[data-testid='search-input-link']").click()
                 WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='sku-row-information-details']")))
                 cols = self.driver.find_elements(By.CSS_SELECTOR, "div[data-testid='sku-row-information-details']")
                 trial = 0
