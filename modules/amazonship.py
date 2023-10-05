@@ -516,8 +516,8 @@ class AmazonShipment:
 
                     shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-date-picker[id='sendByDatePicker']")
                     shadow_root = shadow_host.shadow_root
-                    breakpoint()
-                    dateinput = shadow_root.find_element(By.CSS_SELECTOR, "kat-input")
+                    # breakpoint()
+                    dateinput = shadow_root.find_element(By.CSS_SELECTOR, "kat-input").shadow_root.find_element(By.CSS_SELECTOR, "input")
                     dateinput.clear()
                     break
                 except:
