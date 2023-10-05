@@ -233,8 +233,14 @@ class AmazonShipment:
                     txt = sel.find_element(By.CSS_SELECTOR, "div[class='tile-address']").text
                     # print(txt)
                     if txt.find(submitter) != -1 and txt.find(address) != -1:
-                        sel.find_element(By.CSS_SELECTOR, "button[class='secondary']").click()
+                        # sel.find_element(By.CSS_SELECTOR, "button[class='secondary']").click()
                         # input('pause')
+                        
+                        shadow_host = sel.find_element(By.CSS_SELECTOR, "kat-button.tile-selection-button")
+                        actions = ActionChains(self.driver)
+                        actions.move_to_element(shadow_host).perform()
+                        shadow_host.click()
+
                         break
                 explicit_wait()
                 defsubmitter = self.driver.find_element(By.CSS_SELECTOR, "div[class='textBlock-60ch break-words']").text
