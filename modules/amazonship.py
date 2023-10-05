@@ -1063,10 +1063,8 @@ def main_experimental():
 
     # print('OK')
     print('Opening the Source Excel File...', end="", flush=True)
-    try:
-        xlbook = xw.Book(args.xlsinput)
-    except:
-        pass
+    
+    xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
     
     print('OK')
