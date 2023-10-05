@@ -478,6 +478,7 @@ class AmazonShipment:
                     xchecks[idx].click()
                     
                 explicit_wait()
+                breakpoint()
                 waitme = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-modal-footer[data-testid='modal-footer']")))
                 WebDriverWait(waitme, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='modal-confirm-button']")))
 
