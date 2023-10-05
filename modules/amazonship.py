@@ -363,8 +363,9 @@ class AmazonShipment:
                         explicit_wait()
                         breakpoint()
                         wait = WebDriverWait(cols[0], 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='skureadiness-confirm-button']")))
-                        WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "button[class='primary']")))
-                        cols[0].find_element(By.CSS_SELECTOR, "kat-button[data-testid='skureadiness-confirm-button']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
+                        # WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "button[class='primary']")))
+                        # cols[0].find_element(By.CSS_SELECTOR, "kat-button[data-testid='skureadiness-confirm-button']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
+                        wait.click()
                 except:
                     pass
 
