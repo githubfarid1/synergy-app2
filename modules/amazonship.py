@@ -441,12 +441,13 @@ class AmazonShipment:
                     for item in dlist['items']:
                         txlssku = item['id'].strip().upper()
                         if tsku == txlssku:
-                            breakpoint()
-                            cinputs = col.find_element(By.CSS_SELECTOR, "div[class='sku-quantity-wrapper']").find_elements(By.CSS_SELECTOR, "div[class='kat-input-padding-bottom-0 sku-input-katal-box']")
+                            
+                            cinputs = col.find_element(By.CSS_SELECTOR, "div[class='sku-quantity-wrapper']").find_elements(By.CSS_SELECTOR, "div.sku-input-katal-box")
+                            
                             for idx, cinput in enumerate(cinputs):
-                                cinput.find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(item['boxes'][idx])
+                                cinput.find_element(By.CSS_SELECTOR, "kat-input[type='number']").send_keys(item['boxes'][idx])
 
-
+                breakpoint()
                 for i in range(0,len(dlist['dimensionboxes'])-1 ):
                     wait = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[class='bwd-add-dimension']")))
                     WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-link[data-testid='bwd-add-dimension-link']")))
