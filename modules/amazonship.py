@@ -465,8 +465,10 @@ class AmazonShipment:
                 bwdinput = self.driver.find_element(By.CSS_SELECTOR, "div[data-testid='bwd-input']") 
                 cinputs = bwdinput.find_element(By.CSS_SELECTOR, "div[data-testid='box-weight-row']").find_elements(By.CSS_SELECTOR, "div[data-testid='weight-input-box']")
                 for idx, cinput in enumerate(cinputs):
-                    breakpoint()
-                    cinput.find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(dlist['weightboxes'][idx])
+                    # breakpoint()
+                    # cinput.find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(dlist['weightboxes'][idx])
+                    cinput.find_element(By.CSS_SELECTOR, "kat-input").send_keys(dlist['weightboxes'][idx])
+
 
                 cinputs = bwdinput.find_elements(By.CSS_SELECTOR, "div[data-testid='bwd-input-child']")
                 
