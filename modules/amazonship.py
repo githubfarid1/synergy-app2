@@ -387,6 +387,7 @@ class AmazonShipment:
             # input("wait")
             print('Input box count, weight, dimension..')
             if dlist['boxcount'] == 1:
+                breakpoint()
                 WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-label[text='Everything will fit into one box']")))
                 self.driver.find_element(By.CSS_SELECTOR, "kat-label[text='Everything will fit into one box']").click()
                 explicit_wait()
