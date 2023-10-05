@@ -518,13 +518,13 @@ class AmazonShipment:
                     shadow_root = shadow_host.shadow_root
 
                     dateinput = shadow_root.find_element(By.CSS_SELECTOR, "kat-input")
-                    # dateinput.clear()
+                    dateinput.clear()
                     break
                 except:
                     print("waiting elements ready..")
                     time.sleep(2)
                     pass
-
+            # breakpoint()
             dateinput.send_keys(todays_str)
             explicit_wait()
             dateinput.send_keys(Keys.ESCAPE)
