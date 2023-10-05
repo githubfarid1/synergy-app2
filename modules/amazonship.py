@@ -544,8 +544,13 @@ class AmazonShipment:
             WebDriverWait(self.driver, 120).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "kat-button[data-testid='confirm-spd-shipping']")))
             shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='confirm-spd-shipping']")
             shadow_root = shadow_host.shadow_root
-            shadow_root.find_element(By.CSS_SELECTOR, "button.button").click() 
-            breakpoint()
+            while True:
+                time.sleep(1)
+                if shadow_root.find_element(By.CSS_SELECTOR, "button.button").is_enabled():
+                    break     
+            
+            shadow_root.find_element(By.CSS_SELECTOR, "button.button").click()
+            # breakpoint()
             print("Downloading PDF File to", self.download_folder)
             WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='send-to-tile-list-row']")))
             self.driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
