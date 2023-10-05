@@ -177,7 +177,7 @@ class AmazonShipment:
         
         url = "https://sellercentral.amazon.ca/fba/sendtoamazon?ref=fbacentral_nav_fba"
         self.driver.get(url)
-        input("")
+        # input("")
         print("Check SKU page ready... ", end="")
         try:
             WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='sku-list']")))
