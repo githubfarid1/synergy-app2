@@ -387,20 +387,30 @@ class AmazonShipment:
             # input("wait")
             print('Input box count, weight, dimension..')
             if dlist['boxcount'] == 1:
-                breakpoint()
-                WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-label[text='Everything will fit into one box']")))
-                self.driver.find_element(By.CSS_SELECTOR, "kat-label[text='Everything will fit into one box']").click()
+                # breakpoint()
+                # WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-label[text='Everything will fit into one box']")))
+                # self.driver.find_element(By.CSS_SELECTOR, "kat-label[text='Everything will fit into one box']").click()
+                wait = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-radiobutton[value='EVERYTHING_IN_A_BOX']")))
+                wait.click()
+
                 explicit_wait()
                 WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='cli-input-method-verify-button']")))
                 self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='cli-input-method-verify-button']").click()
                 WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='pack-group-cli-single-box-webform']")))
                 weight = dlist['weightboxes'][0]
                 dimension = dlist['dimensionboxes'][0].split("x")
-                self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-width-input']").find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(dimension[0])
-                self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-height-input']").find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(dimension[1])
-                self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-length-input']").find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(dimension[2])
+
+                # self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-width-input']").find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(dimension[0])
+                self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-width-input']").send_keys(dimension[0])
+                
+                # self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-height-input']").find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(dimension[1])
+                self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-height-input']").send_keys(dimension[1])
+                # self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-length-input']").find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(dimension[2])
+                self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-length-input']").send_keys(dimension[2])
                 explicit_wait()
-                self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-weight-input']").find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(weight)
+                # self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-weight-input']").find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(weight)
+                self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-single-box-weight-input']").send_keys(weight)
+
                 explicit_wait()
 
                 WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='cli-single-box-confirm-btn']")))
