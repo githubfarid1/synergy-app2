@@ -382,7 +382,7 @@ class AmazonShipment:
 
             explicit_wait()
             wait.click()
-            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='pack-group-controls']")))
+            WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='pack-group-controls']")))
             explicit_wait()
             # input("wait")
             print('Input box count, weight, dimension..')
