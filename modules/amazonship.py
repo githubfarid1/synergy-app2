@@ -447,7 +447,7 @@ class AmazonShipment:
                             for idx, cinput in enumerate(cinputs):
                                 cinput.find_element(By.CSS_SELECTOR, "kat-input[type='number']").send_keys(item['boxes'][idx])
 
-                breakpoint()
+                # breakpoint()
                 for i in range(0,len(dlist['dimensionboxes'])-1 ):
                     wait = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[class='bwd-add-dimension']")))
                     WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-link[data-testid='bwd-add-dimension-link']")))
@@ -481,7 +481,7 @@ class AmazonShipment:
                     xchecks[idx].click()
                     
                 explicit_wait()
-                # breakpoint()
+                breakpoint()
                 waitme = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-modal-footer[data-testid='modal-footer']")))
                 WebDriverWait(waitme, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='modal-confirm-button']")))
 
