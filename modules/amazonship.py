@@ -252,7 +252,13 @@ class AmazonShipment:
             skuoption = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")))
             skuoption.click()
             explicit_wait()
-            self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-value='MSKU']").click()
+
+            # self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']").find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-value='MSKU']").click()
+            shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='search-dropdown']")
+            shadow_root = shadow_host.shadow_root
+            shadow_root.find_element(By.CSS_SELECTOR, "kat-option[tabindex='-1'").click()
+
+
             # explicit_wait()
             for item in dlist['items']:
                 skutxtsearch = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-input[data-testid='search-input']")))
