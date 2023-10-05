@@ -533,7 +533,7 @@ class AmazonShipment:
             spd = WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='shipping-mode-box-spd']")))
             spd.click()
             explicit_wait()
-            breakpoint()
+            # breakpoint()
             self.driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
             print(dlist['name'], 'Saving the Shipping data')
             
