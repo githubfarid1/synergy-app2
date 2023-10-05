@@ -451,13 +451,15 @@ class AmazonShipment:
                     self.driver.find_element(By.CSS_SELECTOR, "div[class='bwd-add-dimension']").find_element(By.CSS_SELECTOR,"kat-link[data-testid='bwd-add-dimension-link']").click()
 
                 cinputs = self.driver.find_element(By.CSS_SELECTOR, "div[data-testid='box-dimensions-labels']").find_elements(By.CSS_SELECTOR, "div[data-testid='box-dimensions-label']")
+                # actions = ActionChains(self.driver)
                 for idx, cinput in enumerate(cinputs):
                     dimlist = dlist['dimensionboxes'][idx].split("x")
                     breakpoint()
-                    xinputs = cinput.find_elements(By.CSS_SELECTOR, "input[type='number']")
-                    xinputs[0].send_keys(dimlist[0])
-                    xinputs[1].send_keys(dimlist[1])
-                    xinputs[2].send_keys(dimlist[2])
+                    # xinputs = cinput.find_elements(By.CSS_SELECTOR, "input[type='number']")
+                    xinputs = cinput.find_elements(By.CSS_SELECTOR, "div[data-testid='dimensions-details-input']")
+                    xinputs[0].find_element(By.CSS_SELECTOR,"kat-input").send_keys(dimlist[0])
+                    xinputs[1].find_element(By.CSS_SELECTOR,"kat-input").send_keys(dimlist[1])
+                    xinputs[2].find_element(By.CSS_SELECTOR,"kat-input").send_keys(dimlist[2])
                     explicit_wait()
 
                 bwdinput = self.driver.find_element(By.CSS_SELECTOR, "div[data-testid='bwd-input']") 
