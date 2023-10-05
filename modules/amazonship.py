@@ -413,7 +413,7 @@ class AmazonShipment:
                     input(error)
                     sys.exit()
             else:
-                breakpoint()
+                # breakpoint()
                 # WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-label[text='Multiple boxes will be needed']")))
                 wait = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-radiobutton[value='MULTI_BOX_WEBFORM']")))
                 wait.click()
@@ -453,6 +453,7 @@ class AmazonShipment:
                 cinputs = self.driver.find_element(By.CSS_SELECTOR, "div[data-testid='box-dimensions-labels']").find_elements(By.CSS_SELECTOR, "div[data-testid='box-dimensions-label']")
                 for idx, cinput in enumerate(cinputs):
                     dimlist = dlist['dimensionboxes'][idx].split("x")
+                    breakpoint()
                     xinputs = cinput.find_elements(By.CSS_SELECTOR, "input[type='number']")
                     xinputs[0].send_keys(dimlist[0])
                     xinputs[1].send_keys(dimlist[1])
