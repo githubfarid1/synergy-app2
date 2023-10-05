@@ -413,6 +413,7 @@ class AmazonShipment:
                     input(error)
                     sys.exit()
             else:
+                breakpoint()
                 WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-label[text='Multiple boxes will be needed']")))
 
                 self.driver.find_element(By.CSS_SELECTOR, "kat-label[text='Multiple boxes will be needed']").click()
