@@ -765,7 +765,6 @@ class AmazonShipment:
             for ke, box in enumerate(boxes):
                 if ke == boxcount:
                     break
-                print(type(box), type(rowsearch))
                 shipmentlist[index]['weightboxes'].append(int(self.xlworksheet['{}{}'.format(box, rowsearch)].value)) #UP
 
             # get dimensionboxes
