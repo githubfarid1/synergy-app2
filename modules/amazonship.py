@@ -952,7 +952,10 @@ def main():
 
     print('OK')
     print('Opening the Source Excel File...', end="", flush=True)
-    xlbook = xw.Book(args.xlsinput)
+    try:
+        xlbook = xw.Book(args.xlsinput)
+    except:
+        pass
     xlsheet = xlbook.sheets[args.sheetname]
     
     print('OK')
