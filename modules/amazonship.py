@@ -419,7 +419,7 @@ class AmazonShipment:
                 wait.click()
                 # self.driver.find_element(By.CSS_SELECTOR, "kat-label[text='Multiple boxes will be needed']").click()
                 explicit_wait()
-
+                breakpoint()
                 WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='cli-input-method-verify-button']")))
 
                 self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='cli-input-method-verify-button']").click()
@@ -478,7 +478,7 @@ class AmazonShipment:
                     xchecks[idx].click()
                     
                 explicit_wait()
-                breakpoint()
+                # breakpoint()
                 waitme = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-modal-footer[data-testid='modal-footer']")))
                 WebDriverWait(waitme, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='modal-confirm-button']")))
 
