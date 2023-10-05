@@ -295,16 +295,25 @@ class AmazonShipment:
                             sys.exit()
                         pass
     
-                if individual.text.find('Individual units') == -1:
+                # if individual.text.find('Individual units') == -1:
+                    # individual.click()
+                    # explicit_wait()
+                    # wait = WebDriverWait(individual, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[class='select-options']")))
+                    # wait = WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[class='option-inner-container']")))
+                    # WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-name='Individual units']")))
+                    # individual.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-name='Individual units']").click()
+
+                shadow_host = self.driver.find_element(By.CSS_SELECTOR,"kat-dropdown[data-testid='packing-template-dropdown']")
+                shadow_root = shadow_host.shadow_root
+                
+                if shadow_root.find_element(By.CSS_SELECTOR, "div.kat-select-container").get_attribute("title") != "Individual units":
                     individual.click()
                     explicit_wait()
-                    wait = WebDriverWait(individual, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[class='select-options']")))
-                    wait = WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[class='option-inner-container']")))
-                    WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-name='Individual units']")))
+                    individual.find_element(By.CSS_SELECTOR, "kat-option[data-testid='packing-template-Individual-units']").click()
 
-                    individual.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-name='Individual units']").click()
+
+
                 explicit_wait()
-
                 print(xlssku, "Input the unit number")
                 numunit = cols[0].find_element(By.CSS_SELECTOR, "kat-input[data-testid='sku-readiness-number-of-units-input']").find_element(By.CSS_SELECTOR, "input[name='numOfUnits']")
                 numunit.send_keys(item['total'])
