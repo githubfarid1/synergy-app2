@@ -419,7 +419,6 @@ class AmazonShipment:
                 wait.click()
                 # self.driver.find_element(By.CSS_SELECTOR, "kat-label[text='Multiple boxes will be needed']").click()
                 explicit_wait()
-                breakpoint()
                 WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='cli-input-method-verify-button']")))
 
                 self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='cli-input-method-verify-button']").click()
@@ -432,6 +431,8 @@ class AmazonShipment:
                 # WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "button[class='secondary']")))                
                 self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='cli-multi-box-open-webform-btn']").click()
                 explicit_wait()
+
+                
                 cols = self.driver.find_element(By.CSS_SELECTOR, "div[data-testid='sku-quantity-inputs']").find_elements(By.CSS_SELECTOR, "div[class='flo-athens-border-bottom sku-input-child']")
                 # print(cols)
                 for col in cols:
@@ -440,6 +441,7 @@ class AmazonShipment:
                     for item in dlist['items']:
                         txlssku = item['id'].strip().upper()
                         if tsku == txlssku:
+                            breakpoint()
                             cinputs = col.find_element(By.CSS_SELECTOR, "div[class='sku-quantity-wrapper']").find_elements(By.CSS_SELECTOR, "div[class='kat-input-padding-bottom-0 sku-input-katal-box']")
                             for idx, cinput in enumerate(cinputs):
                                 cinput.find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(item['boxes'][idx])
