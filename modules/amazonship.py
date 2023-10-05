@@ -414,9 +414,10 @@ class AmazonShipment:
                     sys.exit()
             else:
                 breakpoint()
-                WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-label[text='Multiple boxes will be needed']")))
-
-                self.driver.find_element(By.CSS_SELECTOR, "kat-label[text='Multiple boxes will be needed']").click()
+                # WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-label[text='Multiple boxes will be needed']")))
+                wait = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-radiobutton[value='MULTI_BOX_WEBFORM']")))
+                wait.click()
+                # self.driver.find_element(By.CSS_SELECTOR, "kat-label[text='Multiple boxes will be needed']").click()
                 explicit_wait()
 
                 WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='cli-input-method-verify-button']")))
@@ -425,11 +426,11 @@ class AmazonShipment:
                 WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-input[data-testid='cli-multi-box-webform-intial-container-quantity-input']")))
                 explicit_wait()
                 # input("pause")
-                self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-multi-box-webform-intial-container-quantity-input']").find_element(By.CSS_SELECTOR, "input[type='number']").send_keys(dlist['boxcount'])
+                self.driver.find_element(By.CSS_SELECTOR, "kat-input[data-testid='cli-multi-box-webform-intial-container-quantity-input']").send_keys(dlist['boxcount'])
                 explicit_wait()
                 wait = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='cli-multi-box-open-webform-btn']")))
-                WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "button[class='secondary']")))                
-                self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='cli-multi-box-open-webform-btn']").find_element(By.CSS_SELECTOR, "button[class='secondary']").click()
+                # WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "button[class='secondary']")))                
+                self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='cli-multi-box-open-webform-btn']").click()
                 explicit_wait()
                 cols = self.driver.find_element(By.CSS_SELECTOR, "div[data-testid='sku-quantity-inputs']").find_elements(By.CSS_SELECTOR, "div[class='flo-athens-border-bottom sku-input-child']")
                 # print(cols)
