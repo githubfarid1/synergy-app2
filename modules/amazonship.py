@@ -499,11 +499,11 @@ class AmazonShipment:
                 waitme = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='modal-confirm-button']")))
 
                 waitme.click()
-                breakpoint()
+                # breakpoint()
                 try:
                     # belum check
                     WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-alert[data-testid='pack-group-cli-warning-results']")))
-                    self.driver.find_element(By.CSS_SELECTOR, "kat-button").find_element(By.CSS_SELECTOR, "kat-button[data-testid='modal-confirm-button']").click()
+                    self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='modal-confirm-button']").click()
                 except:
                     pass
 
