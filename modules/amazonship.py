@@ -378,7 +378,7 @@ class AmazonShipment:
             # breakpoint()
             self.driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
             # wait = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH , "//button[text()='Pack individual units']")))
-            wait = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR , "kat-button[label='Pack individual units']")))
+            wait = WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.CSS_SELECTOR , "kat-button[label='Pack individual units']")))
 
             explicit_wait()
             wait.click()
@@ -501,7 +501,6 @@ class AmazonShipment:
                 waitme.click()
                 # breakpoint()
                 try:
-                    # belum check
                     WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-alert[data-testid='pack-group-cli-warning-results']")))
                     self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='modal-confirm-button']").click()
                 except:
@@ -584,6 +583,7 @@ class AmazonShipment:
                 explicit_wait()
                 # breakpoint()
                 shadow_root = label.shadow_root
+                time.sleep(2)
                 shadow_root.find_element(By.CSS_SELECTOR, "kat-option[value='PackageLabel_Letter_2']").click()
                 time.sleep(1)
                 # pdf.find_element(By.CSS_SELECTOR, "div[data-value='PackageLabel_Letter_2']").click()
