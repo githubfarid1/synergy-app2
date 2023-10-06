@@ -356,7 +356,7 @@ class AmazonShipment:
 
                 try:
                     # expiry = "{}/{}/{}".format(item['expiry'][5:7], item['expiry'][8:10],item['expiry'][0:4])
-                    breakpoint()
+                    # breakpoint()
                     inputexpiry = cols[0].find_element(By.CSS_SELECTOR, "kat-date-picker[id='expirationDatePicker']")
                     if inputexpiry.is_enabled():
                         print(xlssku, "Input the date expired")
@@ -376,7 +376,8 @@ class AmazonShipment:
                     #     except:
                     #         pass
                 except:
-                    pass
+                    wait = WebDriverWait(cols[0], 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='skureadiness-confirm-button']")))
+                    wait.click()
 
 
             print(dlist['name'], 'Packaging..')
