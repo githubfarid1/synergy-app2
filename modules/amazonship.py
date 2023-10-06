@@ -365,9 +365,16 @@ class AmazonShipment:
                         explicit_wait()
                         # breakpoint()
                         wait = WebDriverWait(cols[0], 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='skureadiness-confirm-button']")))
+
                         # WebDriverWait(wait, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "button[class='primary']")))
                         # cols[0].find_element(By.CSS_SELECTOR, "kat-button[data-testid='skureadiness-confirm-button']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
                         wait.click()
+                    else:
+                        try:
+                            wait = WebDriverWait(cols[0], 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='skureadiness-confirm-button']")))
+                            wait.click()
+                        except:
+                            pass
                 except:
                     pass
 
@@ -378,7 +385,9 @@ class AmazonShipment:
             # breakpoint()
             self.driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
             # wait = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH , "//button[text()='Pack individual units']")))
-            breakpoint()
+            # breakpoint()
+
+            # self.driver.find_element(By.CSS_SELECTOR , "kat-button[label='Pack individual units']")
             wait = WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.CSS_SELECTOR , "kat-button[label='Pack individual units']")))
 
             explicit_wait()
