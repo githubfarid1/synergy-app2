@@ -512,7 +512,12 @@ class AmazonShipment:
             # breakpoint()
             confirmwait = WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "kat-button[data-testid='confirm-and-continue']")))
             explicit_wait()
-            confirmwait.click()
+            while True:
+                try:
+                    confirmwait.click()
+                    break
+                except:
+                    print("wait the element ready")
             # confirm = self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='confirm-and-continue'] button.primary")
             # confirm.click()
             WebDriverWait(self.driver, 120).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-button[data-testid='confirm-spd-shipping']")))
