@@ -503,16 +503,18 @@ class AmazonShipment:
                 try:
                     # belum check
                     WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "kat-alert[data-testid='pack-group-cli-warning-results']")))
-                    self.driver.find_element(By.CSS_SELECTOR, "kat-modal-footer[data-testid='modal-footer']").find_element(By.CSS_SELECTOR, "kat-button[data-testid='modal-confirm-button']").click()
+                    self.driver.find_element(By.CSS_SELECTOR, "kat-button").find_element(By.CSS_SELECTOR, "kat-button[data-testid='modal-confirm-button']").click()
                 except:
                     pass
 
                 WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[id='skudetails']")))
                 explicit_wait()
             # breakpoint()
+            time.sleep(2)
             confirmwait = WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "kat-button[data-testid='confirm-and-continue']")))
             explicit_wait()
             while True:
+                time.sleep(1)
                 try:
                     confirmwait.click()
                     break
