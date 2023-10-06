@@ -378,6 +378,7 @@ class AmazonShipment:
             # breakpoint()
             self.driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
             # wait = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH , "//button[text()='Pack individual units']")))
+            breakpoint()
             wait = WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.CSS_SELECTOR , "kat-button[label='Pack individual units']")))
 
             explicit_wait()
