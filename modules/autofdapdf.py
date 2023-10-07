@@ -904,7 +904,7 @@ def main_experimental():
 
     maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
     xlsdictall = xls_data_generator(xlws=xlsheet, maxrow=maxrow)
-    breakpoint()
+    # breakpoint()
     # input(json.dumps(xlsdictall))
     xlsdictwcode = {}
     for idx, xls in xlsdictall.items():
@@ -912,7 +912,7 @@ def main_experimental():
             if data[20] == 'None':
                 xlsdictwcode[idx] = xls
                 break
-    breakpoint()
+    # breakpoint()
     for xlsdata in xlsdictwcode.values():
         try:
             driver.close()
