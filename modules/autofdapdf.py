@@ -1022,6 +1022,6 @@ def main_experimental():
             folder = filename[:-4]
             deltree(folder)
         input("data generating completed...")
-
+    print(complete_output_folder)
 if __name__ == '__main__':
     main_experimental()
