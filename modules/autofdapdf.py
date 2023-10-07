@@ -912,6 +912,7 @@ def main_experimental():
             if data[20] == 'None':
                 xlsdictwcode[idx] = xls
                 break
+    breakpoint()
     for xlsdata in xlsdictwcode.values():
         try:
             driver.close()
