@@ -1023,7 +1023,7 @@ def main_experimental():
             deltree(folder)
         input("data generating completed...")
     tmpfile = os.path.join(complete_output_folder, "tmp.pdf")
-    if os.path.isExist(tmpfile):
+    if os.path.exists(tmpfile):
         os.remove(tmpfile)
 if __name__ == '__main__':
     main_experimental()
