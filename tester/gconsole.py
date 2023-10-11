@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import warnings
 from selenium.webdriver.common.action_chains import ActionChains
 import os
-
+import time
 def browser_init():
     warnings.filterwarnings("ignore", category=UserWarning)
     options = webdriver.ChromeOptions()
@@ -34,6 +34,7 @@ driver = browser_init()
 url = "https://search.google.com/search-console?utm_source=about-page&resource_id=sc-domain:snowbirdsweets.ca"
 driver.get(url)
 # button = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-text='Performance']")))
+time.sleep(1)
 driver.find_element(By.CSS_SELECTOR, "div[data-text='Performance']").click()
 driver.find_element(By.CSS_SELECTOR, "div.c3pUr > div.OTrxGf > span[class='DPvwYc bquM9e']").click()
 driver.find_element(By.CSS_SELECTOR, "div#DARUcf").click()
