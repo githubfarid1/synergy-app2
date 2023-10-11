@@ -34,41 +34,46 @@ driver = browser_init()
 url = "https://search.google.com/search-console?utm_source=about-page&resource_id=sc-domain:snowbirdsweets.ca"
 driver.get(url)
 # button = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-text='Performance']")))
+
 time.sleep(1)
 driver.find_element(By.CSS_SELECTOR, "div[data-text='Performance']").click()
 time.sleep(1)
+blogurls = ['https://snowbirdsweets.ca/blogs/news/ultimate-ranking-of-canadas-favorite-ketchup-chips', 
+            'https://snowbirdsweets.ca/blogs/news/top-10-canadian-exclusive-snacks-2',
+            'https://snowbirdsweets.ca/blogs/news/maple-cookies'
+]
 
-driver.find_element(By.CSS_SELECTOR, "div.c3pUr > div.OTrxGf > span[class='DPvwYc bquM9e']").click()
-time.sleep(1)
+for blogurl in blogurls:
+    driver.find_element(By.CSS_SELECTOR, "div.c3pUr > div.OTrxGf > span[class='DPvwYc bquM9e']").click()
+    time.sleep(1)
 
-driver.find_element(By.CSS_SELECTOR, "div#DARUcf").click()
-time.sleep(1)
+    driver.find_element(By.CSS_SELECTOR, "div#DARUcf").click()
+    time.sleep(1)
 
 
-el = driver.find_element(By.CSS_SELECTOR, "input[class='whsOnd zHQkBf']")
-actions = ActionChains(driver)
-blogurls = ['https://snowbirdsweets.ca/blogs/news/ultimate-ranking-of-canadas-favorite-ketchup-chips']
-actions.send_keys(blogurls[0])
-time.sleep(1)
-actions.move_to_element(el).perform()
-time.sleep(1)
-driver.find_elements(By.CSS_SELECTOR, 'div[data-id="EBS5u"]')[1].click()    
-time.sleep(3)
+    el = driver.find_element(By.CSS_SELECTOR, "input[class='whsOnd zHQkBf']")
+    actions = ActionChains(driver)
+    actions.send_keys(blogurl)
+    time.sleep(1)
+    actions.move_to_element(el).perform()
+    time.sleep(1)
+    driver.find_elements(By.CSS_SELECTOR, 'div[data-id="EBS5u"]')[1].click()    
+    time.sleep(3)
 
-driver.find_elements(By.CSS_SELECTOR, 'div.ak1sAb')[1].find_elements(By.CSS_SELECTOR, 'div.OTrxGf')[1].click()
+    driver.find_elements(By.CSS_SELECTOR, 'div.ak1sAb')[1].find_elements(By.CSS_SELECTOR, 'div.OTrxGf')[1].click()
 
-time.sleep(1)
+    time.sleep(1)
 
-driver.find_element(By.CSS_SELECTOR, 'div[data-value="EuPEfe"]').click()
+    driver.find_element(By.CSS_SELECTOR, 'div[data-value="EuPEfe"]').click()
 
-time.sleep(1)
-driver.find_elements(By.CSS_SELECTOR, 'div[data-id="EBS5u"]')[-1].click()
-# breakpoint()
+    time.sleep(1)
+    driver.find_elements(By.CSS_SELECTOR, 'div[data-id="EBS5u"]')[-1].click()
+    # breakpoint()
 
-time.sleep(3)
-v1 = driver.find_elements(By.CSS_SELECTOR, 'div[data-column-index="0"]')[-1].find_element(By.CSS_SELECTOR, 'div[class="nnLLaf vtZz6e"]').text
-v2 = driver.find_elements(By.CSS_SELECTOR, 'div[data-column-index="1"]')[-1].find_element(By.CSS_SELECTOR, 'div[class="nnLLaf vtZz6e"]').text
-v3 = driver.find_elements(By.CSS_SELECTOR, 'div[jsname="WKVttf"]')[-1].find_element(By.CSS_SELECTOR, 'span.UwdJ1c').text.split('of')[-1].strip()
-print(v1, v2, v3)
+    time.sleep(3)
+    v1 = driver.find_elements(By.CSS_SELECTOR, 'div[data-column-index="0"]')[-1].find_element(By.CSS_SELECTOR, 'div[class="nnLLaf vtZz6e"]').text
+    v2 = driver.find_elements(By.CSS_SELECTOR, 'div[data-column-index="1"]')[-1].find_element(By.CSS_SELECTOR, 'div[class="nnLLaf vtZz6e"]').text
+    v3 = driver.find_elements(By.CSS_SELECTOR, 'div[jsname="WKVttf"]')[-1].find_element(By.CSS_SELECTOR, 'span.UwdJ1c').text.split('of')[-1].strip()
+    print(v1, v2, v3)
 input("")
 
