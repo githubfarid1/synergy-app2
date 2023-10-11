@@ -36,6 +36,8 @@ driver.get(url)
 # button = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-text='Performance']")))
 time.sleep(1)
 driver.find_element(By.CSS_SELECTOR, "div[data-text='Performance']").click()
+time.sleep(1)
+
 driver.find_element(By.CSS_SELECTOR, "div.c3pUr > div.OTrxGf > span[class='DPvwYc bquM9e']").click()
 driver.find_element(By.CSS_SELECTOR, "div#DARUcf").click()
 
