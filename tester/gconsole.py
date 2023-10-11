@@ -1,28 +1,11 @@
-import argparse
-import sys
-from sys import platform
-import os
-import shutil
-import time
-import fitz
-import unicodedata as ud
-import uuid
-import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import warnings
-from random import randint
-import glob
-import string
-from datetime import date, datetime
-import json
-import xlwings as xw
-import logging
-from pathvalidate import sanitize_filename
-
+from selenium.webdriver.common.action_chains import ActionChains
+import os
 
 def browser_init():
     warnings.filterwarnings("ignore", category=UserWarning)
@@ -47,11 +30,26 @@ def browser_init():
     return webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 
 
-def main():
-    driver = browser_init()
-    url = "https://search.google.com/search-console?utm_source=about-page&resource_id=sc-domain:snowbirdsweets.ca"
-    driver.get(url)
-    input("")
+driver = browser_init()
+url = "https://search.google.com/search-console?utm_source=about-page&resource_id=sc-domain:snowbirdsweets.ca"
+driver.get(url)
+# button = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-text='Performance']")))
+driver.find_element(By.CSS_SELECTOR, "div[data-text='Performance']").click()
+driver.find_element(By.CSS_SELECTOR, "div.c3pUr > div.OTrxGf > span[class='DPvwYc bquM9e']").click()
+driver.find_element(By.CSS_SELECTOR, "div#DARUcf").click()
 
-if __name__ == '__main__':
-    main()
+el = driver.find_element(By.CSS_SELECTOR, "input[class='whsOnd zHQkBf']")
+actions = ActionChains(driver)
+blogurls = ['https://snowbirdsweets.ca/blogs/news/ultimate-ranking-of-canadas-favorite-ketchup-chips']
+actions.send_keys(blogurls[0])
+actions.move_to_element(el).perform()
+driver.find_elements(By.CSS_SELECTOR, 'div[data-id="EBS5u"]')[1].click()    
+driver.find_elements(By.CSS_SELECTOR, 'div.ak1sAb')[1].find_elements(By.CSS_SELECTOR, 'div.OTrxGf')[1].click()
+driver.find_element(By.CSS_SELECTOR, 'div[data-value="EuPEfe"]').click()
+driver.find_elements(By.CSS_SELECTOR, 'div[data-id="EBS5u"]')[1].click()
+v1 = driver.find_elements(By.CSS_SELECTOR, 'div[data-column-index="0"]')[-1].find_element(By.CSS_SELECTOR, 'div[class="nnLLaf vtZz6e"]').text
+v2 = driver.find_elements(By.CSS_SELECTOR, 'div[data-column-index="1"]')[-1].find_element(By.CSS_SELECTOR, 'div[class="nnLLaf vtZz6e"]').text
+v3 = driver.find_elements(By.CSS_SELECTOR, 'div[jsname="WKVttf"]')[-1].find_element(By.CSS_SELECTOR, 'span.UwdJ1c').text.split('of')[-1].strip()
+
+input("")
+
