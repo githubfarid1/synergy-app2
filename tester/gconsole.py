@@ -39,13 +39,19 @@ driver.find_element(By.CSS_SELECTOR, "div[data-text='Performance']").click()
 time.sleep(1)
 
 driver.find_element(By.CSS_SELECTOR, "div.c3pUr > div.OTrxGf > span[class='DPvwYc bquM9e']").click()
+time.sleep(1)
+
 driver.find_element(By.CSS_SELECTOR, "div#DARUcf").click()
+time.sleep(1)
+
 
 el = driver.find_element(By.CSS_SELECTOR, "input[class='whsOnd zHQkBf']")
 actions = ActionChains(driver)
 blogurls = ['https://snowbirdsweets.ca/blogs/news/ultimate-ranking-of-canadas-favorite-ketchup-chips']
 actions.send_keys(blogurls[0])
+time.sleep(1)
 actions.move_to_element(el).perform()
+time.sleep(1)
 driver.find_elements(By.CSS_SELECTOR, 'div[data-id="EBS5u"]')[1].click()    
 driver.find_elements(By.CSS_SELECTOR, 'div.ak1sAb')[1].find_elements(By.CSS_SELECTOR, 'div.OTrxGf')[1].click()
 driver.find_element(By.CSS_SELECTOR, 'div[data-value="EuPEfe"]').click()
