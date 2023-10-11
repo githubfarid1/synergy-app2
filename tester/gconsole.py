@@ -53,12 +53,19 @@ time.sleep(1)
 actions.move_to_element(el).perform()
 time.sleep(1)
 driver.find_elements(By.CSS_SELECTOR, 'div[data-id="EBS5u"]')[1].click()    
+# time.sleep(2)
+breakpoint()
+
 driver.find_elements(By.CSS_SELECTOR, 'div.ak1sAb')[1].find_elements(By.CSS_SELECTOR, 'div.OTrxGf')[1].click()
+time.sleep(1)
+
 driver.find_element(By.CSS_SELECTOR, 'div[data-value="EuPEfe"]').click()
-driver.find_elements(By.CSS_SELECTOR, 'div[data-id="EBS5u"]')[1].click()
+time.sleep(2)
+driver.find_elements(By.CSS_SELECTOR, 'div[data-id="EBS5u"]')[-1].click()
+time.sleep(1)
 v1 = driver.find_elements(By.CSS_SELECTOR, 'div[data-column-index="0"]')[-1].find_element(By.CSS_SELECTOR, 'div[class="nnLLaf vtZz6e"]').text
 v2 = driver.find_elements(By.CSS_SELECTOR, 'div[data-column-index="1"]')[-1].find_element(By.CSS_SELECTOR, 'div[class="nnLLaf vtZz6e"]').text
 v3 = driver.find_elements(By.CSS_SELECTOR, 'div[jsname="WKVttf"]')[-1].find_element(By.CSS_SELECTOR, 'span.UwdJ1c').text.split('of')[-1].strip()
-
+print(v1, v2, v3)
 input("")
 
