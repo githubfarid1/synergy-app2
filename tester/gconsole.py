@@ -53,10 +53,11 @@ time.sleep(1)
 actions.move_to_element(el).perform()
 time.sleep(1)
 driver.find_elements(By.CSS_SELECTOR, 'div[data-id="EBS5u"]')[1].click()    
-# time.sleep(2)
-breakpoint()
+time.sleep(3)
 
 driver.find_elements(By.CSS_SELECTOR, 'div.ak1sAb')[1].find_elements(By.CSS_SELECTOR, 'div.OTrxGf')[1].click()
+breakpoint()
+
 # time.sleep(1)
 
 driver.find_element(By.CSS_SELECTOR, 'div[data-value="EuPEfe"]').click()
