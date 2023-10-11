@@ -44,6 +44,7 @@ blogurls = ['https://snowbirdsweets.ca/blogs/news/ultimate-ranking-of-canadas-fa
 ]
 
 for blogurl in blogurls:
+    breakpoint()
     driver.find_element(By.CSS_SELECTOR, "div.c3pUr > div.OTrxGf > span[class='DPvwYc bquM9e']").click()
     time.sleep(1)
 
