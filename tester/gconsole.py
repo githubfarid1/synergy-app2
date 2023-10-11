@@ -36,7 +36,7 @@ driver.get(url)
 # button = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-text='Performance']")))
 
 time.sleep(1)
-driver.find_element(By.CSS_SELECTOR, "div[data-text='Performance']").click()
+driver.find_element(By.CSS_SELECTOR, 'div[data-text="Performance"]').click()
 time.sleep(1)
 blogurls = ['https://snowbirdsweets.ca/blogs/news/ultimate-ranking-of-canadas-favorite-ketchup-chips', 
             'https://snowbirdsweets.ca/blogs/news/top-10-canadian-exclusive-snacks-2',
@@ -44,8 +44,8 @@ blogurls = ['https://snowbirdsweets.ca/blogs/news/ultimate-ranking-of-canadas-fa
 ]
 
 for blogurl in blogurls:
-    breakpoint()
-    driver.find_element(By.CSS_SELECTOR, "div.c3pUr > div.OTrxGf > span[class='DPvwYc bquM9e']").click()
+    # breakpoint()
+    driver.find_elements(By.CSS_SELECTOR, 'div.c3pUr > div.OTrxGf > span[class="DPvwYc bquM9e"]')[-1].click()
     time.sleep(1)
 
     driver.find_element(By.CSS_SELECTOR, "div#DARUcf").click()
