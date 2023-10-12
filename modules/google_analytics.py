@@ -38,8 +38,8 @@ def parse(xlsheet, profile):
     maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
     for rownum in range(2, maxrow + 1):
         blogurl = xlsheet[f'B{rownum}'].value
-        print(blogurl, end=" ... ", flush=True)
-        
+        if blogurl == '':
+            break
         driver = browser_init(profilename=profile)
         url = "https://search.google.com/search-console/performance/search-analytics?resource_id=sc-domain:snowbirdsweets.ca"
         driver.get(url)
@@ -50,7 +50,7 @@ def parse(xlsheet, profile):
 
         driver.find_elements(By.CSS_SELECTOR, "div#DARUcf")[-1].click()
         time.sleep(1)
-
+        print(blogurl[0:50], end=" ... ", flush=True)
         el = driver.find_element(By.CSS_SELECTOR, "input[class='whsOnd zHQkBf']")
         actions = ActionChains(driver)
         actions.move_to_element(el)
