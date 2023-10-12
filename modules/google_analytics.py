@@ -36,7 +36,7 @@ def browser_init(profilename):
 
 def parse(xlsheet, profile):
     maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
-    for rownum in range(1, maxrow + 2):
+    for rownum in range(2, maxrow + 2):
         blogurl = xlsheet[f'B{rownum}'].value
         driver = browser_init(profilename=profile)
         url = "https://search.google.com/search-console/performance/search-analytics?resource_id=sc-domain:snowbirdsweets.ca"
@@ -78,7 +78,8 @@ def parse(xlsheet, profile):
         v3 = "0" if v1 == "" else v3
         xlsheet[f'D{rownum}'].value = v1        
         xlsheet[f'E{rownum}'].value = v2        
-        xlsheet[f'F{rownum}'].value = v3        
+        xlsheet[f'F{rownum}'].value = v3
+        driver.quit()      
         
 
 def main():
