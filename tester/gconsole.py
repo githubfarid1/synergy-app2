@@ -64,13 +64,16 @@ blogurls = [
 
 for blogurl in blogurls:
     driver = browser_init()
-    url = "https://search.google.com/search-console?utm_source=about-page&resource_id=sc-domain:snowbirdsweets.ca"
+    # url = "https://search.google.com/search-console?utm_source=about-page&resource_id=sc-domain:snowbirdsweets.ca"
+    # driver.get(url)
+    # time.sleep(1)
+    # driver.find_element(By.CSS_SELECTOR, 'div[data-text="Performance"]').click()
+    # time.sleep(2)
+    
+    url = "https://search.google.com/search-console/performance/search-analytics?resource_id=sc-domain:snowbirdsweets.ca"
     driver.get(url)
-    # button = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-text='Performance']")))
-
     time.sleep(1)
-    driver.find_element(By.CSS_SELECTOR, 'div[data-text="Performance"]').click()
-    time.sleep(2)
+
     # breakpoint()
     driver.find_elements(By.CSS_SELECTOR, 'div.c3pUr > div.OTrxGf > span[class="DPvwYc bquM9e"]')[-1].click()
     time.sleep(1)
