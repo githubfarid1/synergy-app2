@@ -32,20 +32,23 @@ def browser_init():
     return webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 
 
-driver = browser_init()
-url = "https://search.google.com/search-console?utm_source=about-page&resource_id=sc-domain:snowbirdsweets.ca"
-driver.get(url)
-# button = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-text='Performance']")))
 
-time.sleep(1)
-driver.find_element(By.CSS_SELECTOR, 'div[data-text="Performance"]').click()
-time.sleep(1)
+
 blogurls = ['https://snowbirdsweets.ca/blogs/news/ultimate-ranking-of-canadas-favorite-ketchup-chips', 
             'https://snowbirdsweets.ca/blogs/news/top-10-canadian-exclusive-snacks-2',
             'https://snowbirdsweets.ca/blogs/news/maple-cookies'
 ]
 
+
 for blogurl in blogurls:
+    driver = browser_init()
+    url = "https://search.google.com/search-console?utm_source=about-page&resource_id=sc-domain:snowbirdsweets.ca"
+    driver.get(url)
+    # button = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-text='Performance']")))
+
+    time.sleep(1)
+    driver.find_element(By.CSS_SELECTOR, 'div[data-text="Performance"]').click()
+    time.sleep(1)
     # breakpoint()
     driver.find_elements(By.CSS_SELECTOR, 'div.c3pUr > div.OTrxGf > span[class="DPvwYc bquM9e"]')[-1].click()
     time.sleep(1)
@@ -89,5 +92,6 @@ for blogurl in blogurls:
     v2 = driver.find_elements(By.CSS_SELECTOR, 'div[data-column-index="1"]')[-1].find_element(By.CSS_SELECTOR, 'div[class="nnLLaf vtZz6e"]').text
     v3 = driver.find_elements(By.CSS_SELECTOR, 'div[jsname="WKVttf"]')[-1].find_element(By.CSS_SELECTOR, 'span.UwdJ1c').text.split('of')[-1].strip()
     print(v1, v2, v3)
+    driver.quit()
 input("")
 
