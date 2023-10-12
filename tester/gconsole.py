@@ -7,6 +7,8 @@ import warnings
 from selenium.webdriver.common.action_chains import ActionChains
 import os
 import time
+from selenium.webdriver.common.keys import Keys
+# import org.openqa.selenium.Keys;
 def browser_init():
     warnings.filterwarnings("ignore", category=UserWarning)
     options = webdriver.ChromeOptions()
@@ -55,6 +57,10 @@ for blogurl in blogurls:
 
     el = driver.find_element(By.CSS_SELECTOR, "input[class='whsOnd zHQkBf']")
     actions = ActionChains(driver)
+    actions.send_keys(Keys.CONTROL, "a")
+    time.sleep(1)
+    actions.send_keys(Keys.DELETE)
+    time.sleep(1)
     actions.send_keys(blogurl)
     time.sleep(1)
     actions.move_to_element(el).perform()
