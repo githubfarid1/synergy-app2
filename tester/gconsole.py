@@ -32,11 +32,33 @@ def browser_init():
     return webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 
 
+blogurls = [
+'https://snowbirdsweets.ca/blogs/news/ultimate-ranking-of-canadas-favorite-ketchup-chips',
+'https://snowbirdsweets.ca/blogs/news/top-10-canadian-exclusive-snacks-2',
+'https://snowbirdsweets.ca/blogs/news/maple-cookies',
+'https://snowbirdsweets.ca/blogs/news/canadas-favorite-all-dressed-chips',
+'https://snowbirdsweets.ca/blogs/news/canadian-flavours1',
+'https://snowbirdsweets.ca/blogs/news/indulge-in-the-unique-flavors-of-oreos-canada-1',
+'https://snowbirdsweets.ca/blogs/news/top-8-canadian-cookies',
+'https://snowbirdsweets.ca/blogs/news/old-dutch-chips',
+'https://snowbirdsweets.ca/blogs/news/canadas-cereals',
+'https://snowbirdsweets.ca/blogs/news/canadian-tim-tams-products',
+'https://snowbirdsweets.ca/blogs/news/vachon',
+'https://snowbirdsweets.ca/blogs/news/nescafe-espresso',
+'https://snowbirdsweets.ca/blogs/news/hubba-bubba',
+'https://snowbirdsweets.ca/blogs/news/canadas-pure-protien',
+'https://snowbirdsweets.ca/blogs/news/beverages',
+'https://snowbirdsweets.ca/blogs/news/canadian-exclusive-granola-bars',
+'https://snowbirdsweets.ca/blogs/news/canadas-best-condiments',
+'https://snowbirdsweets.ca/blogs/news/canadas-favorite-candies',
+'https://snowbirdsweets.ca/blogs/news/canadas-favorite-coffee-company',
+'https://snowbirdsweets.ca/blogs/news/werthers',
+'https://snowbirdsweets.ca/blogs/news/canadas-mints',
+'https://snowbirdsweets.ca/blogs/news/waterbridge',
+'https://snowbirdsweets.ca/blogs/news/canadas-exclusive-gum-flavours',
+'https://snowbirdsweets.ca/blogs/news/canadas-favorite-teas',
+'https://snowbirdsweets.ca/blogs/news/canadas-favorite-chocolate',
 
-
-blogurls = ['https://snowbirdsweets.ca/blogs/news/ultimate-ranking-of-canadas-favorite-ketchup-chips', 
-            'https://snowbirdsweets.ca/blogs/news/top-10-canadian-exclusive-snacks-2',
-            'https://snowbirdsweets.ca/blogs/news/maple-cookies'
 ]
 
 
