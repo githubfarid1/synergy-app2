@@ -75,7 +75,7 @@ def parse(xlsheet, profile):
         v3 = driver.find_elements(By.CSS_SELECTOR, 'div[jsname="WKVttf"]')[-1].find_element(By.CSS_SELECTOR, 'span.UwdJ1c').text.split('of')[-1].strip()
         v1 = "0" if v1 == "" else v1
         v2 = "0" if v2 == "" else v2
-        v3 = "0" if v1 == "" else v3
+        v3 = "0" if v3 == "" else v3
         xlsheet[f'D{rownum}'].value = v1        
         xlsheet[f'E{rownum}'].value = v2        
         xlsheet[f'F{rownum}'].value = v3
