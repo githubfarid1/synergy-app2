@@ -45,19 +45,19 @@ blogurls = [
 # 'https://snowbirdsweets.ca/blogs/news/canadian-tim-tams-products',
 # 'https://snowbirdsweets.ca/blogs/news/vachon',
 'https://snowbirdsweets.ca/blogs/news/nescafe-espresso',
-# 'https://snowbirdsweets.ca/blogs/news/hubba-bubba',
-# 'https://snowbirdsweets.ca/blogs/news/canadas-pure-protien',
-# 'https://snowbirdsweets.ca/blogs/news/beverages',
-# 'https://snowbirdsweets.ca/blogs/news/canadian-exclusive-granola-bars',
-# 'https://snowbirdsweets.ca/blogs/news/canadas-best-condiments',
-# 'https://snowbirdsweets.ca/blogs/news/canadas-favorite-candies',
-# 'https://snowbirdsweets.ca/blogs/news/canadas-favorite-coffee-company',
-# 'https://snowbirdsweets.ca/blogs/news/werthers',
-# 'https://snowbirdsweets.ca/blogs/news/canadas-mints',
-# 'https://snowbirdsweets.ca/blogs/news/waterbridge',
-# 'https://snowbirdsweets.ca/blogs/news/canadas-exclusive-gum-flavours',
-# 'https://snowbirdsweets.ca/blogs/news/canadas-favorite-teas',
-# 'https://snowbirdsweets.ca/blogs/news/canadas-favorite-chocolate',
+'https://snowbirdsweets.ca/blogs/news/hubba-bubba',
+'https://snowbirdsweets.ca/blogs/news/canadas-pure-protien',
+'https://snowbirdsweets.ca/blogs/news/beverages',
+'https://snowbirdsweets.ca/blogs/news/canadian-exclusive-granola-bars',
+'https://snowbirdsweets.ca/blogs/news/canadas-best-condiments',
+'https://snowbirdsweets.ca/blogs/news/canadas-favorite-candies',
+'https://snowbirdsweets.ca/blogs/news/canadas-favorite-coffee-company',
+'https://snowbirdsweets.ca/blogs/news/werthers',
+'https://snowbirdsweets.ca/blogs/news/canadas-mints',
+'https://snowbirdsweets.ca/blogs/news/waterbridge',
+'https://snowbirdsweets.ca/blogs/news/canadas-exclusive-gum-flavours',
+'https://snowbirdsweets.ca/blogs/news/canadas-favorite-teas',
+'https://snowbirdsweets.ca/blogs/news/canadas-favorite-chocolate',
 
 ]
 
@@ -70,7 +70,7 @@ for blogurl in blogurls:
 
     time.sleep(1)
     driver.find_element(By.CSS_SELECTOR, 'div[data-text="Performance"]').click()
-    time.sleep(1)
+    time.sleep(2)
     # breakpoint()
     driver.find_elements(By.CSS_SELECTOR, 'div.c3pUr > div.OTrxGf > span[class="DPvwYc bquM9e"]')[-1].click()
     time.sleep(1)
