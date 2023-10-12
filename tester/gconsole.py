@@ -58,7 +58,7 @@ for blogurl in blogurls:
     el = driver.find_element(By.CSS_SELECTOR, "input[class='whsOnd zHQkBf']")
     actions = ActionChains(driver)
     actions.move_to_element(el)
-    actions.send_keys(Keys.CONTROL, "a")
+    actions.send_keys(Keys.SHIFT, Keys.END)
     time.sleep(1)
     actions.perform()
     time.sleep(1)
