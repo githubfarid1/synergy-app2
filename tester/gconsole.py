@@ -115,5 +115,5 @@ for blogurl in blogurls:
     v3 = driver.find_elements(By.CSS_SELECTOR, 'div[jsname="WKVttf"]')[-1].find_element(By.CSS_SELECTOR, 'span.UwdJ1c').text.split('of')[-1].strip()
     print(v1, v2, v3)
     driver.quit()
-input("")
+input("Finish")
 
