@@ -368,7 +368,7 @@ class MainFrame(ttk.Frame):
 		scrapeBySellerImagesButton = FrameButton(self, window, text="Amazon By Seller with Images", class_frame=ScrapeBySellerAmazonImagesFrame)
 		amazonScreenShot = FrameButton(self, window, text="Amazon ScreenShot", class_frame=AmazonScreenShotFrame)
 		fdaByConButton = FrameButton(self, window, text="FDA By Consignee", class_frame=FdaByConFrame)
-
+		googleAnalyticButton = FrameButton(self, window, text="Google Analytics", class_frame=GoogleAnalyticFrame)
 
 		# layout
 		titleLabel.grid(column = 0, row = 0, sticky=(W, E, N, S), padx=15, pady=5, columnspan=3)
@@ -398,6 +398,7 @@ class MainFrame(ttk.Frame):
 		scrapeBySellerImagesButton.grid(column = 2, row = 7, sticky=(W, E, N, S), padx=15, pady=5)
 		amazonScreenShot.grid(column = 0, row = 8, sticky=(W, E, N, S), padx=15, pady=5)
 		fdaByConButton.grid(column = 1, row = 8, sticky=(W, E, N, S), padx=15, pady=5)
+		googleAnalyticButton.grid(column = 2, row = 8, sticky=(W, E, N, S), padx=15, pady=5)
 
 class PdfConvertFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -1518,6 +1519,49 @@ class FdaByConFrame(ttk.Frame):
 				pdffolder = pdffolder.replace("/", "\\")
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed it.')
 			run_module(comlist=[PYLOC, "modules/autofdapdf_bycon.py", "-i", kwargs['input'], "-d", profileSelected.get(), "-s", kwargs['sheetname'].get(), "-dt", str(kwargs['datearrival'].get_date()), "-o", pdffolder])
+
+class GoogleAnalyticFrame(ttk.Frame):
+	def __init__(self, window) -> None:
+		super().__init__(window)
+		# configure
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
+
+		self.columnconfigure(0, weight=1)
+		self.rowconfigure(0, weight=1)
+		self.rowconfigure(1, weight=1)
+		self.rowconfigure(2, weight=1)
+		self.rowconfigure(3, weight=1)
+		self.rowconfigure(4, weight=1)
+		self.rowconfigure(5, weight=1)
+		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		
+		# populate
+		titleLabel = TitleLabel(self, text="Google Analytics")
+		closeButton = CloseButton(self)
+		xlsInputFile = FileChooserFrame(self, btype="file", label="Select Input Excel File:", filetypes=(("Excel files", "*.xlsx *.xlsm"),("all files", "*.*")), sheetlist=sheetlist)
+		labelsname = Label(self, text="Sheet Name:")
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(xlsinput=xlsInputFile.filename, sname=sheetlist))
+		
+		# layout
+		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
+		xlsInputFile.grid(column = 0, row = 2, sticky = (W,E))
+		labelsname.grid(column = 0, row = 3, sticky=(W))
+		# sheetName.grid(column = 0, row = 3, pady=10)
+		runButton.grid(column = 0, row = 5, sticky = (E))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+		sheetlist.grid(column=0, row = 3, pady=10)
+
+		# self.runButton.state(['disabled'])
+
+	def run_process(self, **kwargs):
+		if kwargs['xlsinput'] == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
+		else:
+
+			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
+			run_module(comlist=[PYLOC, "modules/google_analytics.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-cdata",  profileSelected.get()])
+
 
 class CloseButton(ttk.Button):
 	def __init__(self, parent):
