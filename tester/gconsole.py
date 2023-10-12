@@ -47,6 +47,7 @@ for blogurl in blogurls:
     # breakpoint()
     driver.find_elements(By.CSS_SELECTOR, 'div.c3pUr > div.OTrxGf > span[class="DPvwYc bquM9e"]')[-1].click()
     time.sleep(1)
+    breakpoint()
 
     driver.find_element(By.CSS_SELECTOR, "div#DARUcf").click()
     time.sleep(1)
