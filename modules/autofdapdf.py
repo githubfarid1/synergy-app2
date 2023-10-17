@@ -238,6 +238,7 @@ def browser_login(driver):
     explicit_wait()
     driver.find_element(By.CSS_SELECTOR, "a[id='login']").click()
     explicit_wait()
+    input("Please enter code then click verify..")
     driver.find_element(By.CSS_SELECTOR, "a[title='Prior Notice System Interface']").click()
     explicit_wait()
     driver.find_element(By.CSS_SELECTOR, "img[alt='Create New Web Entry']").click()
