@@ -238,12 +238,13 @@ def browser_login(driver):
     driver.find_element(By.CSS_SELECTOR, "a[id='login']").click()
     explicit_wait()
     input("Please enter the code then click verify and press any key to continue..")
-    WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "a[title='Prior Notice System Interface']")))
+    WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "a[title='Prior Notice System Interface']")))
     driver.find_element(By.CSS_SELECTOR, "a[title='Prior Notice System Interface']").click()
     explicit_wait()
     driver.find_element(By.CSS_SELECTOR, "img[alt='Create New Web Entry']").click()
     explicit_wait()
     return driver
+
 
 def clear_screan():
     return
