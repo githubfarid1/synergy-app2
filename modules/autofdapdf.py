@@ -922,7 +922,7 @@ def main_experimental():
             driver.quit()
         except:
             pass
-        breakpoint()
+        # breakpoint()
         driver = browser_init(profilename=args.chromedata, pdfoutput_folder=complete_output_folder)
         driver = browser_login(driver)
         if args.runindividual == 'no':
