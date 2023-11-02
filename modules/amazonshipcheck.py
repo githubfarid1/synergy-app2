@@ -246,7 +246,7 @@ class AmazonShipmentCheck:
         url = "https://sellercentral.amazon.ca/fba/sendtoamazon?ref=fbacentral_nav_fba"
         self.driver.get(url)
         print("Check SKU page ready... ", end="")
-        breakpoint()
+        # breakpoint()
         try:
             WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='sku-list']")))
             checksku = self.driver.find_element(By.CSS_SELECTOR,"kat-tabs[id='skuTabs']").find_element(By.CSS_SELECTOR, "kat-tab-header[tab-id='3']").find_element(By.CSS_SELECTOR, "span[slot='label']").text
@@ -258,11 +258,11 @@ class AmazonShipmentCheck:
             print("Trying to click start new link..", end="")
             try:
                 
-                shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-link[data-testid='start-new-link']")
-                shadow_root = shadow_host.shadow_root
-                shadow_root.find_element(By.CSS_SELECTOR, "a.link").click()
+                # shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-link[data-testid='start-new-link']")
+                # shadow_root = shadow_host.shadow_root
+                # shadow_root.find_element(By.CSS_SELECTOR, "a.link").click()
                 
-                # self.driver.find_element(By.CSS_SELECTOR, "kat-link[data-testid='start-new-link']").click()
+                self.driver.find_element(By.CSS_SELECTOR, "kat-link[data-testid='start-new-link']").click()
                 print("Passed")
             except Exception as e:
                 logger.error(e)
