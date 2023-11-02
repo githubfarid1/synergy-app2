@@ -460,6 +460,7 @@ class AmazonShipmentCheck:
                         except:                        
                             pass
                 try:
+                    breakpoint()
                     WebDriverWait(cols[0], 10).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR , "span[data-testid='prep-fee-text']"), "Prep not required"))
                 except:
                     try:
