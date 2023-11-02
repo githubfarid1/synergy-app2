@@ -560,9 +560,9 @@ class AmazonShipmentCheck:
                     errorlist.append(errmsg)
                     
                 if len(errorlist) == 0:
-                    print("Passed")
+                    print(xlssku, "Passed")
                 else:
-                    print("failed")
+                    print(xlssku, "Failed")
                 # if error:
                 #     break
                 
