@@ -370,7 +370,7 @@ class AmazonShipmentCheck:
                 shadow_root.find_element(By.CSS_SELECTOR, "input").clear()
                 shadow_root.find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
                 searchinput = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
-
+                print(xlssku, end="", flush=True)
                 # self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").clear()
                 # xlssku = item['id'].upper()
                 # self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
@@ -550,7 +550,11 @@ class AmazonShipmentCheck:
                     errmsg = "{}: Total value is wrong".format(xlssku)
                     # print(errmsg)
                     errorlist.append(errmsg)
-
+                    
+                if len(errorlist) == 0:
+                    print("Passed")
+                else:
+                    print("failed")
                 # if error:
                 #     break
                 
