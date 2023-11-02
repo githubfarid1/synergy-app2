@@ -286,7 +286,7 @@ class AmazonShipmentCheck:
         logger2.critical("-------------------------")
 
         for idx, dlist in enumerate(self.datalist):
-            print(dlist['name'], "... ", end="")
+            print(dlist['name'], "Processing.. ")
             # logger2.critical("{} Inspect...".format(dlist['name']))
 
             shipping_name = dlist['name']
@@ -370,7 +370,7 @@ class AmazonShipmentCheck:
                 shadow_root.find_element(By.CSS_SELECTOR, "input").clear()
                 shadow_root.find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
                 searchinput = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-testid='search-input-link']")))
-                print(xlssku, end="", flush=True)
+                print(xlssku, "... ", end="", flush=True)
                 # self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").clear()
                 # xlssku = item['id'].upper()
                 # self.driver.find_element(By.CSS_SELECTOR,"kat-input[data-testid='search-input']").find_element(By.CSS_SELECTOR, "input").send_keys(xlssku)
@@ -460,7 +460,7 @@ class AmazonShipmentCheck:
                         except:                        
                             pass
                 try:
-                    breakpoint()
+                    # breakpoint()
                     WebDriverWait(cols[0], 10).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR , "span[data-testid='prep-fee-text']"), "Prep not required"))
                 except:
                     try:
