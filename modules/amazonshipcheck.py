@@ -257,11 +257,6 @@ class AmazonShipmentCheck:
             logger.info("Trying to click start new link..")
             print("Trying to click start new link..", end="")
             try:
-                
-                # shadow_host = self.driver.find_element(By.CSS_SELECTOR, "kat-link[data-testid='start-new-link']")
-                # shadow_root = shadow_host.shadow_root
-                # shadow_root.find_element(By.CSS_SELECTOR, "a.link").click()
-                
                 self.driver.find_element(By.CSS_SELECTOR, "kat-link[data-testid='start-new-link']").click()
                 print("Passed")
             except Exception as e:
