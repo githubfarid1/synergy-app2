@@ -584,7 +584,7 @@ class AmazonShipmentCheck:
                     logger2.critical("Info:")
                     logger2.critical("\n".join(notelist))
                 print(dlist['name'], "Passed")
-            
+            print("")
             logger2.critical("-------------------------")
         # input('pause')
         # print(idxdel)
