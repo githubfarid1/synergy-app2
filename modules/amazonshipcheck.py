@@ -560,15 +560,15 @@ class AmazonShipmentCheck:
                     errorlist.append(errmsg)
                     
                 if len(errorlist) == 0:
-                    print(xlssku, "Passed")
+                    print("Passed")
                 else:
-                    print(xlssku, "Failed")
+                    print("Failed")
                 # if error:
                 #     break
                 
 
             if error:
-                print("Failed")
+                print(dlist['name'], "Failed")
                 # print("".join(errorlist))
                 idxdel.append(dlist['name'])
                 logger2.critical(dlist['name'] + " Skipped..")
@@ -583,7 +583,7 @@ class AmazonShipmentCheck:
                 if len(notelist) != 0:
                     logger2.critical("Info:")
                     logger2.critical("\n".join(notelist))
-                print("Passed")
+                print(dlist['name'], "Passed")
             
             logger2.critical("-------------------------")
         # input('pause')
