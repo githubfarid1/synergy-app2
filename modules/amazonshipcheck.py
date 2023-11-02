@@ -440,11 +440,19 @@ class AmazonShipmentCheck:
                         catprep = self.driver.find_element(By.CSS_SELECTOR, "kat-dropdown[data-testid='prep-guidance-prep-category-dropdown']")
                         explicit_wait()
                         catprep.click()
-                        catprep.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-value='NONE']").click()
-                        explicit_wait()
-                        self.driver.find_element(By.CSS_SELECTOR, "kat-modal-footer[data-testid='modal-footer']").find_element(By.CSS_SELECTOR, "kat-button[variant='primary']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
-                        explicit_wait()
-                        self.driver.find_element(By.CSS_SELECTOR, "kat-modal-footer[data-testid='modal-footer']").find_element(By.CSS_SELECTOR, "kat-button[data-testid='packing-template-save-button']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
+                        #tt
+                        try:
+                            catprep.find_element(By.CSS_SELECTOR, "div[class='select-options']").find_element(By.CSS_SELECTOR, "div[class='option-inner-container']").find_element(By.CSS_SELECTOR, "div[data-value='NONE']").click()
+                            explicit_wait()
+                            self.driver.find_element(By.CSS_SELECTOR, "kat-modal-footer[data-testid='modal-footer']").find_element(By.CSS_SELECTOR, "kat-button[variant='primary']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
+                            explicit_wait()
+                            self.driver.find_element(By.CSS_SELECTOR, "kat-modal-footer[data-testid='modal-footer']").find_element(By.CSS_SELECTOR, "kat-button[data-testid='packing-template-save-button']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
+                        except:
+                            shadow_host = self.driver.find_element(By.CSS_SELECTOR,"kat-dropdown[data-testid='prep-guidance-prep-category-dropdown']")
+                            shadow_root = shadow_host.shadow_root
+                            shadow_root.find_element(By.CSS_SELECTOR,"kat-option[value='NONE']").click()
+                                                    
+                        
                     except:
                         try:
                             # self.driver.find_element(By.CSS_SELECTOR, "kat-button[data-testid='prep-category-update-btn']").find_element(By.CSS_SELECTOR, "button[class='primary']").click()
