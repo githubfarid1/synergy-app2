@@ -23,6 +23,9 @@ ilovepdf_public_key = "project_public_07fb2f104eed13a200b081a9aa6c3e9e_iB33k4a15
 
 cud = "C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\User Data8"
 cp = "Default"
+item = "tes"
+filepath = r"C:\synergy-data-tester\ss"
+ob = Screenshot.Screenshot()
 options = webdriver.ChromeOptions()
 options.add_argument("user-data-dir={}".format(cud))
 options.add_argument("profile-directory={}".format(cp))
@@ -35,4 +38,9 @@ driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd
 driver.maximize_window()
 url = "https://www.amazon.com/dp/{}".format("B0765Z7GCZ")
 driver.get(url)
+filename = 'file1.png'
+pdf = fitz.open(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp")))
+element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
+filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
+pdf.save(os.path.join(filepath, "{}.pdf".format(item)))
 input("")
