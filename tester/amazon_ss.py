@@ -21,7 +21,7 @@ import glob
 from pylovepdf import ILovePdf
 ilovepdf_public_key = "project_public_07fb2f104eed13a200b081a9aa6c3e9e_iB33k4a15e8ff325cc90217ab98feb961721d"
 
-cud = "C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\User Data8", "chrome_profile"
+cud = "C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\User Data8"
 cp = "Default"
 options = webdriver.ChromeOptions()
 options.add_argument("user-data-dir={}".format(cud))
