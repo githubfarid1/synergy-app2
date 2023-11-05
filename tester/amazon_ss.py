@@ -57,12 +57,16 @@ filename = 'file1.png'
 element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
 filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 
-c = canvas.Canvas(os.path.join(filepath, "file1.pdf"), pagesize=landscape(letter))
+# c = canvas.Canvas(os.path.join(filepath, "file1.pdf"), pagesize=landscape(letter))
+c = canvas.Canvas(os.path.join(filepath, "file1.pdf"))
 
 img = ImageReader(os.path.join(filepath, "file1.png"))
 width = 750
 iw, ih = img.getSize()
 aspect = ih / float(iw)
+c.showPage()
+c.setPageSize((width, (width * aspect)))
+
 c.drawImage(img, 0, 0, width=width, height=(width * aspect), preserveAspectRatio=True)
 
 c.save()
