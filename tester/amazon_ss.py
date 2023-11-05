@@ -47,7 +47,7 @@ filename = 'file1.png'
 element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
 filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 
-c = canvas.Canvas(os.path.join(filepath, "file1.pdf"), pagesize=letter)
+c = canvas.Canvas(os.path.join(filepath, "file1.pdf"), pagesize=landscape(letter))
 img = ImageReader(os.path.join(filepath, "file1.png"))
 c.drawImage(img, 0, 0, width=842, height=595)
 
