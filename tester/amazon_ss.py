@@ -60,7 +60,7 @@ filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),imag
 c = canvas.Canvas(os.path.join(filepath, "file1.pdf"), pagesize=landscape(letter))
 
 img = ImageReader(os.path.join(filepath, "file1.png"))
-width = 750
+width = 600
 iw, ih = img.getSize()
 aspect = ih / float(iw)
 c.drawImage(img, 0, 0, width=width, height=(width * aspect))
