@@ -56,7 +56,7 @@ def createpdf(list, filepath):
         pdf.save(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp"))) 
         
 
-def screenshot(list, chrome_data, filepath, capmethod):
+def screenshot_m1(list, chrome_data, filepath):
     ob = Screenshot.Screenshot()
     options = webdriver.ChromeOptions()
     options.add_argument("user-data-dir={}".format(getProfiles()[chrome_data]['chrome_user_data']))
@@ -78,13 +78,9 @@ def screenshot(list, chrome_data, filepath, capmethod):
                     url = "https://www.amazon.com/dp/{}".format(value['asin'])
                     driver.get(url)
                     filename = '{}_{}.png'.format(value['box'], str(idx+1))
-                    if capmethod == "Method 2":
-                        filepathsave = os.path.join(filepath, filename)
-                        driver.save_screenshot(filename=filepathsave)
-                    else:
-                        element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
-                        filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
-
+                    # method 1
+                    element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
+                    filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 
                     page = pdf[math.floor(idx/2)]
                     if (idx % 2) == 0:
@@ -103,6 +99,49 @@ def screenshot(list, chrome_data, filepath, capmethod):
         print("OK")
     [os.remove(os.path.join(filepath, file)) for file in os.listdir(filepath) if file.endswith('.png')]
 
+def screenshot_m2(list, chrome_data, filepath):
+    ob = Screenshot.Screenshot()
+    options = webdriver.ChromeOptions()
+    options.add_argument("user-data-dir={}".format(getProfiles()[chrome_data]['chrome_user_data']))
+    options.add_argument("profile-directory={}".format(getProfiles()[chrome_data]['chrome_profile']))
+    options.add_argument('--no-sandbox')
+    options.add_argument("--log-level=3")
+    options.add_argument("--window-size=800,600")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option('useAutomationExtension', False)
+    driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
+    driver.maximize_window()
+    
+    for item in list.keys():
+        print("Processing box {}...".format(item) , end=" ", flush=True)
+        pdf = fitz.open(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp")))
+        for idx, value in enumerate(list[item]):
+                # print(idx)
+                try:
+                    url = "https://www.amazon.com/dp/{}".format(value['asin'])
+                    driver.get(url)
+                    filename = '{}_{}.png'.format(value['box'], str(idx+1))
+                    # method 2
+                    filepathsave = os.path.join(filepath, filename)
+                    driver.save_screenshot(filename=filepathsave)
+
+
+                    page = pdf[math.floor(idx/2)]
+                    if (idx % 2) == 0:
+                        page.insert_image(fitz.Rect(0, 40, 600, 330),filename=filepathsave)
+                        page.insert_text((520.2469787597656, 803.38037109375), str(item), color=fitz.utils.getColor("red"))
+                        page.insert_text((50, 30), url, color=fitz.utils.getColor("blue"))
+                    else:
+                        page.insert_image(fitz.Rect(0, 400, 590, 710),filename=filepathsave)
+                        page.insert_text((50, 390), url, color=fitz.utils.getColor("blue"))
+                except:
+                    print(value['asin'], "failed")
+
+        pdf.save(os.path.join(filepath, "{}.pdf".format(item))) 
+        pdf.close()
+        os.remove(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp")))
+        print("OK")
+    [os.remove(os.path.join(filepath, file)) for file in os.listdir(filepath) if file.endswith('.png')]
 
 def join_pdfs(filepath):
     merger = PdfMerger()
@@ -170,7 +209,12 @@ def main():
     xlsheet = xlbook.sheets[args.sheetname]
     box_grouped = data_generator(xlsheet=xlsheet)
     createpdf(box_grouped, args.pdfoutput)
-    screenshot(box_grouped, args.chromedata, args.pdfoutput, args.capmethod)
+    
+    if args.capmethod == 'Method 1':
+        screenshot_m1(box_grouped, args.chromedata, args.pdfoutput)
+    elif args.capmethod == 'Method 2':
+        screenshot_m2(box_grouped, args.chromedata, args.pdfoutput)
+
     fileresult = join_pdfs(args.pdfoutput)
     if fileresult:
         pdf_compress(filepath=fileresult, outputfolder= os.path.join(args.pdfoutput, "compressed"))
