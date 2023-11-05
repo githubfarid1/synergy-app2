@@ -42,13 +42,13 @@ filename = 'file1.png'
 # pdf = fitz.open(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp")))
 element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
 filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
-# opdf = PdfWriter()
-# new_page = PageObject.create_blank_page(width=400, height=400)
-# image = PdfReader(open("file1.png", 'rb'))
-# new_page.mergeTranslatedPage(image.getPage(0), 100, 100) 
-# opdf.add_page(new_page)
-# with open('file1.pdf', 'wb') as output_pdf:
-#     opdf.write(output_pdf)
+opdf = PdfWriter()
+new_page = PageObject.create_blank_page(width=400, height=400)
+image = PdfReader(open(os.path.join(filepath, "file1.png"), 'rb'))
+new_page.mergeTranslatedPage(image.getPage(0), 100, 100) 
+opdf.add_page(new_page)
+with open(os.path.join(filepath, 'file1.pdf'), 'wb') as output_pdf:
+    opdf.write(output_pdf)
 
 # page = opdf.add_blank_page(width=100, height=200)
 # breakpoint()
