@@ -22,6 +22,16 @@ from pylovepdf import ILovePdf
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
+from reportlab.platypus import Frame, Image
+from reportlab.lib import utils
+from reportlab.lib.units import cm
+
+def get_image(path, width=1*cm):
+    img = utils.ImageReader(path)
+    iw, ih = img.getSize()
+    aspect = ih / float(iw)
+    return Image(path, width=width, height=(width * aspect))
+
 
 ilovepdf_public_key = "project_public_07fb2f104eed13a200b081a9aa6c3e9e_iB33k4a15e8ff325cc90217ab98feb961721d"
 
@@ -48,8 +58,10 @@ element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
 filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 
 c = canvas.Canvas(os.path.join(filepath, "file1.pdf"), pagesize=landscape(letter))
+
 img = ImageReader(os.path.join(filepath, "file1.png"))
-c.drawImage(img, 0, 0, width=1000, height=400)
+iw, ih = img.getSize()
+c.drawImage(img, 0, 0, width=iw, height=ih)
 
 c.save()
 # opdf = PdfWriter()
