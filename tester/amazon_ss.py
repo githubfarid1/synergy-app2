@@ -44,7 +44,7 @@ element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
 filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 opdf = PdfWriter()
 new_page = PageObject.create_blank_page(width=400, height=400)
-image = PdfReader(open("file1", 'rb'))
+image = PdfReader(open("file1.png", 'rb'))
 new_page.mergeTranslatedPage(image.getPage(0), 100, 100) 
 opdf.add_page(new_page)
 with open('file1.pdf', 'wb') as output_pdf:
