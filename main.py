@@ -1436,6 +1436,10 @@ class AmazonScreenShotFrame(ttk.Frame):
 		# sheetName = Entry(self, width=45)
 		
 		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(xlsinput=xlsInputFile.filename, sname=sheetlist, pdfoutput=outputfolder.filename))
+
+		method = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		method['values'] = ["Method 1", "Method 2"]
+		method.current(0)
 		
 		# layout
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
@@ -1446,6 +1450,7 @@ class AmazonScreenShotFrame(ttk.Frame):
 		runButton.grid(column = 0, row = 5, sticky = (E))
 		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		sheetlist.grid(column=0, row = 3, pady=10)
+		method.grid(column = 0, row = 2)
 
 		# self.runButton.state(['disabled'])
 
