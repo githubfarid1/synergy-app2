@@ -1450,7 +1450,7 @@ class AmazonScreenShotFrame(ttk.Frame):
 		labelsname.grid(column = 0, row = 3, sticky=(W))
 		# sheetName.grid(column = 0, row = 3, pady=10)
 		outputfolder.grid(column = 0, row = 4, sticky = (W,E))
-		method.grid(column = 0, row = 5, sticky = (W,E))
+		method.grid(column = 0, row = 5, pady=10)
 		labelmethod.grid(column = 0, row = 5, sticky=(W))
 		runButton.grid(column = 0, row = 6, sticky = (E))
 		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
