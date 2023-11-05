@@ -1423,7 +1423,7 @@ class AmazonScreenShotFrame(ttk.Frame):
 		self.rowconfigure(4, weight=1)
 		self.rowconfigure(5, weight=1)
 		self.rowconfigure(6, weight=1)
-		self.rowconfigure(7, weight=1)
+		# self.rowconfigure(7, weight=1)
 
 
 		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
