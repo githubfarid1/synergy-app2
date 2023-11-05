@@ -56,7 +56,7 @@ def createpdf(list, filepath):
         pdf.save(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp"))) 
         
 
-def screenshot(list, chrome_data, filepath):
+def screenshot(list, chrome_data, filepath, capmethod):
     ob = Screenshot.Screenshot()
     options = webdriver.ChromeOptions()
     options.add_argument("user-data-dir={}".format(getProfiles()[chrome_data]['chrome_user_data']))
@@ -78,14 +78,12 @@ def screenshot(list, chrome_data, filepath):
                     url = "https://www.amazon.com/dp/{}".format(value['asin'])
                     driver.get(url)
                     filename = '{}_{}.png'.format(value['box'], str(idx+1))
-
-                    # METHOD 1: screenshoot directly                
-                    # filepathsave = os.path.join(filepath, filename)
-                    # driver.save_screenshot(filename=filepathsave)
-
-                    # METHOD 2: screenshoot by element                
-                    element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
-                    filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
+                    if capmethod == "Method 2":
+                        filepathsave = os.path.join(filepath, filename)
+                        driver.save_screenshot(filename=filepathsave)
+                    else:
+                        element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
+                        filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 
 
                     page = pdf[math.floor(idx/2)]
@@ -152,6 +150,8 @@ def main():
     parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
     parser.add_argument('-output', '--pdfoutput', type=str,help="PDF output folder")
     parser.add_argument('-cdata', '--chromedata', type=str,help="Chrome User Data Directory")
+    parser.add_argument('-method', '--capmethod', type=str,help="Capture Method")
+
     args = parser.parse_args()
     if not (args.xlsinput[-5:] == '.xlsx' or args.xlsinput[-5:] == '.xlsm'):
         input('2nd File input have to XLSX or XLSM file')
@@ -170,7 +170,7 @@ def main():
     xlsheet = xlbook.sheets[args.sheetname]
     box_grouped = data_generator(xlsheet=xlsheet)
     createpdf(box_grouped, args.pdfoutput)
-    screenshot(box_grouped, args.chromedata, args.pdfoutput)
+    screenshot(box_grouped, args.chromedata, args.pdfoutput, args.capmethod)
     fileresult = join_pdfs(args.pdfoutput)
     if fileresult:
         pdf_compress(filepath=fileresult, outputfolder= os.path.join(args.pdfoutput, "compressed"))

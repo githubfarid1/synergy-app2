@@ -1438,13 +1438,13 @@ class AmazonScreenShotFrame(ttk.Frame):
 		labelsname = Label(self, text="Sheet Name:")
 		
 		# sheetName = Entry(self, width=45)
-		
-		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(xlsinput=xlsInputFile.filename, sname=sheetlist, pdfoutput=outputfolder.filename))
-
-		method = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
-		method['values'] = ["Method 1", "Method 2"]
-		method.current(0)
+		methodcombo = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		methodcombo['values'] = ["Method 1", "Method 2"]
+		methodcombo.current(0)
 		labelmethod = Label(self, text="Capture Method:")
+		
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(xlsinput=xlsInputFile.filename, sname=sheetlist, pdfoutput=outputfolder.filename, method=methodcombo.get()))
+
 		
 		# layout
 		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
@@ -1452,7 +1452,7 @@ class AmazonScreenShotFrame(ttk.Frame):
 		labelsname.grid(column = 0, row = 3, sticky=(W))
 		# sheetName.grid(column = 0, row = 3, pady=10)
 		outputfolder.grid(column = 0, row = 4, sticky = (W,E))
-		method.grid(column = 0, row = 5, pady=10)
+		methodcombo.grid(column = 0, row = 5, pady=10)
 		labelmethod.grid(column = 0, row = 5, sticky=(W))
 		runButton.grid(column = 0, row = 6, sticky = (E))
 		closeButton.grid(column = 0, row = 7, sticky = (E, N, S))
@@ -1470,7 +1470,7 @@ class AmazonScreenShotFrame(ttk.Frame):
 				pdffolder = pdffolder.replace("/", "\\")
 
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
-			run_module(comlist=[PYLOC, "modules/amazon_screenshot.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-output", pdffolder, "-cdata",  profileSelected.get(), "-method"])
+			run_module(comlist=[PYLOC, "modules/amazon_screenshot.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-output", pdffolder, "-cdata",  profileSelected.get(), "-method", kwargs['method']])
 
 class FdaByConFrame(ttk.Frame):
 	def __init__(self, window) -> None:
