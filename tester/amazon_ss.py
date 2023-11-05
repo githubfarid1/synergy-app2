@@ -49,7 +49,7 @@ bottom = 100
 right = 200 
 top = 200 
 rect = generic.RectangleObject([left, bottom, right, top])
-page.artBox = rect
+page.artbox = rect
 
 with open("file1.pdf", "wb") as fp:
     opdf.write(fp)
