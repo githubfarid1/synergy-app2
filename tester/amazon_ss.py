@@ -49,7 +49,7 @@ filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),imag
 
 c = canvas.Canvas(os.path.join(filepath, "file1.pdf"), pagesize=letter)
 img = ImageReader(os.path.join(filepath, "file1.png"))
-c.drawImage(img, 0, 0, width=595, height=842)
+c.drawImage(img, 0, 0, width=842, height=595)
 
 c.save()
 # opdf = PdfWriter()
