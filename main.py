@@ -1447,10 +1447,11 @@ class AmazonScreenShotFrame(ttk.Frame):
 		labelsname.grid(column = 0, row = 3, sticky=(W))
 		# sheetName.grid(column = 0, row = 3, pady=10)
 		outputfolder.grid(column = 0, row = 4, sticky = (W,E))
-		runButton.grid(column = 0, row = 5, sticky = (E))
+		method.grid(column = 0, row = 5)
+		runButton.grid(column = 0, row = 6, sticky = (E))
 		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
 		sheetlist.grid(column=0, row = 3, pady=10)
-		method.grid(column = 0, row = 2)
+		
 
 		# self.runButton.state(['disabled'])
 
