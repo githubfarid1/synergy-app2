@@ -43,7 +43,7 @@ filename = 'file1.png'
 element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
 filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 opdf = PdfWriter()
-page = opdf.add_blank_page()
+page = opdf.add_blank_page(width=100, height=200)
 left = 100 
 bottom = 100 
 right = 200 
