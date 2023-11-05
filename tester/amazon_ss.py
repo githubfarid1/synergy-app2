@@ -63,7 +63,7 @@ img = ImageReader(os.path.join(filepath, "file1.png"))
 width = 400
 iw, ih = img.getSize()
 aspect = ih / float(iw)
-c.drawImage(img, 0, 0, width=width, height=(width * aspect))
+c.drawImage(img, 0, 0, width=8*cm, height=(width * aspect))
 
 c.save()
 # opdf = PdfWriter()
