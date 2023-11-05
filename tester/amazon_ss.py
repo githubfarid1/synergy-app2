@@ -19,6 +19,10 @@ from PyPDF2 import PdfMerger, PdfReader, PdfWriter, generic, PageObject
 import time
 import glob
 from pylovepdf import ILovePdf
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.lib.utils import ImageReader
+
 ilovepdf_public_key = "project_public_07fb2f104eed13a200b081a9aa6c3e9e_iB33k4a15e8ff325cc90217ab98feb961721d"
 
 cud = "C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\User Data8"
@@ -42,14 +46,19 @@ filename = 'file1.png'
 # pdf = fitz.open(os.path.join(filepath, "{}_{}.pdf".format(item,"tmp")))
 element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
 filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
-opdf = PdfWriter()
-new_page = PageObject.create_blank_page(width=400, height=400)
-breakpoint()
-image = PdfReader(open(os.path.join(filepath, "file1.png"), 'rb'))
-new_page.mergeTranslatedPage(image.getPage(0), 100, 100) 
-opdf.add_page(new_page)
-with open(os.path.join(filepath, 'file1.pdf'), 'wb') as output_pdf:
-    opdf.write(output_pdf)
+
+c = canvas.Canvas(os.path.join(filepath, "file1.pdf"), pagesize=letter)
+img = ImageReader(os.path.join(filepath, "file1.png"))
+c.drawImage(img, 100, 100)
+c.save()
+# opdf = PdfWriter()
+# new_page = PageObject.create_blank_page(width=400, height=400)
+# breakpoint()
+# image = PdfReader(open(os.path.join(filepath, "file1.png"), 'rb'))
+# new_page.mergeTranslatedPage(image.getPage(0), 100, 100) 
+# opdf.add_page(new_page)
+# with open(os.path.join(filepath, 'file1.pdf'), 'wb') as output_pdf:
+#     opdf.write(output_pdf)
 
 # page = opdf.add_blank_page(width=100, height=200)
 # breakpoint()
