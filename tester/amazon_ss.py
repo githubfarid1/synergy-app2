@@ -19,7 +19,7 @@ from PyPDF2 import PdfMerger, PdfReader, PdfWriter, generic, PageObject
 import time
 import glob
 from pylovepdf import ILovePdf
-from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import letter, landscape
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 
@@ -47,7 +47,7 @@ filename = 'file1.png'
 element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
 filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 
-c = canvas.Canvas(os.path.join(filepath, "file1.pdf"), pagesize=letter)
+c = canvas.Canvas(os.path.join(filepath, "file1.pdf"), pagesize=landscape)
 img = ImageReader(os.path.join(filepath, "file1.png"))
 c.drawImage(img, 0, 0, width=595, height=842)
 
