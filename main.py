@@ -1423,6 +1423,8 @@ class AmazonScreenShotFrame(ttk.Frame):
 		self.rowconfigure(4, weight=1)
 		self.rowconfigure(5, weight=1)
 		self.rowconfigure(6, weight=1)
+		self.rowconfigure(7, weight=1)
+
 
 		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
 		
@@ -1453,7 +1455,7 @@ class AmazonScreenShotFrame(ttk.Frame):
 		method.grid(column = 0, row = 5, pady=10)
 		labelmethod.grid(column = 0, row = 5, sticky=(W))
 		runButton.grid(column = 0, row = 6, sticky = (E))
-		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+		closeButton.grid(column = 0, row = 7, sticky = (E, N, S))
 		sheetlist.grid(column=0, row = 3, pady=10)
 		
 
@@ -1468,7 +1470,7 @@ class AmazonScreenShotFrame(ttk.Frame):
 				pdffolder = pdffolder.replace("/", "\\")
 
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
-			run_module(comlist=[PYLOC, "modules/amazon_screenshot.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-output", pdffolder, "-cdata",  profileSelected.get()])
+			run_module(comlist=[PYLOC, "modules/amazon_screenshot.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-output", pdffolder, "-cdata",  profileSelected.get(), "-method"])
 
 class FdaByConFrame(ttk.Frame):
 	def __init__(self, window) -> None:
