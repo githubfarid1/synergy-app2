@@ -15,7 +15,7 @@ from webdriver_manager.chrome import ChromeDriverManager as CM
 import json
 import fitz
 import math
-from PyPDF2 import PdfMerger, PdfReader, PdfWriter, generic
+from PyPDF2 import PdfMerger, PdfReader, PdfWriter, generic, PageObject
 import time
 import glob
 from pylovepdf import ILovePdf
@@ -43,16 +43,22 @@ filename = 'file1.png'
 element = driver.find_element(By.XPATH, '//*[@id="ppd"]')
 filepathsave = ob.get_element(driver, element, save_path=r"".join(filepath),image_name=filename)
 opdf = PdfWriter()
-page = opdf.add_blank_page(width=100, height=200)
-breakpoint()
-left = 100
-bottom = 100
-right = 200
-top = 200 
-rect = generic.RectangleObject([left, bottom, right, top])
-page.artbox = rect
+new_page = PageObject.create_blank_page(width=400, height=400)
+image = PdfReader(open("file1", 'rb'))
+new_page.mergeTranslatedPage(image.getPage(0), 100, 100) 
+opdf.add_page(new_page)
+with open('file1.pdf', 'wb') as output_pdf:
+    opdf.write(output_pdf)
+# page = opdf.add_blank_page(width=100, height=200)
+# breakpoint()
+# left = 100
+# bottom = 100
+# right = 200
+# top = 200 
+# rect = generic.RectangleObject([left, bottom, right, top])
+# page.artbox = rect
 
-with open("file1.pdf", "wb") as fp:
-    opdf.write(fp)
-# pdf.save(os.path.join(filepath, "{}.pdf".format(item)))
-input("")
+# with open("file1.pdf", "wb") as fp:
+#     opdf.write(fp)
+# # pdf.save(os.path.join(filepath, "{}.pdf".format(item)))
+# input("")
