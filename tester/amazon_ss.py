@@ -64,7 +64,7 @@ img = ImageReader(os.path.join(filepath, "file1.png"))
 width = 750
 iw, ih = img.getSize()
 aspect = ih / float(iw)
-c.showPage()
+# c.showPage()
 c.setPageSize((width, (width * aspect)))
 
 c.drawImage(img, 0, 0, width=width, height=(width * aspect), preserveAspectRatio=True)
