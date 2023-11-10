@@ -18,7 +18,10 @@ from urllib.parse import urlparse
 cud = "C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\User Data"
 cp = "Profile 1"
 fp_class = '_aano'
-fpd_class = 'x1rg5ohu'
+fpdhead_class = 'x1dm5mii'
+fpd1_class = 'x1rg5ohu'
+fpd2_class = 'x1lliihq'
+
 urls = ["https://www.instagram.com/victoryhomescanada/?hl=en"]
 options = webdriver.ChromeOptions()
 options.add_argument("user-data-dir={}".format(cud))
@@ -46,10 +49,10 @@ maxcheck = 10
 curcheck = 0
 scroll_script = "arguments[0].scrollTop = arguments[0].scrollHeight;"
 while True:
-    last_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']"))
+    last_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpdhead_class}']"))
     driver.execute_script(scroll_script, followers_popup)
     time.sleep(1)
-    new_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']"))
+    new_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpdhead_class}']"))
     if new_count == last_count:
         curcheck += 1
     else:
@@ -58,11 +61,12 @@ while True:
     if curcheck == maxcheck:
         break
 
-print(new_count)
-data = driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']")
-for d in data:
-    print(d.text)
-
+# print(new_count)
+data = driver.find_elements(By.XPATH, f"//div[@class='{fpdhead_class}']")
+for idx, d in enumerate(data):
+    account = d.find_element(By.CSS_SELECTOR, f"div.{fpd1_class}")
+    name = d.find_element(By.CSS_SELECTOR, f"div.{fpd2_class}")
+    print(idx, account, name)
 input("")    
 # breakpoint()
 #span._ac2a
