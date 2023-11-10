@@ -53,7 +53,7 @@ while True:
         break  
 # fBody  = driver.find_element(By.CSS_SELECTOR, "div._aano")
 # //div[@class="_aano"]//li
-input("done")
+input(new_count)
 
 # time.sleep(2)
 # followerbutton = driver.find_element(By.CSS_SELECTOR, "a[href='/victoryhomescanada/followers/?hl=en']")
