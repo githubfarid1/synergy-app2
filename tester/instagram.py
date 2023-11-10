@@ -48,7 +48,7 @@ followers_popup = WebDriverWait(driver, 10).until(
 maxcheck = 10
 curcheck = 0
 scroll_script = "arguments[0].scrollTop = arguments[0].scrollHeight;"
-breakpoint()
+# breakpoint()
 while True:
     last_count = len(driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}"))
     driver.execute_script(scroll_script, followers_popup)
@@ -64,6 +64,7 @@ while True:
         break
 
 # print(new_count)
+breakpoint()
 data = driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}")
 for idx, d in enumerate(data):
     account = d.find_element(By.CSS_SELECTOR, f"div.{fpd1_class}")
