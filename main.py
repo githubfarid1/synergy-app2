@@ -341,6 +341,8 @@ class MainFrame(ttk.Frame):
 		self.rowconfigure(7, weight=1)
 		self.rowconfigure(8, weight=1)
 		self.rowconfigure(9, weight=1)
+		self.rowconfigure(10, weight=1)
+  
 		
 		titleLabel = TitleLabel(self, 'Main Menu')
 		# pdfconvertButton = PdfConvertButton(self, window)
@@ -369,6 +371,7 @@ class MainFrame(ttk.Frame):
 		amazonScreenShot = FrameButton(self, window, text="Amazon ScreenShot", class_frame=AmazonScreenShotFrame)
 		fdaByConButton = FrameButton(self, window, text="FDA By Consignee", class_frame=FdaByConFrame)
 		googleAnalyticButton = FrameButton(self, window, text="Google Analytics", class_frame=GoogleAnalyticFrame)
+		instagramFollowerButton = FrameButton(self, window, text="Instagram Followers", class_frame=InstagramFollowersFrame)
 
 		# layout
 		titleLabel.grid(column = 0, row = 0, sticky=(W, E, N, S), padx=15, pady=5, columnspan=3)
@@ -399,6 +402,7 @@ class MainFrame(ttk.Frame):
 		amazonScreenShot.grid(column = 0, row = 8, sticky=(W, E, N, S), padx=15, pady=5)
 		fdaByConButton.grid(column = 1, row = 8, sticky=(W, E, N, S), padx=15, pady=5)
 		googleAnalyticButton.grid(column = 2, row = 8, sticky=(W, E, N, S), padx=15, pady=5)
+		instagramFollowerButton.grid(column = 0, row = 9, sticky=(W, E, N, S), padx=15, pady=5)
 
 class PdfConvertFrame(ttk.Frame):
 	def __init__(self, window) -> None:
@@ -1574,6 +1578,8 @@ class GoogleAnalyticFrame(ttk.Frame):
 			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
 			run_module(comlist=[PYLOC, "modules/google_analytics.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-cdata",  profileSelected.get()])
 
+class InstagramFollowersFrame(ttk.Frame):
+    pass
 
 class CloseButton(ttk.Button):
 	def __init__(self, parent):
