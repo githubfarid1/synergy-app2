@@ -49,8 +49,10 @@ def parse(xlbook, xlsheet, profile):
         try:
             xlbook.sheets.add(username)
         except ValueError as V:
-            print("Error:", V)        
+            print("Error:", V)
         
+        ws_active = xlbook.sheets[username]
+        ws_active.api.Move(None, After=xlsheet.api)
 
 def main():
     # clear_screan()
