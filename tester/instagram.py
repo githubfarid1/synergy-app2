@@ -53,7 +53,7 @@ while True:
     driver.execute_script(scroll_script, followers_popup)
     time.sleep(1)
     new_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpdhead_class}']"))
-    print(new_count)
+    print(new_count, last_count)
     if new_count == last_count:
         curcheck += 1
     else:
