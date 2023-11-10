@@ -51,8 +51,9 @@ while True:
     real_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']"))
     driver.execute_script('arguments[0].scrollTop = arguments[0].scrollTop + arguments[0].offsetHeight;', fBody)
     time.sleep(2)
-    if real_count == follower_count:
+    if real_count == int(follower_count):
         break
+    print(real_count)
 input(real_count)
 
 # time.sleep(2)
