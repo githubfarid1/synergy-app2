@@ -36,6 +36,12 @@ def browser_init(profilename):
     return webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 
 def parse(xlbook, xlsheet, profile):
+    fp_class = '_aano'
+    fpdhead_class = 'x1dm5mii'
+    fpd1_class = 'x1rg5ohu'
+    fpd2_class = 'x193iq5w'
+    maxcheck = 10
+    driver = browser_init(profilename=profile)    
     maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
     for rownum in range(1, maxrow + 1):
         blogurl = xlsheet[f'A{rownum}'].value
@@ -52,6 +58,49 @@ def parse(xlbook, xlsheet, profile):
         
         ws_active = xlbook.sheets[username]
         ws_active.api.Move(None, After=xlsheet.api)
+
+        print('Scrape Instagram with acoount', username, '...', end="", flush=True)
+        driver.get(f"https://www.instagram.com/{username}")
+        followers_button = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, f'//a[@href="/{username}/followers/"]'))
+        )
+        followers_button.click()
+        followers_popup = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, f'//div[@class="{fp_class}"]'))
+        )
+        curcheck = 0
+        scroll_script = "arguments[0].scrollTop = arguments[0].scrollHeight;"
+        while True:
+            last_count = len(driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}"))
+            driver.execute_script(scroll_script, followers_popup)
+            time.sleep(1)
+            new_count = len(driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}"))
+            print(new_count, last_count)
+            if new_count == last_count:
+                curcheck += 1
+            else:
+                curcheck = 0
+                
+            if curcheck == maxcheck:
+                break
+        
+        data = driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}")
+        for idx, d in enumerate(data):
+            try:
+                account = d.find_element(By.CSS_SELECTOR, f"div.{fpd1_class}").text
+            except:
+                account = ""
+            try:
+                name = d.find_element(By.CSS_SELECTOR, f"span.{fpd2_class}").text
+            except:
+                name = ""
+            ws_active[f'A{rownum}'].value = account
+            ws_active[f'B{rownum}'].value = name
+                
+            # print(idx, account, name)
+        print("OK")
+        
+        
 
 def main():
     # clear_screan()
