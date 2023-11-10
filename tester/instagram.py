@@ -13,10 +13,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager as CM
 import time
+from urllib.parse import urlparse
 
 cud = "C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\User Data"
 cp = "Profile 1"
-
+fp_class = '_aano'
+urls = ["https://www.instagram.com/victoryhomescanada/?hl=en"]
 options = webdriver.ChromeOptions()
 options.add_argument("user-data-dir={}".format(cud))
 options.add_argument("profile-directory={}".format(cp))
@@ -26,16 +28,28 @@ options.add_argument("--window-size=800,600")
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option('useAutomationExtension', False)
 driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
-driver.get("https://www.instagram.com/victoryhomescanada/?hl=en")
-breakpoint()
-time.sleep(2)
-followerbutton = driver.find_element(By.CSS_SELECTOR, "a[href='/victoryhomescanada/followers/?hl=en']")
-followerbutton.click()
-time.sleep(2)
-fBody  = driver.find_element(By.CSS_SELECTOR, "div._aano")
-while True:
-    driver.execute_script('arguments[0].scrollTop = arguments[0].scrollTop + arguments[0].offsetHeight;', fBody)
-    time.sleep(2)
+i = 0
+purl = urlparse(urls[0])
+username = str(purl.path).replace("/","")
 
-
+driver.get(f"https://www.instagram.com/{username}")
+followers_button = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.XPATH, f'//a[@href="/{username}/followers/"]'))
+)
+followers_button.click()
 input("")
+
+# time.sleep(2)
+# followerbutton = driver.find_element(By.CSS_SELECTOR, "a[href='/victoryhomescanada/followers/?hl=en']")
+# followerbutton.click()
+# time.sleep(2)
+# fBody  = driver.find_element(By.CSS_SELECTOR, "div._aano")
+# while True:
+#     driver.execute_script('arguments[0].scrollTop = arguments[0].scrollTop + arguments[0].offsetHeight;', fBody)
+#     time.sleep(2)
+
+
+
+# followers_popup = driver.find_element(By.XPATH, '//div[@class="_aano"]')
+
+# input("")
