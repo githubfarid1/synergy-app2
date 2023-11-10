@@ -48,7 +48,9 @@ while True:
     last_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']"))
     driver.execute_script(scroll_script, followers_popup)
     time.sleep(2)  # Add a delay to allow time for the followers to load
+    driver.execute_script(scroll_script, followers_popup)
     new_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']"))
+    print(new_count, last_count)
     if new_count == last_count:
         break  
 # fBody  = driver.find_element(By.CSS_SELECTOR, "div._aano")
