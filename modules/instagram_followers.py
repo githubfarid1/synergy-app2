@@ -59,7 +59,7 @@ def parse(xlbook, xlsheet, profile):
         ws_active = xlbook.sheets[username]
         ws_active.api.Move(None, After=xlsheet.api)
         ws_active.clear_contents()
-        print('Scrape Instagram with acoount', username, '...', end="", flush=True)
+        print('Scrape Instagram with acoount', username, '... ', end="", flush=True)
         driver.get(f"https://www.instagram.com/{username}")
         followers_button = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, f'//a[@href="/{username}/followers/"]'))
@@ -99,6 +99,8 @@ def parse(xlbook, xlsheet, profile):
                 
             # print(idx, account, name)
         print("OK")
+        
+    print("Finished")
         
         
 
