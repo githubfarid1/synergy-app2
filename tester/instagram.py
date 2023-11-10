@@ -37,6 +37,19 @@ followers_button = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.XPATH, f'//a[@href="/{username}/followers/"]'))
 )
 followers_button.click()
+followers_popup = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.XPATH, f'//div[@class="{fp_class}"]'))
+)
+
+scroll_script = "arguments[0].scrollTop = arguments[0].scrollHeight;"
+while True:
+    last_count = len(driver.find_element(By.XPATH, f'//div[@class="{fp_class}"]//li'))
+    driver.execute_script(scroll_script, followers_popup)
+    time.sleep(1)  # Add a delay to allow time for the followers to load
+    new_count = len(driver.find_element(By.XPATH, f'//div[@class="{fp_class}"]//li'))
+    if new_count == last_count:
+        break  
+# fBody  = driver.find_element(By.CSS_SELECTOR, "div._aano")
 input("")
 
 # time.sleep(2)
