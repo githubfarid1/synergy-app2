@@ -44,8 +44,6 @@ def parse(xlbook, xlsheet, profile):
 
         purl = urlparse(blogurl)
         username = str(purl.path).replace("/","")
-        
-        print(username)
         try:
             xlbook.sheets.add(username)
             print("Sheet", username, "Created...")
@@ -73,6 +71,7 @@ def main():
     print('Opening the Source Excel File...', end="", flush=True)
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
+    print("OK")
     parse(xlbook=xlbook, xlsheet=xlsheet, profile=args.chromedata)
     input("End Process..")    
 
