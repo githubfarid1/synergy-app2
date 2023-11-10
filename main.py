@@ -1579,7 +1579,46 @@ class GoogleAnalyticFrame(ttk.Frame):
 			run_module(comlist=[PYLOC, "modules/google_analytics.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-cdata",  profileSelected.get()])
 
 class InstagramFollowersFrame(ttk.Frame):
-    pass
+	def __init__(self, window) -> None:
+		super().__init__(window)
+		# configure
+		self.grid(column=0, row=0, sticky=(N, E, W, S), columnspan=4)
+		self.config(padding="20 20 20 20", borderwidth=1, relief='groove')
+
+		self.columnconfigure(0, weight=1)
+		self.rowconfigure(0, weight=1)
+		self.rowconfigure(1, weight=1)
+		self.rowconfigure(2, weight=1)
+		self.rowconfigure(3, weight=1)
+		self.rowconfigure(4, weight=1)
+		self.rowconfigure(5, weight=1)
+		sheetlist = ttk.Combobox(self, textvariable=StringVar(), state="readonly")
+		
+		# populate
+		titleLabel = TitleLabel(self, text="Instagram Followers")
+		closeButton = CloseButton(self)
+		xlsInputFile = FileChooserFrame(self, btype="file", label="Select Input Excel File:", filetypes=(("Excel files", "*.xlsx *.xlsm"),("all files", "*.*")), sheetlist=sheetlist)
+		labelsname = Label(self, text="Sheet Name:")
+		runButton = ttk.Button(self, text='Run Process', command = lambda:self.run_process(xlsinput=xlsInputFile.filename, sname=sheetlist))
+		
+		# layout
+		titleLabel.grid(column = 0, row = 0, sticky = (W, E, N, S))
+		xlsInputFile.grid(column = 0, row = 2, sticky = (W,E))
+		labelsname.grid(column = 0, row = 3, sticky=(W))
+		# sheetName.grid(column = 0, row = 3, pady=10)
+		runButton.grid(column = 0, row = 5, sticky = (E))
+		closeButton.grid(column = 0, row = 6, sticky = (E, N, S))
+		sheetlist.grid(column=0, row = 3, pady=10)
+
+		# self.runButton.state(['disabled'])
+
+	def run_process(self, **kwargs):
+		if kwargs['xlsinput'] == "": 
+			messagebox.showwarning(title='Warning', message='Please make sure you have choosed the files')
+		else:
+
+			messagebox.showwarning(title='Warning', message='This process will update the excel file. make sure you have closed the file.')
+			run_module(comlist=[PYLOC, "modules/instagram_followers.py", "-xls", kwargs['xlsinput'], "-sname", kwargs['sname'].get(), "-cdata",  profileSelected.get()])
 
 class CloseButton(ttk.Button):
 	def __init__(self, parent):
