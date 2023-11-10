@@ -48,8 +48,9 @@ def parse(xlbook, xlsheet, profile):
         print(username)
         try:
             xlbook.sheets.add(username)
+            print("Sheet", username, "Created...")
         except ValueError as V:
-            print("Error:", V)
+            print(V)
         
         ws_active = xlbook.sheets[username]
         ws_active.api.Move(None, After=xlsheet.api)
