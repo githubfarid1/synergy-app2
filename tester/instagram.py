@@ -58,7 +58,7 @@ while True:
     if curcheck == maxcheck:
         break
 
-print(new_count)
+input(new_count)
 # breakpoint()
 #span._ac2a
 
