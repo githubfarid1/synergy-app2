@@ -12,7 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager as CM
-
+import time
 
 cud = "C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\User Data"
 cp = "Profile 1"
@@ -28,4 +28,13 @@ options.add_experimental_option('useAutomationExtension', False)
 driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 driver.get("https://www.instagram.com/victoryhomescanada/?hl=en")
 breakpoint()
+
+followerbutton = driver.find_element(By.CSS_SELECTOR, "a[href='/victoryhomescanada/followers/?hl=en']")
+followerbutton.click()
+fBody  = driver.find_element(By.CSS_SELECTOR, "div._aano")
+while True:
+    driver.execute_script('arguments[0].scrollTop = arguments[0].scrollTop + arguments[0].offsetHeight;', fBody)
+    time.sleep(2)
+
+
 input("")
