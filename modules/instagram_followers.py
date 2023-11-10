@@ -58,7 +58,7 @@ def parse(xlbook, xlsheet, profile):
         
         ws_active = xlbook.sheets[username]
         ws_active.api.Move(None, After=xlsheet.api)
-
+        ws_active.clear_contents()
         print('Scrape Instagram with acoount', username, '...', end="", flush=True)
         driver.get(f"https://www.instagram.com/{username}")
         followers_button = WebDriverWait(driver, 10).until(
@@ -75,7 +75,7 @@ def parse(xlbook, xlsheet, profile):
             driver.execute_script(scroll_script, followers_popup)
             time.sleep(1)
             new_count = len(driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}"))
-            print(new_count, last_count)
+            # print(new_count, last_count)
             if new_count == last_count:
                 curcheck += 1
             else:
@@ -94,8 +94,8 @@ def parse(xlbook, xlsheet, profile):
                 name = d.find_element(By.CSS_SELECTOR, f"span.{fpd2_class}").text
             except:
                 name = ""
-            ws_active[f'A{rownum}'].value = account
-            ws_active[f'B{rownum}'].value = name
+            ws_active[f'A{idx+1}'].value = account
+            ws_active[f'B{idx+1}'].value = name
                 
             # print(idx, account, name)
         print("OK")
