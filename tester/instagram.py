@@ -47,7 +47,7 @@ scroll_script = "arguments[0].scrollTop = arguments[0].scrollHeight;"
 while True:
     last_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']"))
     driver.execute_script(scroll_script, followers_popup)
-    time.sleep(1)  # Add a delay to allow time for the followers to load
+    time.sleep(2)  # Add a delay to allow time for the followers to load
     new_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']"))
     if new_count == last_count:
         break  
