@@ -50,10 +50,10 @@ curcheck = 0
 scroll_script = "arguments[0].scrollTop = arguments[0].scrollHeight;"
 breakpoint()
 while True:
-    last_count = len(driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}]"))
+    last_count = len(driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}"))
     driver.execute_script(scroll_script, followers_popup)
     time.sleep(1)
-    new_count = len(driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}]"))
+    new_count = len(driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}"))
     print(new_count, last_count)
     if new_count == last_count:
         curcheck += 1
@@ -64,7 +64,7 @@ while True:
         break
 
 # print(new_count)
-data = driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}]")
+data = driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}")
 for idx, d in enumerate(data):
     account = d.find_element(By.CSS_SELECTOR, f"div.{fpd1_class}")
     name = d.find_element(By.CSS_SELECTOR, f"div.{fpd2_class}")
