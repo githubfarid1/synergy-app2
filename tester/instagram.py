@@ -20,7 +20,7 @@ cp = "Profile 1"
 fp_class = '_aano'
 fpdhead_class = 'x1dm5mii'
 fpd1_class = 'x1rg5ohu'
-fpd2_class = 'x1lliihq'
+fpd2_class = 'x193iq5w'
 
 urls = ["https://www.instagram.com/victoryhomescanada/?hl=en"]
 options = webdriver.ChromeOptions()
@@ -64,11 +64,17 @@ while True:
         break
 
 # print(new_count)
-breakpoint()
+# breakpoint()
 data = driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}")
 for idx, d in enumerate(data):
-    account = d.find_element(By.CSS_SELECTOR, f"div.{fpd1_class}")
-    name = d.find_element(By.CSS_SELECTOR, f"div.{fpd2_class}")
+    try:
+        account = d.find_element(By.CSS_SELECTOR, f"div.{fpd1_class}")
+    except:
+        account = ""
+    try:
+        name = d.find_element(By.CSS_SELECTOR, f"span.{fpd2_class}")
+    except:
+        name = ""
     print(idx, account, name)
 input("end")    
 # breakpoint()
