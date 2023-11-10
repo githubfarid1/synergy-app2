@@ -58,7 +58,12 @@ while True:
     if curcheck == maxcheck:
         break
 
-input(new_count)
+print(new_count)
+data = driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']")
+for d in data:
+    print(d.text)
+
+input("")    
 # breakpoint()
 #span._ac2a
 
