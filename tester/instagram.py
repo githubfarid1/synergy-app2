@@ -42,19 +42,39 @@ followers_popup = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.XPATH, f'//div[@class="{fp_class}"]'))
 )
 
+maxcheck = 10
+curcheck = 0
 scroll_script = "arguments[0].scrollTop = arguments[0].scrollHeight;"
+while True:
+    last_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']"))
+    driver.execute_script(scroll_script, followers_popup)
+    time.sleep(1)
+    new_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']"))
+    if new_count == last_count:
+        curcheck += 1
+    else:
+        curcheck = 0
+        
+    if curcheck == maxcheck:
+        break
+
+print(new_count)
 # breakpoint()
 #span._ac2a
-follower_count = driver.find_element(By.XPATH, f'//a[@href="/{username}/followers/"]').find_element(By.CSS_SELECTOR, 'span._ac2a').text
-fBody  = driver.find_element(By.XPATH, f"//div[@class='{fp_class}']")
-while True:
-    real_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']"))
-    driver.execute_script('arguments[0].scrollTop = arguments[0].scrollTop + arguments[0].offsetHeight;', fBody)
-    time.sleep(2)
-    if real_count == int(follower_count):
-        break
-    print(real_count)
-input(real_count)
+
+
+
+# follower_count = driver.find_element(By.XPATH, f'//a[@href="/{username}/followers/"]').find_element(By.CSS_SELECTOR, 'span._ac2a').text
+# fBody  = driver.find_element(By.XPATH, f"//div[@class='{fp_class}']")
+# while True:
+#     real_count = len(driver.find_elements(By.XPATH, f"//div[@class='{fpd_class}']"))
+#     driver.execute_script('arguments[0].scrollTop = arguments[0].scrollTop + arguments[0].offsetHeight;', fBody)
+#     time.sleep(2)
+     
+#     if real_count == int(follower_count):
+#         break
+#     print(real_count)
+# input(real_count)
 
 # time.sleep(2)
 # followerbutton = driver.find_element(By.CSS_SELECTOR, "a[href='/victoryhomescanada/followers/?hl=en']")
