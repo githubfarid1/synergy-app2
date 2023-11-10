@@ -35,16 +35,20 @@ def browser_init(profilename):
     options.add_experimental_option('useAutomationExtension', False)
     return webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 
-def parse(xlsheet, profile):
+def parse(xlbook, xlsheet, profile):
     maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
     for rownum in range(1, maxrow + 1):
+        if blogurl == '':
+            break
         blogurl = xlsheet[f'A{rownum}'].value
         purl = urlparse(blogurl)
         username = str(purl.path).replace("/","")
         
         print(username)
-        if blogurl == '':
-            break
+        try:
+            xlbook.sheets.add(username)
+        except ValueError as V:
+            print("Error:", V)        
         
 
 def main():
@@ -65,7 +69,7 @@ def main():
     print('Opening the Source Excel File...', end="", flush=True)
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
-    parse(xlsheet=xlsheet, profile=args.chromedata)
+    parse(xlbook=xlbook, xlsheet=xlsheet, profile=args.chromedata)
     input("End Process..")    
 
 
