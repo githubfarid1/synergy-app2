@@ -42,6 +42,7 @@ followers_popup = WebDriverWait(driver, 10).until(
 )
 
 scroll_script = "arguments[0].scrollTop = arguments[0].scrollHeight;"
+breakpoint()
 while True:
     last_count = len(driver.find_element(By.XPATH, f'//div[@class="{fp_class}"]//li'))
     driver.execute_script(scroll_script, followers_popup)
