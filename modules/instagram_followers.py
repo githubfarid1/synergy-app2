@@ -38,9 +38,10 @@ def browser_init(profilename):
 def parse(xlbook, xlsheet, profile):
     maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
     for rownum in range(1, maxrow + 1):
+        blogurl = xlsheet[f'A{rownum}'].value
         if blogurl == '':
             break
-        blogurl = xlsheet[f'A{rownum}'].value
+
         purl = urlparse(blogurl)
         username = str(purl.path).replace("/","")
         
