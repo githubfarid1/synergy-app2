@@ -27,5 +27,5 @@ options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option('useAutomationExtension', False)
 driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 driver.get("https://www.instagram.com/victoryhomescanada/?hl=en")
-
+breakpoint()
 input("")
