@@ -27,10 +27,11 @@ options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option('useAutomationExtension', False)
 driver = webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 driver.get("https://www.instagram.com/victoryhomescanada/?hl=en")
-breakpoint()
+# breakpoint()
 
 followerbutton = driver.find_element(By.CSS_SELECTOR, "a[href='/victoryhomescanada/followers/?hl=en']")
 followerbutton.click()
+time.sleep(2)
 fBody  = driver.find_element(By.CSS_SELECTOR, "div._aano")
 while True:
     driver.execute_script('arguments[0].scrollTop = arguments[0].scrollTop + arguments[0].offsetHeight;', fBody)
