@@ -12,6 +12,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 from selenium.webdriver.common.keys import Keys
 import json
+from urllib.parse import urlparse
 
 def getProfiles():
 	file = open("chrome_profiles.json", "r")
@@ -41,7 +42,10 @@ def parse(xlsheet, profile):
         # name = xlsheet[f'A{rownum}'].value
         if blogurl == '':
             break
-        print(blogurl)
+        purl = urlparse(blogurl)
+        username = str(purl.path).replace("/","")
+        
+        print(username)
         
 
 def main():
