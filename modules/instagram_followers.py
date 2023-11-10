@@ -39,13 +39,12 @@ def parse(xlsheet, profile):
     maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
     for rownum in range(2, maxrow + 1):
         blogurl = xlsheet[f'A{rownum}'].value
-        # name = xlsheet[f'A{rownum}'].value
-        if blogurl == '':
-            break
         purl = urlparse(blogurl)
         username = str(purl.path).replace("/","")
         
         print(username)
+        if blogurl == '':
+            break
         
 
 def main():
