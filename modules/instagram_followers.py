@@ -35,7 +35,7 @@ def browser_init(profilename):
     return webdriver.Chrome(service=Service(executable_path=os.path.join(os.getcwd(), "chromedriver", "chromedriver.exe")), options=options)
 
 def parse(xlsheet, profile):
-    maxrow = xlsheet.range('B' + str(xlsheet.cells.last_cell.row)).end('up').row
+    maxrow = xlsheet.range('A' + str(xlsheet.cells.last_cell.row)).end('up').row
     for rownum in range(2, maxrow + 1):
         blogurl = xlsheet[f'A{rownum}'].value
         # name = xlsheet[f'A{rownum}'].value
