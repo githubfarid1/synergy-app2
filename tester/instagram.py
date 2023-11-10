@@ -68,11 +68,11 @@ while True:
 data = driver.find_elements(By.CSS_SELECTOR, f"div.{fpdhead_class}")
 for idx, d in enumerate(data):
     try:
-        account = d.find_element(By.CSS_SELECTOR, f"div.{fpd1_class}")
+        account = d.find_element(By.CSS_SELECTOR, f"div.{fpd1_class}").text
     except:
         account = ""
     try:
-        name = d.find_element(By.CSS_SELECTOR, f"span.{fpd2_class}")
+        name = d.find_element(By.CSS_SELECTOR, f"span.{fpd2_class}").text
     except:
         name = ""
     print(idx, account, name)
