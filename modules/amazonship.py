@@ -475,7 +475,7 @@ class AmazonShipment:
                 for i in range(0,len(dlist['dimensionboxes'])-1 ):
                     wait = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[class='bwd-add-dimension']")))
                     WebDriverWait(wait, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "kat-link[data-testid='bwd-add-dimension-link']")))
-                    # breakpoint()
+                    breakpoint()
                     self.driver.find_element(By.CSS_SELECTOR, "div[class='bwd-add-dimension']").find_element(By.CSS_SELECTOR,"kat-link[data-testid='bwd-add-dimension-link']").click()
 
                 cinputs = self.driver.find_element(By.CSS_SELECTOR, "div[data-testid='box-dimensions-labels']").find_elements(By.CSS_SELECTOR, "div[data-testid='box-dimensions-label']")
