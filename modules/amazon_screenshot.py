@@ -208,7 +208,7 @@ def main():
     xlbook = xw.Book(args.xlsinput)
     xlsheet = xlbook.sheets[args.sheetname]
     box_grouped = data_generator(xlsheet=xlsheet)
-    breakpoint()
+    # breakpoint()
     createpdf(box_grouped, args.pdfoutput)
     
     if args.capmethod == 'Method 1':
