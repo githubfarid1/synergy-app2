@@ -245,8 +245,9 @@ class AmazonShipmentCheck:
         print("Try to login... ", end="")
         url = "https://sellercentral.amazon.ca/fba/sendtoamazon?ref=fbacentral_nav_fba"
         self.driver.get(url)
-        print("Check SKU page ready... ", end="")
         input("Please login and pin then press any key to continue..")
+        print("Check SKU page ready... ", end="")
+
         try:
             WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "div[data-testid='sku-list']")))
             checksku = self.driver.find_element(By.CSS_SELECTOR,"kat-tabs[id='skuTabs']").find_element(By.CSS_SELECTOR, "kat-tab-header[tab-id='3']").find_element(By.CSS_SELECTOR, "span[slot='label']").text
